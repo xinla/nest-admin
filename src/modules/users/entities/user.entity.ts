@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { Base } from '../../../common/entity/base';
+import { Base } from 'src/common/entity/base';
 import { BooleanNumber } from 'src/common/type/base';
 
 @Entity()

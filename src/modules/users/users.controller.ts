@@ -41,6 +41,11 @@ export class UsersController {
     return this.usersService.findAll(query);
   }
 
+  @Get('getPageList')
+  getPageList(@Query() query: PageQueryDto): Promise<PageListDto<User>> {
+    return this.usersService.findAll(query);
+  }
+
   @Get('getDetail')
   findOne(@Query('id') id: string): Promise<User> {
     return this.usersService.findOne(id);
