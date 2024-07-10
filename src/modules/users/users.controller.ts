@@ -37,13 +37,13 @@ export class UsersController {
   }
 
   @Get()
-  findAll(@Query() query: PageQueryDto): Promise<PageListDto<User>> {
-    return this.usersService.findAll(query);
+  findAll(): Promise<User[]> {
+    return this.usersService.findAll();
   }
 
   @Get('getPageList')
   getPageList(@Query() query: PageQueryDto): Promise<PageListDto<User>> {
-    return this.usersService.findAll(query);
+    return this.usersService.getPageList(query);
   }
 
   @Get('getDetail')

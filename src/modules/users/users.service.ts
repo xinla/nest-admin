@@ -26,13 +26,13 @@ export class UsersService {
     });
   }
 
-  findOne(id: string): Promise<User | null> {
-    return this.usersRepository.findOneBy({ id });
+  findOne(user): Promise<User | null> {
+    return this.usersRepository.findOneBy(user);
   }
 
 
   update(updateUserDto: UpdateUserDto) {
-    return this.usersRepository.save(updateUserDto);
+    return this.usersRepository.update(updateUserDto);
   }
 
   async softDelete(id: string): Promise<void> {

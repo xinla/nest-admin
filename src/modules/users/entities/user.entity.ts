@@ -22,10 +22,6 @@ export class User extends Base {
   @Column({ type: 'simple-array' })
   roles: string[];
 
-  @Column({
-    type: 'int',
-    default: BooleanNumber.true,
-    comment: '是否激活，默认1是，0否',
-  })
+  @Column({ type: 'int', width: 1, default: BooleanNumber.true, comment: '是否激活，默认1是，0否' })
   isActive: BooleanNumber;
 }
