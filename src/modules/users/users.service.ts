@@ -23,9 +23,9 @@ export class UsersService {
 
   async getPageList(query): Promise<PageListDto<User>> {
     let [data, total] = await this.usersRepository.findAndCountBy({
-      where: { id: query.id },
-      skip: query.pageSize,
-      take: query.pageSize,
+      // where: { id: query.id },
+      // skip: query.pageSize,
+      // take: query.pageSize,
     })
     return {
       total: total,
@@ -37,8 +37,8 @@ export class UsersService {
     return this.usersRepository.findOneBy(user)
   }
 
-  update(updateUserDto: UpdateUserDto) {
-    return this.usersRepository.update(updateUserDto)
+  update(updateUserDto: User) {
+    return this.usersRepository.update(updateUserDto.id, updateUserDto)
   }
 
   async softDelete(id: string): Promise<void> {

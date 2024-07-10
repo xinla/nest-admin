@@ -1,12 +1,12 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common'
-import { MenusService } from './menus.service';
+import { MenusService } from './menus.service'
 import { CreateMenuDto } from './dto/create-menu.dto'
 import { UpdateMenuDto } from './dto/update-menu.dto'
 import { PageListDto, PageQueryDto } from 'src/common/dto'
 import { Menu, MenuType, menuTypes } from './entities/menu.entity'
 
 @Controller('system/menu')
-export class MenuController {
+export class MenusController {
   constructor(private readonly menusService: MenusService) {}
 
   @Post()
@@ -14,10 +14,10 @@ export class MenuController {
     return this.menusService.create(Menu)
   }
 
-  @Get()
-  findAll(@Query() query): Promise<Menu[]> {
-    return this.menusService.findAll(query)
-  }
+  // @Get()
+  // findAll(@Query() query): Promise<Menu[]> {
+  //   return this.menusService.findAll(query)
+  // }
 
   @Get('types')
   types() {
