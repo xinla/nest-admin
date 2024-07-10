@@ -1,6 +1,6 @@
-import { Base } from 'src/common/entity/base';
-import { BooleanNumber } from 'src/common/type/base';
-import { Column, Entity } from 'typeorm';
+import { Base } from 'src/common/entity/base'
+import { BooleanNumber } from 'src/common/type/base'
+import { Column, Entity } from 'typeorm'
 
 // 菜单类型
 export enum MenuType {
@@ -12,50 +12,37 @@ export const menuTypes: { label: string; value: MenuType }[] = [
   { label: '目录', value: MenuType.catalog },
   { label: '菜单', value: MenuType.menu },
   { label: '按钮', value: MenuType.button },
-];
+]
 
 @Entity()
 export class Menu extends Base {
-  @Column()
-  name: string;
+  @Column({ type: 'varchar', default: '' })
+  name: string
 
   @Column({ nullable: true })
-  desc: string;
+  desc: string
 
   @Column({ nullable: true })
-  parentId: string;
+  parentId: string
 
   @Column({ nullable: true })
-  icon: string;
+  icon: string
 
   @Column({ nullable: true })
-  order: number;
+  order: number
 
-  @Column({ nullable: false })
-  path: string;
+  @Column({ nullable: false, default: '' })
+  path: string
 
   @Column({ nullable: true })
-  component: string;
+  component: string
 
-  @Column({
-    type: 'enum',
-    enum: MenuType,
-    default: MenuType.catalog,
-    comment: '菜单类型，默认catalog',
-  })
-  type: MenuType;
+  @Column({ type: 'enum', enum: MenuType, default: MenuType.catalog, comment: '菜单类型，默认catalog' })
+  type: MenuType
 
-  @Column({
-    type: 'int',
-    default: BooleanNumber.true,
-    comment: '是否显示，默认1是，0否',
-  })
-  isShow: BooleanNumber;
+  @Column({ type: 'int', width: 1, default: BooleanNumber.true, comment: '是否显示，默认1是，0否' })
+  isShow: BooleanNumber
 
-  @Column({
-    type: 'int',
-    default: BooleanNumber.true,
-    comment: '是否激活，默认1是，0否',
-  })
-  isActive: BooleanNumber;
+  @Column({ type: 'int', width: 1, default: BooleanNumber.true, comment: '是否激活，默认1是，0否' })
+  isActive: BooleanNumber
 }

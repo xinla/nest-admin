@@ -1,6 +1,6 @@
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm'
 
-export const databaseList:{dev:TypeOrmModuleOptions,prod} = {
+export const databaseList: { dev: TypeOrmModuleOptions; prod } = {
   dev: {
     type: 'mysql',
     host: 'localhost',
@@ -23,9 +23,8 @@ export const databaseList:{dev:TypeOrmModuleOptions,prod} = {
     // synchronize: true,
     autoLoadEntities: true,
   },
-};
+}
 
-debugger;
-const mode = process.argv;
+const mode = process.env.npm_lifecycle_event.split(':')[1]
 
-export const database = databaseList;
+export const database = databaseList[mode]
