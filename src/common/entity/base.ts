@@ -1,9 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
-import { BooleanNumber } from '../type/base';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm'
+import { BooleanNumber } from '../type/base'
 
 export class Base {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: string
 
   @Column({
     type: 'datetime',
@@ -14,7 +14,7 @@ export class Base {
     default: () => 'CURRENT_TIMESTAMP',
   })
   // @CreateDateColumn()
-  createTime: string;
+  createTime: string
 
   @Column({
     type: 'timestamp',
@@ -26,11 +26,11 @@ export class Base {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   // @UpdateDateColumn()
-  updateTime: string;
+  updateTime: string
 
   @DeleteDateColumn()
-  deleteTime: string;
+  deleteTime: string
 
-  @Column({ type: 'int', default: BooleanNumber.false })
-  isDel: BooleanNumber;
+  @Column({ type: 'int', width: 1, default: BooleanNumber.false })
+  isDel: BooleanNumber
 }
