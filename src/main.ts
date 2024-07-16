@@ -6,7 +6,7 @@ import * as csurf from 'csurf'
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
   app.useGlobalInterceptors(new LoggingInterceptor())
-  app.use(csurf())
+  // app.use(csurf())
   app.enableCors()
   await app.listen(3000)
 }

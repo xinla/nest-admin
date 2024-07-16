@@ -3,14 +3,12 @@ import { BooleanNumber } from '../type/base'
 
 export class Base {
   @PrimaryGeneratedColumn()
+  // @PrimaryGeneratedColumn('uuid')
   id: string
 
   @Column({
     type: 'datetime',
-    transformer: {
-      from: (date) => date.toISOString().split('.')[0].replace('T', ' '),
-      to: (value: string) => value,
-    },
+    transformer: { from: (date) => date.toISOString().split('.')[0].replace('T', ' '), to: (value: string) => value },
     default: () => 'CURRENT_TIMESTAMP',
   })
   // @CreateDateColumn()
@@ -18,10 +16,7 @@ export class Base {
 
   @Column({
     type: 'timestamp',
-    transformer: {
-      from: (date) => date.toISOString().split('.')[0].replace('T', ' '),
-      to: (value: string) => value,
-    },
+    transformer: { from: (date) => date.toISOString().split('.')[0].replace('T', ' '), to: (value: string) => value },
     default: () => 'CURRENT_TIMESTAMP',
     onUpdate: 'CURRENT_TIMESTAMP',
   })

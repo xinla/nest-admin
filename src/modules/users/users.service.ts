@@ -21,11 +21,13 @@ export class UsersService {
     return this.usersRepository.find()
   }
 
-  async getPageList(query): Promise<PageListDto<User>> {
-    let [data, total] = await this.usersRepository.findAndCountBy({
-      // where: { id: query.id },
-      // skip: query.pageSize,
-      // take: query.pageSize,
+  async pageList(query: PageQueryDto): Promise<PageListDto<User>> {
+    // let where = [{ id: query.id }]
+    // let total = await this.usersRepository.count({ where })
+    let [data, total] = await this.usersRepository.findAndCount({
+      where: [{ id: query.id }],
+      skip: --query.pageNum * query.pageSize,
+      take: query.pageSize,
     })
     return {
       total: total,

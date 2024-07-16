@@ -26,27 +26,27 @@ import { PageQueryDto, PageListDto } from '../../common/dto/index'
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
+  @Post('create')
   create(@Body() createUserDto: User): Promise<User> {
     return this.usersService.create(createUserDto)
   }
 
-  @Put()
+  @Put('update')
   update(@Body() updateUserDto: User): Promise<UpdateResult> {
     return this.usersService.update(updateUserDto)
   }
 
-  @Get()
+  @Get('all')
   findAll(): Promise<User[]> {
     return this.usersService.findAll()
   }
 
-  @Get('getPageList')
-  getPageList(@Query() query: PageQueryDto): Promise<PageListDto<User>> {
-    return this.usersService.getPageList(query)
+  @Get('pageList')
+  pageList(@Query() query: PageQueryDto): Promise<PageListDto<User>> {
+    return this.usersService.pageList(query)
   }
 
-  @Get('getDetail')
+  @Get('detail')
   findOne(@Query('id') id: string): Promise<User> {
     return this.usersService.findOne(id)
   }
@@ -57,13 +57,13 @@ export class UsersController {
     return user
   }
 
-  @Delete(':id')
+  @Delete('del/:id')
   softDelete(@Param('id') id: string) {
     return this.usersService.softDelete(id)
   }
 
-  @Delete('del/:id')
-  delete(@Param('id') id: string) {
-    return this.usersService.delete(id)
-  }
+  // @Delete('delete/:id')
+  // delete(@Param('id') id: string) {
+  //   return this.usersService.delete(id)
+  // }
 }

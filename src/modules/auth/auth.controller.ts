@@ -7,13 +7,13 @@ import { Public } from './constants'
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @Public()
   @HttpCode(HttpStatus.OK)
   @Post('login')
   signIn(@Body() signInDto: Record<string, any>) {
     return this.authService.signIn(signInDto.username, signInDto.password)
   }
 
-  @Public()
   @Get('profile')
   getProfile(@Request() req) {
     return req.user
