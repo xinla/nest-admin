@@ -22,7 +22,7 @@ import { UpdateResult } from 'typeorm'
 import { PageQueryDto, PageListDto } from '../../common/dto/index'
 
 @Controller('system/users')
-@UseFilters(new HttpExceptionFilter())
+// @UseFilters(new HttpExceptionFilter())
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 

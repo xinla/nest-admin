@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+import { Entity, Column } from 'typeorm'
 import { Base } from 'src/common/entity/base'
 import { BooleanNumber } from 'src/common/type/base'
 

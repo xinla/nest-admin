@@ -7,10 +7,11 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { DataSource } from 'typeorm'
 import { database } from 'config'
 import { AuthModule } from './modules/auth/auth.module'
+import { DepstModule } from './modules/depts/depts.module'
 
 @Dependencies(DataSource)
 @Module({
-  imports: [TypeOrmModule.forRoot(database), MenusModule, UsersModule, AuthModule],
+  imports: [TypeOrmModule.forRoot(database), MenusModule, UsersModule, AuthModule, DepstModule],
   controllers: [AppController],
   providers: [AppService],
 })
