@@ -36,9 +36,9 @@ export class UsersController {
     return this.usersService.update(updateUserDto)
   }
 
-  @Get('all')
-  findAll(): Promise<User[]> {
-    return this.usersService.findAll()
+  @Get('find')
+  find(@Query() query): Promise<User[]> {
+    return this.usersService.find(query)
   }
 
   @Get('pageList')

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { User } from './entities/user.entity'
-import { Repository } from 'typeorm'
+import { Like, Repository } from 'typeorm'
 import { PageListDto, PageQueryDto } from 'src/common/dto'
 import { InjectRepository } from '@nestjs/typeorm'
 
@@ -17,8 +17,9 @@ export class UsersService {
     return this.usersRepository.save(createUserDto)
   }
 
-  findAll(): Promise<User[]> {
-    return this.usersRepository.find()
+  find(query): Promise<User[]> {
+    let { deptId, name, roleId } = query
+    return this.usersRepository.find({ where: [{ deptId, name: Like(`%${name}%`) }] })
   }
 
   async pageList(query: PageQueryDto): Promise<PageListDto<User>> {
