@@ -3,7 +3,7 @@ import { CreateDeptDto } from './dto/create-dept.dto'
 import { UpdateDeptDto } from './dto/update-dept.dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { PageQueryDto, PageListDto } from 'src/common/dto'
-import { Repository, Like } from 'typeorm'
+import { Repository, Like, TreeRepository } from 'typeorm'
 import { Dept } from './entities/dept.entity'
 import { DataSource } from 'typeorm'
 import { validate } from 'class-validator'
@@ -13,7 +13,8 @@ export class DeptService {
   constructor(
     @InjectRepository(Dept)
     private repository: Repository<Dept>,
-    private dataSource: DataSource,
+    @InjectRepository(Dept)
+    private treeRepository: TreeRepository<Dept>,
   ) {}
 
   add(createDto: CreateDeptDto) {
@@ -21,8 +22,7 @@ export class DeptService {
   }
 
   findTree(query): Promise<Dept[]> {
-    let { name, roleId } = query
-    return this.dataSource.manager.getTreeRepository(Dept).findTrees()
+    return this.treeRepository.findTrees()
   }
 
   find(query): Promise<Dept[]> {

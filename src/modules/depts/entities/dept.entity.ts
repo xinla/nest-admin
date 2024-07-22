@@ -1,17 +1,30 @@
-import { Entity, Column, ManyToOne, OneToMany, BeforeInsert, BeforeUpdate } from 'typeorm'
+import {
+  Entity,
+  Column,
+  ManyToOne,
+  OneToMany,
+  BeforeInsert,
+  BeforeUpdate,
+  Tree,
+  TreeChildren,
+  TreeParent,
+} from 'typeorm'
 import { Base } from 'src/common/entity/base'
 import { IsEmpty, IsInt, IsNotEmpty, validate } from 'class-validator'
 
 @Entity()
+@Tree('closure-table')
 export class Dept extends Base {
   @Column({ type: 'varchar', length: 30, default: '', comment: '' })
   @IsNotEmpty()
   name: string
 
-  @ManyToOne((type) => Dept, (category) => category.children)
+  // @ManyToOne((type) => Dept, (category) => category.children)
+  @TreeParent()
   parent: Dept
 
-  @OneToMany((type) => Dept, (category) => category.parent)
+  // @OneToMany((type) => Dept, (category) => category.parent)
+  @TreeChildren()
   children: Dept[]
 
   @BeforeInsert()
