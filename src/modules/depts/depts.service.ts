@@ -6,6 +6,7 @@ import { PageQueryDto, PageListDto } from 'src/common/dto'
 import { Repository, Like } from 'typeorm'
 import { Dept } from './entities/dept.entity'
 import { DataSource } from 'typeorm'
+import { validate } from 'class-validator'
 
 @Injectable()
 export class DeptService {
@@ -16,7 +17,7 @@ export class DeptService {
   ) {}
 
   add(createDto: CreateDeptDto) {
-    return this.repository.save(createDto)
+    return this.repository.save(Object.assign(new Dept(), createDto))
   }
 
   findTree(query): Promise<Dept[]> {

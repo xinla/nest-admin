@@ -9,7 +9,7 @@ export class LoggingInterceptor implements NestInterceptor {
     console.log('请求数据：', req.url, req.method, { query: req.query, body: req.body, params: req.params })
 
     return next.handle().pipe(
-      timeout(5000),
+      timeout(8000),
       catchError((err) => {
         if (err instanceof TimeoutError) {
           return throwError(() => new RequestTimeoutException())
