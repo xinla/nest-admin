@@ -8,7 +8,7 @@ export class Base {
 
   @Column({
     type: 'datetime',
-    transformer: { from: (date) => date.toISOString().split('.')[0].replace('T', ' '), to: (value: string) => value },
+    // transformer: { from: (date) => date.toISOString().split('.')[0].replace('T', ' '), to: (value: string) => value },
     default: () => 'CURRENT_TIMESTAMP',
   })
   // @CreateDateColumn()
@@ -16,7 +16,7 @@ export class Base {
 
   @Column({
     type: 'timestamp',
-    transformer: { from: (date) => date.toISOString().split('.')[0].replace('T', ' '), to: (value: string) => value },
+    // transformer: { from: (date) => date.toISOString().split('.')[0].replace('T', ' '), to: (value: string) => value },
     default: () => 'CURRENT_TIMESTAMP',
     onUpdate: 'CURRENT_TIMESTAMP',
   })
@@ -26,6 +26,6 @@ export class Base {
   @DeleteDateColumn()
   deleteTime: string
 
-  @Column({ type: 'int', width: 1, default: BooleanNumber.false })
+  @Column({ type: 'int', width: 1, default: BooleanNumber.No, comment: '是否删除，默认0否，1是' })
   isDel: BooleanNumber
 }

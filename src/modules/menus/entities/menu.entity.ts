@@ -40,9 +40,9 @@ export class Menu extends Base {
   @Column({ type: 'enum', enum: MenuType, default: MenuType.catalog, comment: '菜单类型，默认catalog' })
   type: MenuType
 
-  @Column({ type: 'int', width: 1, default: BooleanNumber.true, comment: '是否显示，默认1是，0否' })
+  @Column({ type: 'int', width: 1, default: BooleanNumber.Yes, comment: '是否显示，默认1是，0否' })
   isShow: BooleanNumber
 
-  @Column({ type: 'int', width: 1, default: BooleanNumber.true, comment: '是否激活，默认1是，0否' })
+  @Column({ type: 'int', width: 1, default: BooleanNumber.Yes, comment: '是否激活，默认1是，0否' })
   isActive: BooleanNumber
 }

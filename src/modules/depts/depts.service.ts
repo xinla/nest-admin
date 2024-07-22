@@ -5,27 +5,34 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { PageQueryDto, PageListDto } from 'src/common/dto'
 import { Repository, Like } from 'typeorm'
 import { Dept } from './entities/dept.entity'
+import { DataSource } from 'typeorm'
 
 @Injectable()
 export class DeptService {
   constructor(
     @InjectRepository(Dept)
-    private usersRepository: Repository<Dept>,
+    private repository: Repository<Dept>,
+    private dataSource: DataSource,
   ) {}
 
-  create(createDto: CreateDeptDto) {
-    return this.usersRepository.save(createDto)
+  add(createDto: CreateDeptDto) {
+    return this.repository.save(createDto)
+  }
+
+  findTree(query): Promise<Dept[]> {
+    let { name, roleId } = query
+    return this.dataSource.manager.getTreeRepository(Dept).findTrees()
   }
 
   find(query): Promise<Dept[]> {
     let { name, roleId } = query
-    return this.usersRepository.find({ where: [{ name: Like(`%${name}%`) }] })
+    return this.repository.find({ where: [{ name: Like(`%${name}%`) }] })
   }
 
   async pageList(query: PageQueryDto): Promise<PageListDto<Dept>> {
     // let where = [{ id: query.id }]
-    // let total = await this.usersRepository.count({ where })
-    let [data, total] = await this.usersRepository.findAndCount({
+    // let total = await this.repository.count({ where })
+    let [data, total] = await this.repository.findAndCount({
       where: [{ id: query.id }],
       skip: --query.pageNum * query.pageSize,
       take: query.pageSize,
@@ -37,18 +44,18 @@ export class DeptService {
   }
 
   findOne(user): Promise<Dept | null> {
-    return this.usersRepository.findOneBy(user)
+    return this.repository.findOneBy(user)
   }
 
   update(updateUserDto: Dept) {
-    return this.usersRepository.update(updateUserDto.id, updateUserDto)
+    return this.repository.update(updateUserDto.id, updateUserDto)
   }
 
   async softDelete(id: string): Promise<void> {
-    await this.usersRepository.softDelete(id)
+    await this.repository.softDelete(id)
   }
 
   async delete(id: string): Promise<void> {
-    await this.usersRepository.delete(id)
+    await this.repository.delete(id)
   }
 }

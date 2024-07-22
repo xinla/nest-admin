@@ -3,7 +3,7 @@ import { Base } from 'src/common/entity/base'
 
 @Entity()
 export class Dept extends Base {
-  @Column({ type: 'varchar', length: 30, default: '', comment: '' })
+  @Column({ type: 'varchar', length: 30, comment: '' })
   name: string
 
   @ManyToOne((type) => Dept, (category) => category.children)

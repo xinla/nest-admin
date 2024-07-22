@@ -19,12 +19,12 @@ export class User extends Base {
   @Column({ type: 'varchar', length: 11, default: '' })
   phone: string
 
-  @Column({ type: 'simple-array' })
+  @Column({ nullable: true, type: 'simple-array' })
   roles: string[]
 
   @Column({ type: 'varchar', length: 30, default: '', comment: '' })
   deptId: string
 
-  @Column({ type: 'int', width: 1, default: BooleanNumber.true, comment: '是否激活，默认1是，0否' })
+  @Column({ type: 'int', width: 1, default: BooleanNumber.Yes, comment: '是否激活，默认1是，0否' })
   isActive: BooleanNumber
 }

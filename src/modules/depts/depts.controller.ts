@@ -10,14 +10,19 @@ import { PageQueryDto, PageListDto } from 'src/common/dto'
 export class DeptController {
   constructor(private readonly service: DeptService) {}
 
-  @Post('create')
+  @Post('add')
   create(@Body() createDto: Dept): Promise<Dept> {
-    return this.service.create(createDto)
+    return this.service.add(createDto)
   }
 
   @Put('update')
   update(@Body() updateDto: Dept): Promise<UpdateResult> {
     return this.service.update(updateDto)
+  }
+
+  @Get('findTree')
+  findTree(@Query() query): Promise<Dept[]> {
+    return this.service.findTree(query)
   }
 
   @Get('find')

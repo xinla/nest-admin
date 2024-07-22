@@ -26,9 +26,9 @@ import { PageQueryDto, PageListDto } from '../../common/dto/index'
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post('create')
+  @Post('add')
   create(@Body() createUserDto: User): Promise<User> {
-    return this.usersService.create(createUserDto)
+    return this.usersService.add(createUserDto)
   }
 
   @Put('update')

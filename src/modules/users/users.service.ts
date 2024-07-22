@@ -13,7 +13,7 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) {}
 
-  create(createUserDto: CreateUserDto) {
+  add(createUserDto: CreateUserDto) {
     return this.usersRepository.save(createUserDto)
   }
 
