@@ -6,7 +6,6 @@ import { IsEmpty, IsInt, IsNotEmpty, validate } from 'class-validator'
 export class Dept extends Base {
   @Column({ type: 'varchar', length: 30, default: '', comment: '' })
   @IsNotEmpty()
-  @IsInt()
   name: string
 
   @ManyToOne((type) => Dept, (category) => category.children)
@@ -16,6 +15,7 @@ export class Dept extends Base {
   children: Dept[]
 
   @BeforeInsert()
+  @BeforeUpdate()
   async updateDates() {
     const errors = await validate(this)
     if (errors.length > 0) {
