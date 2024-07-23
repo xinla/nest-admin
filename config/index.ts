@@ -10,6 +10,7 @@ export const databaseList: { dev: TypeOrmModuleOptions; prod } = {
     database: 'nest',
     // entities: [],
     synchronize: true,
+    // dateStrings: true, // datetime无效，timestamp有效
     autoLoadEntities: true,
   },
   prod: {

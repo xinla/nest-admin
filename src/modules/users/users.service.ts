@@ -33,6 +33,7 @@ export class UsersService {
     return {
       total: total,
       data: data,
+      _flag: true,
     }
   }
 

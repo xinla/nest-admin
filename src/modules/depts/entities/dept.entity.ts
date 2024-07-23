@@ -19,11 +19,14 @@ export class Dept extends Base {
   @IsNotEmpty()
   name: string
 
-  // @ManyToOne((type) => Dept, (category) => category.children)
+  // @ManyToOne((type) => Dept, (dept) => dept.children)
   @TreeParent()
   parent: Dept
 
-  // @OneToMany((type) => Dept, (category) => category.parent)
+  @Column({ default: '0', name: 'parent_id', comment: '父级id' })
+  parentId: string
+
+  // // @OneToMany((type) => Dept, (dept) => dept.parent)
   @TreeChildren()
   children: Dept[]
 

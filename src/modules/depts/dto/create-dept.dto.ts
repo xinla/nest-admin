@@ -1,1 +1,3 @@
-export class CreateDeptDto {}
+export class CreateDeptDto {
+  parentId
+}

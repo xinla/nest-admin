@@ -17,8 +17,12 @@ export class DeptService {
     private treeRepository: TreeRepository<Dept>,
   ) {}
 
-  add(createDto: CreateDeptDto) {
-    return this.repository.save(Object.assign(new Dept(), createDto))
+  async add(createDto) {
+    let data = Object.assign(new Dept(), createDto)
+    if (data.parentId !== '0') {
+      data.parent = Object.assign(new Dept(), { id: data.parentId })
+    }
+    return this.repository.save(data)
   }
 
   findTree(query): Promise<Dept[]> {

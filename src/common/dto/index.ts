@@ -1,3 +1,4 @@
+export class ResponseData {}
 export type PageQueryDto = {
   pageNum: number
   pageSize: number
@@ -7,4 +8,6 @@ export type PageQueryDto = {
 export type PageListDto<T> = {
   total: number
   data: T[]
+  _flag?: boolean
+  [index: string]: any
 }
