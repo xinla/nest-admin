@@ -31,7 +31,12 @@ export class Dept extends Base {
   })
   parent: Dept
 
-  @Column({ nullable: true, name: 'parent_id', comment: '父级id' })
+  @Column({
+    nullable: true,
+    name: 'parent_id',
+    comment: '父级id',
+    transformer: { from: (value) => value || '0', to: (value: string) => value },
+  })
   parentId: string
 
   @TreeChildren()

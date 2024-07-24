@@ -55,7 +55,14 @@ export class DeptService {
   }
 
   update(updateUserDto: Dept) {
-    return this.repository.update(updateUserDto.id, updateUserDto)
+    let { id, parentId, name } = updateUserDto
+    let data = Object.assign(new Dept(), { id, parentId, name })
+    if (data.parentId !== '0') {
+      data.parent = Object.assign(new Dept(), { id: data.parentId })
+    } else {
+      delete data.parentId
+    }
+    return this.repository.update(data.id, data)
   }
 
   async softDelete(id: string): Promise<void> {
