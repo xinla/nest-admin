@@ -8,27 +8,37 @@ import {
   Tree,
   TreeChildren,
   TreeParent,
+  JoinColumn,
+  RelationId,
 } from 'typeorm'
 import { Base } from 'src/common/entity/base'
 import { IsEmpty, IsInt, IsNotEmpty, validate } from 'class-validator'
+import { User } from 'src/modules/users/entities/user.entity'
 
-@Entity()
 @Tree('closure-table')
+@Entity('sys_dept')
 export class Dept extends Base {
-  @Column({ type: 'varchar', length: 30, default: '', comment: '' })
+  @Column({ type: 'varchar', length: 30, default: '', comment: '部门名称' })
   @IsNotEmpty()
   name: string
 
   // @ManyToOne((type) => Dept, (dept) => dept.children)
-  @TreeParent()
+  @TreeParent({})
+  @JoinColumn({
+    name: 'parent_id',
+    // referencedColumnName: "name",
+    // foreignKeyConstraintName: "fk_cat_id"
+  })
   parent: Dept
 
-  @Column({ default: '0', name: 'parent_id', comment: '父级id' })
+  @Column({ nullable: true, name: 'parent_id', comment: '父级id' })
   parentId: string
 
-  // // @OneToMany((type) => Dept, (dept) => dept.parent)
   @TreeChildren()
   children: Dept[]
+
+  // @OneToMany((type) => User, (user) => user.dept)
+  // user: User[]
 
   @BeforeInsert()
   @BeforeUpdate()

@@ -21,6 +21,8 @@ export class DeptService {
     let data = Object.assign(new Dept(), createDto)
     if (data.parentId !== '0') {
       data.parent = Object.assign(new Dept(), { id: data.parentId })
+    } else {
+      delete data.parentId
     }
     return this.repository.save(data)
   }
