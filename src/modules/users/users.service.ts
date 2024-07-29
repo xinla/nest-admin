@@ -13,11 +13,12 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) {}
 
-  add(createUserDto: CreateUserDto) {
-    return this.usersRepository.save(createUserDto)
+  add(createDto: CreateUserDto) {
+    let data = Object.assign(new User(), createDto)
+    return this.usersRepository.save(data)
   }
 
-  find(query): Promise<User[]> {
+  findList(query): Promise<User[]> {
     let { deptId, name, roleId } = query
     return this.usersRepository.find({ where: [{ deptId, name: Like(`%${name}%`) }] })
   }
@@ -26,7 +27,7 @@ export class UsersService {
     // let where = [{ id: query.id }]
     // let total = await this.usersRepository.count({ where })
     let [data, total] = await this.usersRepository.findAndCount({
-      where: [{ id: query.id }],
+      where: [{ deptId: query.deptId }],
       skip: --query.pageNum * query.pageSize,
       take: query.pageSize,
     })
@@ -45,11 +46,14 @@ export class UsersService {
     return this.usersRepository.update(updateUserDto.id, updateUserDto)
   }
 
-  async softDelete(id: string): Promise<void> {
+  async softDelete(id: string[] | string): Promise<void> {
+    if (typeof id == 'string') {
+      id = id.split(',')
+    }
     await this.usersRepository.softDelete(id)
   }
 
-  async delete(id: string): Promise<void> {
-    await this.usersRepository.delete(id)
-  }
+  // async delete(id: string): Promise<void> {
+  //   await this.usersRepository.delete(id)
+  // }
 }

@@ -1,14 +1,21 @@
-import { Entity, Column, ManyToOne, OneToMany, RelationId } from 'typeorm'
+import { Entity, Column, ManyToOne, OneToMany, RelationId, JoinColumn } from 'typeorm'
 import { Base } from 'src/common/entity/base'
 import { BooleanNumber } from 'src/common/type/base'
 import { Dept } from 'src/modules/depts/entities/dept.entity'
+import { IsNotEmpty, MaxLength } from 'class-validator'
 
-@Entity('sys_user')
+@Entity('sys_user', {
+  orderBy: {
+    createTime: 'DESC',
+  },
+})
 export class User extends Base {
-  @Column({ type: 'varchar', length: 30, unique: true, default: '', comment: '' })
+  @Column({ type: 'varchar', length: 30, default: '', comment: '' })
+  @IsNotEmpty()
+  @MaxLength(30)
   name: string
 
-  @Column({ type: 'varchar', length: 30, default: '', comment: '' })
+  @Column({ type: 'varchar', length: 30, default: '', comment: '昵称' })
   nickname: string
 
   @Column({ type: 'varchar', length: 50, default: '', comment: '密码' })
@@ -18,16 +25,18 @@ export class User extends Base {
   avatar: string
 
   @Column({ type: 'varchar', length: 11, default: '', comment: '手机号' })
+  @MaxLength(11)
   phone: string
 
   // @Column({ nullable: true, type: 'simple-array', comment: '' })
   // @OneToMany((type) => Dept, (dept) => dept.id)
   // roles: string[]
 
-  @ManyToOne('Dept', { createForeignKeyConstraints: false })
+  @ManyToOne((type) => Dept, (dept) => dept.user)
+  @JoinColumn({ name: 'dept_id' })
   dept: Dept
 
-  @Column({ type: 'varchar', length: 30, name: 'dept_id', default: '', comment: '' })
+  @Column({ nullable: true, name: 'dept_id', comment: '部门id' })
   // @RelationId((dept: Dept) => dept.id)
   deptId: string
 

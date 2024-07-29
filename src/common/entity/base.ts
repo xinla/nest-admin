@@ -1,5 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm'
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+  BeforeInsert,
+  BeforeUpdate,
+} from 'typeorm'
 import { BooleanNumber } from '../type/base'
+import { validate } from 'class-validator'
 
 export class Base {
   @PrimaryGeneratedColumn({ type: 'bigint' })
@@ -33,12 +43,21 @@ export class Base {
   @Column({ type: 'varchar', length: 30, name: 'update_user', default: '', comment: '更新者' })
   updateUser: string
 
-  @DeleteDateColumn({ name: 'delete_time', select: false })
+  @DeleteDateColumn({ name: 'delete_time', select: false, comment: '删除时间 是否删除' })
   deleteTime: string
 
   // @Column({ type: 'int', width: 3, default: BooleanNumber.No, comment: '是否删除，默认0否，1是' })
   // isDel: BooleanNumber
 
-  @Column({ default: false, name: 'is_delete', select: false, comment: '是否删除' })
-  isDelete: boolean
+  // @Column({ default: false, name: 'is_delete', select: false, comment: '是否删除' })
+  // isDelete: boolean
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  async updateDates() {
+    const errors = await validate(this)
+    if (errors.length > 0) {
+      throw new Error(Object.values(errors[0].constraints)[0])
+    }
+  }
 }

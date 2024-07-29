@@ -36,9 +36,9 @@ export class UsersController {
     return this.usersService.update(updateUserDto)
   }
 
-  @Get('find')
-  find(@Query() query): Promise<User[]> {
-    return this.usersService.find(query)
+  @Get('findList')
+  findList(@Query() query): Promise<User[]> {
+    return this.usersService.findList(query)
   }
 
   @Get('pageList')
@@ -58,7 +58,7 @@ export class UsersController {
   }
 
   @Delete('del/:id')
-  softDelete(@Param('id') id: string) {
+  softDelete(@Param('id') id: string[]) {
     return this.usersService.softDelete(id)
   }
 

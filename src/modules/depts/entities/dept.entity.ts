@@ -42,15 +42,6 @@ export class Dept extends Base {
   @TreeChildren()
   children: Dept[]
 
-  // @OneToMany((type) => User, (user) => user.dept)
-  // user: User[]
-
-  @BeforeInsert()
-  @BeforeUpdate()
-  async updateDates() {
-    const errors = await validate(this)
-    if (errors.length > 0) {
-      throw new Error(Object.values(errors[0].constraints)[0])
-    }
-  }
+  @OneToMany((type) => User, (user) => user.dept)
+  user: User[]
 }

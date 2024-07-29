@@ -25,14 +25,9 @@ export class DeptController {
     return this.service.findTree(query)
   }
 
-  @Get('find')
-  find(@Query() query): Promise<Dept[]> {
-    return this.service.find(query)
-  }
-
-  @Get('pageList')
-  pageList(@Query() query: PageQueryDto): Promise<PageListDto<Dept>> {
-    return this.service.pageList(query)
+  @Get('findList')
+  findList(@Query() query): Promise<Dept[]> {
+    return this.service.findList(query)
   }
 
   @Get('detail')

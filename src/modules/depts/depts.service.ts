@@ -19,7 +19,7 @@ export class DeptService {
 
   async add(createDto) {
     let data = Object.assign(new Dept(), createDto)
-    if (data.parentId !== '0') {
+    if (data.parentId && data.parentId != '0') {
       data.parent = Object.assign(new Dept(), { id: data.parentId })
     } else {
       delete data.parentId
@@ -31,23 +31,9 @@ export class DeptService {
     return this.treeRepository.findTrees()
   }
 
-  find(query): Promise<Dept[]> {
+  findList(query): Promise<Dept[]> {
     let { name, roleId } = query
     return this.repository.find({ where: [{ name: Like(`%${name}%`) }] })
-  }
-
-  async pageList(query: PageQueryDto): Promise<PageListDto<Dept>> {
-    // let where = [{ id: query.id }]
-    // let total = await this.repository.count({ where })
-    let [data, total] = await this.repository.findAndCount({
-      where: [{ id: query.id }],
-      skip: --query.pageNum * query.pageSize,
-      take: query.pageSize,
-    })
-    return {
-      total: total,
-      data: data,
-    }
   }
 
   findOne(user): Promise<Dept | null> {
