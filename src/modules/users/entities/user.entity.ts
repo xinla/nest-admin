@@ -2,7 +2,7 @@ import { Entity, Column, ManyToOne, OneToMany, RelationId, JoinColumn } from 'ty
 import { Base } from 'src/common/entity/base'
 import { BooleanNumber } from 'src/common/type/base'
 import { Dept } from 'src/modules/depts/entities/dept.entity'
-import { IsNotEmpty, MaxLength } from 'class-validator'
+import { IsEmail, IsNotEmpty, IsNumberString, MaxLength } from 'class-validator'
 
 @Entity('sys_user', {
   orderBy: {
@@ -18,14 +18,20 @@ export class User extends Base {
   @Column({ type: 'varchar', length: 30, default: '', comment: '昵称' })
   nickname: string
 
-  @Column({ type: 'varchar', length: 50, default: '', comment: '密码' })
+  // AES:nestAdmin,123456
+  @Column({ type: 'varchar', length: 50, default: 'U2FsdGVkX1+wSuODGoEl3Dr4XiGZkjBSjyrDJ+28VY8=', comment: '密码' })
   password: string
 
   @Column({ type: 'varchar', default: '', comment: '头像地址' })
   avatar: string
 
+  // @Column({ type: 'varchar', default: '', comment: '' })
+  // @IsEmail()
+  // email: string
+
   @Column({ type: 'varchar', length: 11, default: '', comment: '手机号' })
   @MaxLength(11)
+  @IsNumberString()
   phone: string
 
   // @Column({ nullable: true, type: 'simple-array', comment: '' })

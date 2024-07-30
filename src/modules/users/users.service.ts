@@ -5,6 +5,7 @@ import { User } from './entities/user.entity'
 import { Like, Repository } from 'typeorm'
 import { PageListDto, PageQueryDto } from 'src/common/dto'
 import { InjectRepository } from '@nestjs/typeorm'
+import { Dept } from '../depts/entities/dept.entity'
 
 @Injectable()
 export class UsersService {
@@ -14,7 +15,9 @@ export class UsersService {
   ) {}
 
   add(createDto: CreateUserDto) {
+    // let dept = Object.assign(new Dept(), { id: createDto.deptId })
     let data = Object.assign(new User(), createDto)
+    // data.dept = dept
     return this.usersRepository.save(data)
   }
 
@@ -30,6 +33,9 @@ export class UsersService {
       where: [{ deptId: query.deptId }],
       skip: --query.pageNum * query.pageSize,
       take: query.pageSize,
+      relations: {
+        dept: true,
+      },
     })
     return {
       total: total,
@@ -42,8 +48,9 @@ export class UsersService {
     return this.usersRepository.findOneBy(user)
   }
 
-  update(updateUserDto: User) {
-    return this.usersRepository.update(updateUserDto.id, updateUserDto)
+  update(updateDto: User) {
+    let data = Object.assign(new User(), updateDto)
+    return this.usersRepository.update(data.id, data)
   }
 
   async softDelete(id: string[] | string): Promise<void> {

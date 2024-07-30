@@ -40,8 +40,8 @@ export class DeptService {
     return this.repository.findOneBy(user)
   }
 
-  update(updateUserDto: Dept) {
-    let { id, parentId, name } = updateUserDto
+  update(updateDto: Dept) {
+    let { id, parentId, name } = updateDto
     let data = Object.assign(new Dept(), { id, parentId, name })
     if (data.parentId !== '0') {
       data.parent = Object.assign(new Dept(), { id: data.parentId })

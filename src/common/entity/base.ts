@@ -18,7 +18,7 @@ export class Base {
 
   @Column({
     type: 'datetime',
-    transformer: { from: (date) => date.toISOString().split('.')[0].replace('T', ' '), to: (value: string) => value },
+    transformer: { from: (date) => date?.toISOString().split('.')[0].replace('T', ' '), to: (value: string) => value },
     default: () => 'CURRENT_TIMESTAMP',
     name: 'create_time',
     comment: '创建时间',
@@ -31,7 +31,7 @@ export class Base {
 
   @Column({
     type: 'datetime',
-    transformer: { from: (date) => date.toISOString().split('.')[0].replace('T', ' '), to: (value: string) => value },
+    transformer: { from: (date) => date?.toISOString().split('.')[0].replace('T', ' '), to: (value: string) => value },
     default: () => 'CURRENT_TIMESTAMP',
     onUpdate: 'CURRENT_TIMESTAMP',
     name: 'update_time',
@@ -55,7 +55,7 @@ export class Base {
   @BeforeInsert()
   @BeforeUpdate()
   async updateDates() {
-    const errors = await validate(this)
+    const errors = await validate(this, { skipMissingProperties: true })
     if (errors.length > 0) {
       throw new Error(Object.values(errors[0].constraints)[0])
     }
