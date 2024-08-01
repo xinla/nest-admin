@@ -23,16 +23,18 @@ export class UsersService {
 
   findList(query): Promise<User[]> {
     let { deptId, name, roleId } = query
-    return this.usersRepository.find({ where: [{ deptId, name: Like(`%${name}%`) }] })
+    return this.usersRepository.find({
+      where: [{ deptId, name: Like(`%${name}%`) }],
+    })
   }
 
   async pageList(query: PageQueryDto): Promise<PageListDto<User>> {
-    // let where = [{ id: query.id }]
     // let total = await this.usersRepository.count({ where })
+    let { pageNum, pageSize, deptId, name, roleId } = query
     let [data, total] = await this.usersRepository.findAndCount({
-      where: [{ deptId: query.deptId }],
-      skip: --query.pageNum * query.pageSize,
-      take: query.pageSize,
+      where: [{ deptId: deptId == 0 ? undefined : deptId, name: (name &&= Like(`%${name}%`)) }],
+      skip: --pageNum * pageSize,
+      take: pageSize,
       relations: {
         dept: true,
       },
