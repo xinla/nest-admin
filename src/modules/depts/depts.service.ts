@@ -31,12 +31,12 @@ export class DeptService {
     return this.treeRepository.findTrees()
   }
 
-  findList(query): Promise<Dept[]> {
+  async list(query): Promise<Dept[]> {
     let { name, roleId } = query
     return this.repository.find({ where: [{ name: Like(`%${name}%`) }] })
   }
 
-  update(updateDto: Dept) {
+  async update(updateDto: Dept) {
     let { id, parentId, name } = updateDto
     let data = Object.assign(new Dept(), { id, parentId, name })
     if (data.parentId !== '0') {
@@ -47,11 +47,7 @@ export class DeptService {
     return this.repository.update(data.id, data)
   }
 
-  async softDelete(id: string): Promise<void> {
+  async del(id: string): Promise<void> {
     await this.repository.softDelete(id)
-  }
-
-  async delete(id: string): Promise<void> {
-    await this.repository.delete(id)
   }
 }

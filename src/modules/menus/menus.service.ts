@@ -17,7 +17,7 @@ export class MenusService {
     return `This action returns a #${id} menu`
   }
 
-  update(id: number, updateMenuDto: UpdateMenuDto) {
+  async update(id: number, updateMenuDto: UpdateMenuDto) {
     return `This action updates a #${id} menu`
   }
 

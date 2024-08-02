@@ -5,10 +5,13 @@ import { decrypt } from 'src/common/utils/encrypt'
 
 @Injectable()
 export class AuthService {
-  constructor(private usersService: UsersService, private jwtService: JwtService) {}
+  constructor(
+    private usersService: UsersService,
+    private jwtService: JwtService,
+  ) {}
 
   async signIn(account: string, password: string): Promise<{ accessToken: string }> {
-    const user = await this.usersService.findOne({ name: account })
+    const user = await this.usersService.getOne({ name: account })
 
     if (user?.password !== (await decrypt(password))) {
       throw new UnauthorizedException()

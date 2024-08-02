@@ -1,10 +1,14 @@
 export class ResponseData {}
-export type QueryDto = {
+export type QueryOneDto = {
+  id?: string
+  [index: string]: any
+}
+export type QueryListDto = {
   pageNum?: number
   pageSize?: number
   [index: string]: any
 }
-export type ListDto<T> = {
+export type ResponseListDto<T> = {
   total?: number
   data: T[]
   _flag?: boolean

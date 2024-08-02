@@ -11,13 +11,18 @@ export class DeptController {
   constructor(private readonly service: DeptService) {}
 
   @Post('add')
-  create(@Body() createDto: Dept): Promise<Dept> {
+  async add(@Body() createDto: Dept): Promise<Dept> {
     return this.service.add(createDto)
   }
 
   @Put('update')
-  update(@Body() updateDto: Dept): Promise<UpdateResult> {
+  async update(@Body() updateDto: Dept): Promise<UpdateResult> {
     return this.service.update(updateDto)
+  }
+
+  @Delete('del/:id')
+  async del(@Param('id') id: string) {
+    return this.service.del(id)
   }
 
   @Get('findTree')
@@ -25,13 +30,8 @@ export class DeptController {
     return this.service.findTree(query)
   }
 
-  @Get('findList')
-  findList(@Query() query): Promise<Dept[]> {
-    return this.service.findList(query)
-  }
-
-  @Delete('del/:id')
-  softDelete(@Param('id') id: string) {
-    return this.service.softDelete(id)
+  @Get('list')
+  async list(@Query() query): Promise<Dept[]> {
+    return this.service.list(query)
   }
 }
