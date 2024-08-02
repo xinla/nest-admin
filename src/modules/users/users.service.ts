@@ -3,7 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { User } from './entities/user.entity'
 import { Like, Repository } from 'typeorm'
-import { PageListDto, PageQueryDto } from 'src/common/dto'
+import { ListDto, QueryDto } from 'src/common/dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Dept } from '../depts/entities/dept.entity'
 
@@ -21,14 +21,7 @@ export class UsersService {
     return this.usersRepository.save(data)
   }
 
-  findList(query): Promise<User[]> {
-    let { deptId, name, roleId } = query
-    return this.usersRepository.find({
-      where: [{ deptId, name: Like(`%${name}%`) }],
-    })
-  }
-
-  async pageList(query: PageQueryDto): Promise<PageListDto<User>> {
+  async list(query: QueryDto): Promise<ListDto<User>> {
     // let total = await this.usersRepository.count({ where })
     let { pageNum, pageSize, deptId, name, roleId } = query
     let [data, total] = await this.usersRepository.findAndCount({

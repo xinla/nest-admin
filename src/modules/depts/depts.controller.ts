@@ -30,11 +30,6 @@ export class DeptController {
     return this.service.findList(query)
   }
 
-  @Get('detail')
-  findOne(@Query('id') id: string): Promise<Dept> {
-    return this.service.findOne(id)
-  }
-
   @Delete('del/:id')
   softDelete(@Param('id') id: string) {
     return this.service.softDelete(id)

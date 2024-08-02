@@ -36,10 +36,6 @@ export class DeptService {
     return this.repository.find({ where: [{ name: Like(`%${name}%`) }] })
   }
 
-  findOne(user): Promise<Dept | null> {
-    return this.repository.findOneBy(user)
-  }
-
   update(updateDto: Dept) {
     let { id, parentId, name } = updateDto
     let data = Object.assign(new Dept(), { id, parentId, name })

@@ -19,7 +19,7 @@ import { HttpExceptionFilter } from '../../common/filters/httpException.filter'
 import { UseFilters } from '@nestjs/common'
 import { UpdateResult } from 'typeorm'
 
-import { PageQueryDto, PageListDto } from '../../common/dto/index'
+import { QueryDto, ListDto } from '../../common/dto/index'
 
 @Controller('system/users')
 // @UseFilters(new HttpExceptionFilter())
@@ -36,14 +36,9 @@ export class UsersController {
     return this.usersService.update(updateUserDto)
   }
 
-  @Get('findList')
-  findList(@Query() query): Promise<User[]> {
-    return this.usersService.findList(query)
-  }
-
-  @Get('pageList')
-  pageList(@Query() query: PageQueryDto): Promise<PageListDto<User>> {
-    return this.usersService.pageList(query)
+  @Get('list')
+  list(@Query() query: QueryDto): Promise<ListDto<User>> {
+    return this.usersService.list(query)
   }
 
   @Get('detail')
