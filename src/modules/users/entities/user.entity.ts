@@ -1,8 +1,9 @@
-import { Entity, Column, ManyToOne, OneToMany, RelationId, JoinColumn } from 'typeorm'
+import { Entity, Column, ManyToOne, OneToMany, RelationId, JoinColumn, ManyToMany, JoinTable } from 'typeorm'
 import { Base } from 'src/common/entity/base'
 import { BooleanNumber } from 'src/common/type/base'
 import { Dept } from 'src/modules/depts/entities/dept.entity'
 import { IsEmail, IsNotEmpty, IsNumberString, MaxLength } from 'class-validator'
+import { Role } from 'src/modules/roles/entity'
 
 @Entity('sys_user', {
   orderBy: {
@@ -34,9 +35,9 @@ export class User extends Base {
   @IsNumberString()
   phone: string
 
-  // @Column({ nullable: true, type: 'simple-array', comment: '' })
-  // @OneToMany((type) => Dept, (dept) => dept.id)
-  // roles: string[]
+  @ManyToMany(() => Role)
+  @JoinTable()
+  roles: Role[]
 
   @ManyToOne((type) => Dept, (dept) => dept.user)
   @JoinColumn({ name: 'dept_id' })
