@@ -18,7 +18,10 @@ export class Base {
 
   @Column({
     type: 'datetime',
-    transformer: { from: (date) => date?.toISOString().split('.')[0].replace('T', ' '), to: (value: string) => value },
+    transformer: {
+      from: (date) => date?.toLocaleString().replaceAll('/', '-'),
+      to: (value: string) => value,
+    },
     default: () => 'CURRENT_TIMESTAMP',
     name: 'create_time',
     comment: '创建时间',
@@ -31,7 +34,10 @@ export class Base {
 
   @Column({
     type: 'datetime',
-    transformer: { from: (date) => date?.toISOString().split('.')[0].replace('T', ' '), to: (value: string) => value },
+    transformer: {
+      from: (date) => date?.toLocaleString().replaceAll('/', '-'),
+      to: (value: string) => value,
+    },
     default: () => 'CURRENT_TIMESTAMP',
     onUpdate: 'CURRENT_TIMESTAMP',
     name: 'update_time',
@@ -60,4 +66,10 @@ export class Base {
       throw new Error(Object.values(errors[0].constraints)[0])
     }
   }
+
+  // @Column({ default: true, name: 'is_active', comment: '是否激活，默认1是，0否' })
+  // isActive: boolean
+
+  // @Column({ type: 'varchar', length: 200, name: 'remark', default: '', comment: '备注' })
+  // remark: string
 }

@@ -50,8 +50,8 @@ export class UsersService {
     return { total: total, data: data, _flag: true }
   }
 
-  async getOne(id): Promise<User | null> {
-    return this.usersRepository.findOneBy({ id })
+  async getOne(user): Promise<User | null> {
+    return this.usersRepository.findOneBy(user)
   }
 
   // async delete(id: string): Promise<void> {

@@ -46,9 +46,9 @@ export class UsersController {
     return this.usersService.list(query)
   }
 
-  @Get('detail')
-  async getOne(@Query('id') id: string): Promise<User> {
-    return this.usersService.getOne(id)
+  @Get('getOne')
+  async getOne(@Param('id') id: string): Promise<User> {
+    return this.usersService.getOne({ id })
   }
 
   @Get('profile')
