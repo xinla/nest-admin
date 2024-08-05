@@ -35,6 +35,9 @@ export class RolesService {
     let { pageNum, pageSize, name, key, isActive } = query
     let queryOrm: FindManyOptions = {
       where: [{ isActive, name: (name &&= Like(`%${name}%`)) }, { key: (key &&= Like(`%${key}%`)) }],
+      relations: {
+        users: true,
+      },
     }
     pageNum && pageSize && ((queryOrm.skip = --pageNum * pageSize), (queryOrm.take = pageSize))
 
