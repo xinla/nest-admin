@@ -20,7 +20,7 @@ export class LoggingInterceptor implements NestInterceptor {
         // let res = context.switchToHttp().getResponse()
         let res = { code: 200, msg: 'success', ...(data?._flag ? data : { data }) }
         delete res._flag
-        console.log(req.url, '->返回数据：', res, '\n')
+        // console.log(req.url, '->返回数据：', res, '\n')
         return res
       }),
     )

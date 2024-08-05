@@ -11,15 +11,15 @@ import { Role } from './entity'
 export class RolesController {
   constructor(private readonly service: RolesService) {}
 
-  @Post('add')
-  async add(@Body() createDto): Promise<Boolean> {
-    return this.service.add(createDto)
+  @Post('save')
+  async save(@Body() createDto): Promise<Boolean> {
+    return this.service.save(createDto)
   }
 
-  @Put('update')
-  async update(@Body() updateUserDto): Promise<UpdateResult> {
-    return this.service.update(updateUserDto)
-  }
+  // @Put('update')
+  // async update(@Body() updateUserDto): Promise<UpdateResult> {
+  //   return this.service.update(updateUserDto)
+  // }
 
   @Delete('del/:id')
   async del(@Param('id') id: string[]): Promise<UpdateResult> {

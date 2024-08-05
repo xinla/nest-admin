@@ -13,31 +13,16 @@ export class RolesService {
     private repository: Repository<Role>,
   ) {}
 
-  async add(createDto): Promise<Boolean> {
+  async save(createDto): Promise<Boolean> {
     let data = Object.assign(new Role(), createDto)
-    try {
-      await this.repository.save(data)
-      return true
-    } catch (error) {
-      // code =
-      // 'ER_DUP_ENTRY'
-      // errno =
-      // 1062
-      // message =
-      // "Duplicate entry 'ad' for key 'sys_role.IDX_8450ef8b1055587abeb8561542'"
-      // sqlState =
-      // '23000'
-      if (error.code == 'ER_DUP_ENTRY') {
-        let match = error.message.match(/Duplicate entry '(.+)' for/)
-        throw new Error(`角色${match[1]}已存在`)
-      }
-    }
+    await this.repository.save(data)
+    return true
   }
 
-  async update(updateDto: Role): Promise<UpdateResult> {
-    let data = Object.assign(new Role(), updateDto)
-    return this.repository.update(data.id, data)
-  }
+  // async update(updateDto: Role): Promise<UpdateResult> {
+  //   let data = Object.assign(new Role(), updateDto)
+  //   return this.repository.update(data.id, data)
+  // }
 
   async del(id: string[] | string): Promise<UpdateResult> {
     if (typeof id == 'string') {
@@ -47,9 +32,9 @@ export class RolesService {
   }
 
   async list(query: QueryListDto): Promise<ResponseListDto<Role>> {
-    let { pageNum, pageSize, name } = query
+    let { pageNum, pageSize, name, key, isActive } = query
     let queryOrm: FindManyOptions = {
-      where: [{ name: (name &&= Like(`%${name}%`)) }],
+      where: [{ isActive, name: (name &&= Like(`%${name}%`)) }, { key: (key &&= Like(`%${key}%`)) }],
     }
     pageNum && pageSize && ((queryOrm.skip = --pageNum * pageSize), (queryOrm.take = pageSize))
 

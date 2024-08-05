@@ -26,14 +26,9 @@ import { QueryListDto, ResponseListDto } from '../../common/dto/index'
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post('add')
-  async add(@Body() createUserDto: User): Promise<User> {
-    return this.usersService.add(createUserDto)
-  }
-
-  @Put('update')
-  async update(@Body() updateUserDto: User): Promise<UpdateResult> {
-    return this.usersService.update(updateUserDto)
+  @Post('save')
+  async save(@Body() createUserDto) {
+    return this.usersService.save(createUserDto)
   }
 
   @Delete('del/:id')
@@ -56,6 +51,16 @@ export class UsersController {
     let { password, ...user } = await this.usersService.getOne(req.user.sub)
     return user
   }
+
+  @Put('resetPassword')
+  async resetPassword(@Body() updateUserDto) {
+    return this.usersService.resetPassword(updateUserDto)
+  }
+
+  // @Put('update')
+  // async update(@Body() updateUserDto) {
+  //   return this.usersService.update(updateUserDto)
+  // }
 
   // @Delete('delete/:id')
   // delete(@Param('id') id: string) {

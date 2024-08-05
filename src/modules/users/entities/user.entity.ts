@@ -20,7 +20,7 @@ export class User extends Base {
   nickname: string
 
   // AES:nestAdmin,123456
-  @Column({ type: 'varchar', length: 50, default: 'U2FsdGVkX1+wSuODGoEl3Dr4XiGZkjBSjyrDJ+28VY8=', comment: '密码' })
+  @Column({ type: 'varchar', length: 50, default: 's3wmd2VReF1IjZhK59gLBY0OjYlzjA==', comment: '密码' })
   password: string
 
   @Column({ type: 'varchar', default: '', comment: '头像地址' })
@@ -35,8 +35,23 @@ export class User extends Base {
   @IsNumberString()
   phone: string
 
-  @ManyToMany(() => Role)
-  @JoinTable()
+  // @Column({ nullable: true, name: 'roles', comment: '' })
+  @ManyToMany(() => Role, (role) => role.users, {
+    cascade: true,
+  })
+  @JoinTable({
+    name: 'sys_user_role',
+    joinColumn: {
+      name: 'userId',
+      referencedColumnName: 'id',
+      foreignKeyConstraintName: 'fk_sys_user_role_user',
+    },
+    inverseJoinColumn: {
+      name: 'roleId',
+      referencedColumnName: 'id',
+      foreignKeyConstraintName: 'fk_sys_user_role_role',
+    },
+  })
   roles: Role[]
 
   @ManyToOne((type) => Dept, (dept) => dept.user)
@@ -47,6 +62,7 @@ export class User extends Base {
   // @RelationId((dept: Dept) => dept.id)
   deptId: string
 
-  @Column({ default: true, name: 'is_active', comment: '是否激活，默认1是，0否' })
+  @Column({ type: 'char', length: 1, default: '1', name: 'is_active', comment: '是否激活，默认1是，0否' })
+  // @Column({ default: true, name: 'is_active', comment: '是否激活，默认1是，0否' })
   isActive: boolean
 }
