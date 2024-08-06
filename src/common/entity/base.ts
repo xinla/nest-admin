@@ -72,4 +72,14 @@ export class Base {
 
   // @Column({ type: 'varchar', length: 200, name: 'remark', default: '', comment: '备注' })
   // remark: string
+
+  assignOwn(obj) {
+    for (const key in obj) {
+      if (!Object.hasOwn(this, key)) {
+        delete obj[key]
+      }
+    }
+    Object.assign(this, obj)
+    return this
+  }
 }
