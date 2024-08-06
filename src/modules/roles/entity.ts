@@ -20,7 +20,7 @@ export class Role extends Base {
   @Column({ type: 'varchar', length: 30, unique: true, default: '', comment: '' })
   @IsNotEmpty()
   @MaxLength(30)
-  key: string
+  permissionKey: string
 
   @ManyToMany((type) => User, (user) => user.roles)
   users: User[]

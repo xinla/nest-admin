@@ -24,14 +24,7 @@ export class UsersService extends BaseService<User, CreateUserDto> {
     let data = new User()
     //  data.dept = Object.assign(new Dept(), { id: createDto.deptId })
     createDto.roles = createDto.roleIds?.map((element) => Object.assign(new Role(), { id: element }))
-    for (const key in createDto) {
-      if (!Object.hasOwn(data, key)) {
-        delete createDto[key]
-      }
-    }
-    // await this.usersRepository.softRemove(data)
-    Object.assign(data, createDto)
-    return await this.usersRepository.save(data)
+    return await this.usersRepository.save(data.assignOwn(createDto))
   }
 
   async del(id: string[] | string): Promise<UpdateResult> {

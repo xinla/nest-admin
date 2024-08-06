@@ -14,7 +14,7 @@ export class MenusController extends BaseController<Menu, MenusService> {
 
   @Get('getTrees')
   getTrees(@Query() query): Promise<Menu[]> {
-    return this.service.getTrees(query)
+    return this.service.list(query)
   }
 
   @Get('getTypes')
