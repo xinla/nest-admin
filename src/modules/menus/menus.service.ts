@@ -1,27 +1,33 @@
 import { Injectable } from '@nestjs/common'
 import { CreateMenuDto } from './dto/create-menu.dto'
 import { UpdateMenuDto } from './dto/update-menu.dto'
-import { Menu } from './entities/menu.entity'
+import { Menu } from './menu.entity'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository, TreeRepository } from 'typeorm'
+import { BaseService } from 'src/common/BaseService'
 
 @Injectable()
-export class MenusService {
-  create(createMenuDto: Menu) {
-    return 'This action adds a new menu'
+export class MenusService extends BaseService<Menu, CreateMenuDto> {
+  constructor(
+    @InjectRepository(Menu)
+    repository: Repository<Menu>,
+    @InjectRepository(Menu)
+    private treeRepository: TreeRepository<Menu>,
+  ) {
+    super(Menu, repository)
   }
 
-  findAll(query) {
-    return `This action returns all menus`
+  async save(createDto: CreateMenuDto) {
+    let data = new Menu().assignOwn(createDto)
+    if (data.parentId && data.parentId != '0') {
+      data.parent = Object.assign(new Menu(), { id: data.parentId })
+    } else {
+      delete data.parentId
+    }
+    return await this.repository.save(data)
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} menu`
-  }
-
-  async update(id: number, updateMenuDto: UpdateMenuDto) {
-    return `This action updates a #${id} menu`
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} menu`
+  getTrees(query): Promise<Menu[]> {
+    return this.treeRepository.findTrees()
   }
 }

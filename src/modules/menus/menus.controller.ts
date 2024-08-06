@@ -3,39 +3,22 @@ import { MenusService } from './menus.service'
 import { CreateMenuDto } from './dto/create-menu.dto'
 import { UpdateMenuDto } from './dto/update-menu.dto'
 import { PageListDto, PageQueryDto } from 'src/common/dto'
-import { Menu, MenuType, menuTypes } from './entities/menu.entity'
+import { Menu, MenuType, menuTypes } from './menu.entity'
+import { BaseController } from 'src/common/BaseController'
 
-@Controller('system/menu')
-export class MenusController {
-  constructor(private readonly menusService: MenusService) {}
-
-  @Post()
-  create(@Body() Menu: Menu) {
-    return this.menusService.create(Menu)
+@Controller('system/menus')
+export class MenusController extends BaseController<Menu, MenusService> {
+  constructor(service: MenusService) {
+    super(service)
   }
 
-  // @Get()
-  // findAll(@Query() query): Promise<Menu[]> {
-  //   return this.menusService.findAll(query)
-  // }
+  @Get('getTrees')
+  getTrees(@Query() query): Promise<Menu[]> {
+    return this.service.getTrees(query)
+  }
 
-  @Get('types')
-  types() {
+  @Get('getTypes')
+  getTypes() {
     return menuTypes
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.menusService.findOne(+id)
-  }
-
-  @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateMenuDto: UpdateMenuDto) {
-    return this.menusService.update(+id, updateMenuDto)
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.menusService.remove(+id)
   }
 }
