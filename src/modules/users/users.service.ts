@@ -8,13 +8,16 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Dept } from '../depts/entities/dept.entity'
 import { Role } from '../roles/entity'
 import { decrypt, encrypt } from 'src/common/utils/encrypt'
+import { BaseService } from 'src/common/BaseService'
 
 @Injectable()
-export class UsersService {
+export class UsersService extends BaseService<User, CreateUserDto> {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-  ) {}
+  ) {
+    super(User, usersRepository)
+  }
 
   // add Or Update
   async save(createDto: CreateUserDto) {
@@ -56,10 +59,6 @@ export class UsersService {
       delete element.password
     })
     return { total: total, data: data, _flag: true }
-  }
-
-  async getOne(user): Promise<User | null> {
-    return this.usersRepository.findOneBy(user)
   }
 
   async resetPassword(updateDto: UpdateUserDto): Promise<UpdateResult> {

@@ -13,10 +13,9 @@ export class RolesService {
     private repository: Repository<Role>,
   ) {}
 
-  async save(createDto): Promise<Boolean> {
+  async save(createDto) {
     let data = Object.assign(new Role(), createDto)
-    await this.repository.save(data)
-    return true
+    return this.repository.save(data)
   }
 
   // async update(updateDto: Role): Promise<UpdateResult> {
