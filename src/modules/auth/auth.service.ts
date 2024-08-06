@@ -13,7 +13,8 @@ export class AuthService {
   async signIn(account: string, password: string): Promise<{ accessToken: string }> {
     const user = await this.usersService.getOne({ name: account })
 
-    if (user?.password !== (await decrypt(password))) {
+    // let _password = await decrypt(user?.password)
+    if (user?.password !== password) {
       throw new Error('密码错误')
     }
     const payload = { sub: user.id, account: user.name }
