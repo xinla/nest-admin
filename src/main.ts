@@ -14,3 +14,17 @@ async function bootstrap() {
   await app.listen(3000)
 }
 bootstrap()
+
+// declare global {
+//   interface Object {
+//     assignOwn(obj): any
+//   }
+// }
+// Object.prototype.assignOwn = (obj) => {
+//   for (const key in obj) {
+//     if (!Object.hasOwn(this, key)) {
+//       delete obj[key]
+//     }
+//   }
+//   Object.assign(this, obj)
+// }
