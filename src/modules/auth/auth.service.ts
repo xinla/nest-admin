@@ -17,7 +17,8 @@ export class AuthService {
     if (user?.password !== password) {
       throw new Error('密码错误')
     }
-    const payload = { sub: user.id, account: user.name }
+    let { password: _, ...result } = user
+    const payload = { sub: user.id, account: user.name, ...result }
     return {
       accessToken: await this.jwtService.signAsync(payload),
     }
