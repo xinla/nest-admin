@@ -5,34 +5,12 @@ import { UpdateRoleDto } from './dto/update-role.dto'
 import { QueryListDto, ResponseListDto } from 'src/common/dto'
 import { UpdateResult } from 'typeorm'
 import { Role } from './entity'
+import { BaseController } from 'src/common/BaseController'
 
 // 用户角色
 @Controller('system/roles')
-export class RolesController {
-  constructor(private readonly service: RolesService) {}
-
-  @Post('save')
-  async save(@Body() createDto): Promise<Boolean> {
-    return this.service.save(createDto)
-  }
-
-  // @Put('update')
-  // async update(@Body() updateUserDto): Promise<UpdateResult> {
-  //   return this.service.update(updateUserDto)
-  // }
-
-  @Delete('del/:id')
-  async del(@Param('id') id: string[]): Promise<UpdateResult> {
-    return this.service.del(id)
-  }
-
-  @Get('list')
-  async list(@Query() query: QueryListDto): Promise<ResponseListDto<Role>> {
-    return this.service.list(query)
-  }
-
-  @Get('getOne')
-  async getOne(@Query('id') id: string): Promise<Role> {
-    return this.service.getOne(id)
+export class RolesController extends BaseController<Role, RolesService> {
+  constructor(readonly service: RolesService) {
+    super(service)
   }
 }

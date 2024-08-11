@@ -21,17 +21,11 @@ export class UsersService extends BaseService<User, CreateUserDto> {
 
   // add Or Update
   async save(createDto: CreateUserDto) {
-    let data = new User()
-    //  data.dept = Object.assign(new Dept(), { id: createDto.deptId })
-    createDto.roles = createDto.roleIds?.map((element) => Object.assign(new Role(), { id: element }))
-    return await this.usersRepository.save(data.assignOwn(createDto))
-  }
-
-  async del(id: string[] | string): Promise<UpdateResult> {
-    if (typeof id == 'string') {
-      id = id.split(',')
-    }
-    return this.usersRepository.softDelete(id)
+    // let data = new User()
+    // createDto.dept = Object.assign(new Dept(), { id: createDto.deptId })
+    delete createDto.dept
+    createDto.roles = createDto.roleIds?.map((id) => Object.assign(new Role(), { id }))
+    return await this.usersRepository.save(new User().assignOwn(createDto))
   }
 
   // 列表
