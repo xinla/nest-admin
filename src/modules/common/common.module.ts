@@ -24,8 +24,9 @@ import { ServeStaticModule, ServeStaticModuleOptions } from '@nestjs/serve-stati
               //   constants.R_OK | constants.W_OK,
               // )
               await mkdir('src/upload/' + dirDay, { recursive: true })
-            } catch (err) {
-              console.error(err.message)
+            } catch (error) {
+              throw error
+              // console.error(error.message)
             }
             const filename =
               dirDay + '/' + Date.now() + '-' + Math.round(Math.random() * 1e9) + extname(file.originalname)

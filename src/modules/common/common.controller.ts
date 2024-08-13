@@ -36,6 +36,6 @@ export class CommonController {
     @UploadedFile()
     file: Express.Multer.File,
   ) {
-    return file.filename
+    return { url: file.filename }
   }
 }

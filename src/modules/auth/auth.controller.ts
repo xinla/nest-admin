@@ -1,21 +1,26 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Post, Request, UseGuards } from '@nestjs/common'
 import { AuthGuard } from './auth.guard'
 import { AuthService } from './auth.service'
+import { UsersService } from '../users/users.service'
 import { Public } from './constants'
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private usersService: UsersService,
+  ) {}
 
   @Public()
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  signIn(@Body() signInDto: Record<string, any>) {
+  async signIn(@Body() signInDto: Record<string, any>) {
     return this.authService.signIn(signInDto.account, signInDto.password)
   }
 
   @Get('getLoginUser')
-  getProfile(@Request() req) {
-    return req.user
+  async getProfile(@Request() req) {
+    const user = await this.usersService.getOne({ id: req.user.id })
+    return user
   }
 }
