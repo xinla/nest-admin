@@ -9,10 +9,11 @@ import { database } from 'config'
 import { AuthModule } from './modules/auth/auth.module'
 import { DepstModule } from './modules/depts/depts.module'
 import { RolesModule } from './modules/roles/module';
+import { CommonModule } from './modules/common/common.module';
 
 @Dependencies(DataSource)
 @Module({
-  imports: [TypeOrmModule.forRoot(database), MenusModule, UsersModule, AuthModule, DepstModule, RolesModule],
+  imports: [TypeOrmModule.forRoot(database), MenusModule, UsersModule, AuthModule, DepstModule, RolesModule, CommonModule],
   controllers: [AppController],
   providers: [AppService],
 })
