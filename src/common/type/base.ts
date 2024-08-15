@@ -1,4 +1,4 @@
-export enum BooleanNumber {
-  No = 0,
-  Yes = 1,
+export enum BoolNum {
+  No = '0',
+  Yes = '1',
 }

@@ -8,7 +8,7 @@ import {
   BeforeInsert,
   BeforeUpdate,
 } from 'typeorm'
-import { BooleanNumber } from '../type/base'
+import { BoolNum } from '../type/base'
 import { validate } from 'class-validator'
 
 export class Base {
@@ -29,7 +29,7 @@ export class Base {
   // @CreateDateColumn()
   createTime: string
 
-  @Column({ type: 'varchar', length: 30, name: 'create_user', default: '', comment: '创建者' })
+  @Column({ type: 'varchar', length: 30, name: 'create_user', default: '', comment: '创建人' })
   createUser: string
 
   @Column({
@@ -46,14 +46,14 @@ export class Base {
   // @UpdateDateColumn()
   updateTime: string
 
-  @Column({ type: 'varchar', length: 30, name: 'update_user', default: '', comment: '更新者' })
+  @Column({ type: 'varchar', length: 30, name: 'update_user', default: '', comment: '更新人' })
   updateUser: string
 
   @DeleteDateColumn({ name: 'delete_time', select: false, comment: '删除时间 是否删除' })
   deleteTime: string
 
-  // @Column({ type: 'int', width: 3, default: BooleanNumber.No, comment: '是否删除，默认0否，1是' })
-  // isDel: BooleanNumber
+  // @Column({ type: 'int', width: 3, default: BoolNum.No, comment: '是否删除，默认0否，1是' })
+  // isDel: BoolNum
 
   // @Column({ default: false, name: 'is_delete', select: false, comment: '是否删除' })
   // isDelete: boolean
@@ -81,5 +81,15 @@ export class Base {
     }
     Object.assign(this, obj)
     return this
+  }
+}
+
+export function boolNumColumn(title: string, name: string, defaultValue = BoolNum.No): any {
+  return {
+    type: 'char',
+    length: 1,
+    default: defaultValue,
+    name,
+    comment: `是否${title}: 1是，0否，默认${defaultValue}`,
   }
 }

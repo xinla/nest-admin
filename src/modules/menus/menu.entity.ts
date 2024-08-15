@@ -1,6 +1,6 @@
 import { MaxLength, IsNotEmpty } from 'class-validator'
-import { Base } from 'src/common/entity/base'
-import { BooleanNumber } from 'src/common/type/base'
+import { Base, boolNumColumn } from 'src/common/entity/base'
+import { BoolNum } from 'src/common/type/base'
 import { Column, Entity, JoinColumn, Tree, TreeChildren, TreeParent } from 'typeorm'
 
 // 菜单类型
@@ -71,9 +71,9 @@ export class Menu extends Base {
   @Column({ type: 'enum', enum: MenuType, default: MenuType.catalog, comment: '菜单类型，默认catalog' })
   type: MenuType
 
-  @Column({ type: 'char', length: 1, default: '1', name: 'is_show:', comment: '是否显示，默认1是，0否' })
-  isShow: string
+  @Column(boolNumColumn('隐藏', 'is_hidden'))
+  isHidden: string
 
-  @Column({ type: 'char', length: 1, default: '1', name: 'is_active', comment: '是否激活，默认1是，0否' })
+  @Column(boolNumColumn('激活', 'is_active', BoolNum.Yes))
   isActive: string
 }
