@@ -1,8 +1,9 @@
 import { IsNotEmpty, MaxLength } from 'class-validator'
-import { Base } from 'src/common/entity/base'
+import { Base, boolNumColumn } from 'src/common/entity/base'
 import { Column, Entity, JoinTable, ManyToMany } from 'typeorm'
 import { User } from '../users/entities/user.entity'
 import { Menu } from '../menus/menu.entity'
+import { BoolNum } from 'src/common/type/base'
 
 // 用户角色
 @Entity('sys_role', {
@@ -44,8 +45,8 @@ export class Role extends Base {
   })
   menus: Menu[]
 
-  @Column({ type: 'char', length: 1, default: '1', name: 'is_active', comment: '是否激活，默认1是，0否' })
-  isActive: string
+  @Column(boolNumColumn('激活', 'is_active', BoolNum.Yes))
+  isActive: BoolNum
 
   @Column({ type: 'varchar', length: 8, name: 'order', default: '1', comment: '排序' })
   order: string

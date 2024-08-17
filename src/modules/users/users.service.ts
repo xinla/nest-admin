@@ -68,8 +68,4 @@ export class UsersService extends BaseService<User, CreateUserDto> {
   //   data.roles = updateDto.roles?.map((element) => Object.assign(new Role(), { id: element }))
   //   return this.usersRepository.update(data.id, data)
   // }
-
-  // async delete(id: string): Promise<void> {
-  //   await this.usersRepository.delete(id)
-  // }
 }

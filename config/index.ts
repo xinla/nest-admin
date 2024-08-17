@@ -1,4 +1,5 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm'
+// import { BaseSubscriber } from 'src/common/entity/base'
 
 export const databaseList: { dev: TypeOrmModuleOptions; prod } = {
   dev: {
@@ -12,6 +13,7 @@ export const databaseList: { dev: TypeOrmModuleOptions; prod } = {
     synchronize: true,
     // dateStrings: true, // datetime无效，timestamp有效
     autoLoadEntities: true,
+    // subscribers: [BaseSubscriber],
   },
   prod: {
     type: 'mysql',

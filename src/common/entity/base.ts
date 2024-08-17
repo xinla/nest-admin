@@ -7,9 +7,15 @@ import {
   DeleteDateColumn,
   BeforeInsert,
   BeforeUpdate,
+  EntitySubscriberInterface,
+  EventSubscriber,
+  AfterLoad,
+  Repository,
+  FindManyOptions,
 } from 'typeorm'
 import { BoolNum } from '../type/base'
 import { validate } from 'class-validator'
+import { BeforeQueryEvent } from 'typeorm/subscriber/event/QueryEvent'
 
 export class Base {
   @PrimaryGeneratedColumn({ type: 'bigint' })
@@ -38,7 +44,7 @@ export class Base {
       from: (date) => date?.toLocaleString().replaceAll('/', '-'),
       to: (value: string) => value,
     },
-    default: () => 'CURRENT_TIMESTAMP',
+    // default: () => 'CURRENT_TIMESTAMP',
     onUpdate: 'CURRENT_TIMESTAMP',
     name: 'update_time',
     comment: '更新时间',
@@ -49,15 +55,26 @@ export class Base {
   @Column({ type: 'varchar', length: 30, name: 'update_user', default: '', comment: '更新人' })
   updateUser: string
 
-  @DeleteDateColumn({ name: 'delete_time', select: false, comment: '删除时间 是否删除' })
-  deleteTime: string
+  @DeleteDateColumn({
+    type: 'char',
+    length: 1,
+    name: 'is_delete',
+    select: false,
+    comment: '是否删除: NULL未删除，1删除',
+  })
+  // @Column(boolNumColumn('删除', 'is_delete', BoolNum.No, { select: false }))
+  isDelete: BoolNum
 
-  // @Column({ type: 'int', width: 3, default: BoolNum.No, comment: '是否删除，默认0否，1是' })
-  // isDel: BoolNum
+  // @DeleteDateColumn({ name: 'delete_time', select: false, comment: '删除时间 是否删除' })
+  // deleteTime: string
 
-  // @Column({ default: false, name: 'is_delete', select: false, comment: '是否删除' })
-  // isDelete: boolean
+  // @Column(boolNumColumn('激活', 'is_active', BoolNum.Yes))
+  // isActive: BoolNum
 
+  // @Column({ type: 'varchar', length: 200, name: 'remark', default: '', comment: '备注' })
+  // remark: string
+
+  // 实体监听器
   @BeforeInsert()
   @BeforeUpdate()
   async updateDates() {
@@ -67,12 +84,12 @@ export class Base {
     }
   }
 
-  // @Column({ default: true, name: 'is_active', comment: '是否激活，默认1是，0否' })
-  // isActive: boolean
+  // @AfterLoad()
+  // updateCounters() {
+  //   console.log(this)
+  // }
 
-  // @Column({ type: 'varchar', length: 200, name: 'remark', default: '', comment: '备注' })
-  // remark: string
-
+  // 自定义公共方法
   assignOwn(obj) {
     for (const key in obj) {
       if (!Object.hasOwn(this, key)) {
@@ -84,12 +101,26 @@ export class Base {
   }
 }
 
-export function boolNumColumn(title: string, name: string, defaultValue = BoolNum.No): any {
+export function boolNumColumn(title: string, name: string, defaultValue = BoolNum.No, options = {}): any {
   return {
     type: 'char',
     length: 1,
     default: defaultValue,
     name,
     comment: `是否${title}: 1是，0否，默认${defaultValue}`,
+    ...options,
   }
 }
+
+// Object.assign(Repository.prototype, {
+//   list(findManyOptions: FindManyOptions) {
+//     this.find(findManyOptions)
+//   },
+// })
+
+// @EventSubscriber()
+// export class BaseSubscriber implements EntitySubscriberInterface {
+//   beforeQuery(event: BeforeQueryEvent<any>) {
+//     console.log(`BEFORE QUERY: `, event)
+//   }
+// }

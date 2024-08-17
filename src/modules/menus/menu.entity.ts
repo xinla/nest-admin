@@ -72,8 +72,8 @@ export class Menu extends Base {
   type: MenuType
 
   @Column(boolNumColumn('隐藏', 'is_hidden'))
-  isHidden: string
+  isHidden: BoolNum
 
   @Column(boolNumColumn('激活', 'is_active', BoolNum.Yes))
-  isActive: string
+  isActive: BoolNum
 }

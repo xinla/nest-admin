@@ -1,5 +1,5 @@
 import { Entity, Column, ManyToOne, OneToMany, RelationId, JoinColumn, ManyToMany, JoinTable } from 'typeorm'
-import { Base } from 'src/common/entity/base'
+import { Base, boolNumColumn } from 'src/common/entity/base'
 import { BoolNum } from 'src/common/type/base'
 import { Dept } from 'src/modules/depts/entities/dept.entity'
 import { IsEmail, IsNotEmpty, IsNumberString, MaxLength } from 'class-validator'
@@ -62,7 +62,6 @@ export class User extends Base {
   // @RelationId((dept: Dept) => dept.id)
   deptId: string
 
-  @Column({ type: 'char', length: 1, default: '1', name: 'is_active', comment: '是否激活，默认1是，0否' })
-  // @Column({ default: true, name: 'is_active', comment: '是否激活，默认1是，0否' })
-  isActive: boolean
+  @Column(boolNumColumn('激活', 'is_active', BoolNum.Yes))
+  isActive: BoolNum
 }

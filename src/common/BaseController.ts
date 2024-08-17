@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req } from '@nestjs/common'
 import { QueryListDto, ResponseListDto } from './dto'
 
 export class BaseController<T, K> {
@@ -9,13 +9,20 @@ export class BaseController<T, K> {
 
   // add Or Update
   @Post('save')
-  async save(@Body() createDto) {
+  async save(@Body() createDto, @Req() req) {
+    if (createDto.id) {
+      delete createDto.createUser
+      createDto.updateUser = req.user.name
+    } else {
+      delete createDto.updateUser
+      createDto.createUser = req.user.name
+    }
     return this.service.save(createDto)
   }
 
-  @Delete('del/:id')
-  async del(@Param('id') id: string[]) {
-    return this.service.del(id)
+  @Delete('del/:ids')
+  async del(@Param('ids') ids: string, @Req() req) {
+    return this.service.del(ids, req.user.name)
   }
 
   @Get('list')

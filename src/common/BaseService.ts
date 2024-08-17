@@ -1,5 +1,6 @@
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository, UpdateResult } from 'typeorm'
+import { BoolNum } from './type/base'
 
 export class BaseService<T, K> {
   Entity = null
@@ -18,11 +19,11 @@ export class BaseService<T, K> {
   //   return this.repository.update(data.id, data)
   // }
 
-  async del(id: string[] | string): Promise<UpdateResult> {
-    if (typeof id == 'string') {
-      id = id.split(',')
+  async del(ids: string[] | string, updateUser?: string): Promise<UpdateResult> {
+    if (typeof ids == 'string') {
+      ids = ids.split(',')
     }
-    return this.repository.softDelete(id)
+    return this.repository.update(ids, { isDelete: BoolNum.Yes, updateUser })
   }
 
   async getOne(query): Promise<T | null> {
