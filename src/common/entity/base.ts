@@ -25,7 +25,7 @@ export class Base {
   @Column({
     type: 'datetime',
     transformer: {
-      from: (date) => date?.toLocaleString().replaceAll('/', '-'),
+      from: (date) => date?.toLocaleString(),
       to: (value: string) => value,
     },
     default: () => 'CURRENT_TIMESTAMP',
@@ -41,7 +41,7 @@ export class Base {
   @Column({
     type: 'datetime',
     transformer: {
-      from: (date) => date?.toLocaleString().replaceAll('/', '-'),
+      from: (date) => date?.toLocaleString(),
       to: (value: string) => value,
     },
     // default: () => 'CURRENT_TIMESTAMP',
