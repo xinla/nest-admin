@@ -45,6 +45,7 @@ export class Base {
       to: (value: string) => value,
     },
     // default: () => 'CURRENT_TIMESTAMP',
+    nullable: true,
     onUpdate: 'CURRENT_TIMESTAMP',
     name: 'update_time',
     comment: '更新时间',

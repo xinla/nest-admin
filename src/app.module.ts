@@ -8,12 +8,22 @@ import { DataSource } from 'typeorm'
 import { database } from 'config'
 import { AuthModule } from './modules/auth/auth.module'
 import { DepstModule } from './modules/depts/depts.module'
-import { RolesModule } from './modules/roles/module';
-import { CommonModule } from './modules/common/common.module';
+import { RolesModule } from './modules/roles/module'
+import { NoticesModule } from './modules/notices/module'
+import { CommonModule } from './modules/common/common.module'
 
 @Dependencies(DataSource)
 @Module({
-  imports: [TypeOrmModule.forRoot(database), MenusModule, UsersModule, AuthModule, DepstModule, RolesModule, CommonModule],
+  imports: [
+    TypeOrmModule.forRoot(database),
+    MenusModule,
+    UsersModule,
+    AuthModule,
+    DepstModule,
+    RolesModule,
+    NoticesModule,
+    CommonModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

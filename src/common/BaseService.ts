@@ -9,8 +9,9 @@ export class BaseService<T, K> {
     this.Entity = Entity
     this.repository = repository
   }
-  async save(createDto) {
-    let data = new this.Entity().assignOwn(createDto)
+
+  async save(dto) {
+    let data = new this.Entity().assignOwn(dto)
     return this.repository.save(data)
   }
 
