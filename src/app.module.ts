@@ -6,11 +6,12 @@ import { UsersModule } from './modules/users/users.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { DataSource } from 'typeorm'
 import { database } from 'config'
+import { CommonModule } from './modules/common/common.module'
 import { AuthModule } from './modules/auth/auth.module'
 import { DepstModule } from './modules/depts/depts.module'
 import { RolesModule } from './modules/roles/module'
 import { NoticesModule } from './modules/notices/module'
-import { CommonModule } from './modules/common/common.module'
+import { SystenConfigsModule } from './modules/configs/module'
 
 @Dependencies(DataSource)
 @Module({
@@ -18,11 +19,12 @@ import { CommonModule } from './modules/common/common.module'
     TypeOrmModule.forRoot(database),
     MenusModule,
     UsersModule,
+    CommonModule,
     AuthModule,
     DepstModule,
     RolesModule,
     NoticesModule,
-    CommonModule,
+    SystenConfigsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
