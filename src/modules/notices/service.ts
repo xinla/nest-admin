@@ -12,10 +12,6 @@ export class NoticesService extends BaseService<Notice, NoticeDto> {
     super(Notice, repository)
   }
 
-  async save(noticeDto) {
-    return this.repository.save(new Notice().assignOwn(noticeDto))
-  }
-
   async list(query: QueryListDto): Promise<ResponseListDto<Notice>> {
     let { pageNum, pageSize, title, isActive } = query
     let queryOrm: FindManyOptions = {

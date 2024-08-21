@@ -13,7 +13,6 @@ import { BoolNum } from 'src/common/type/base'
 //   [Type.menu]: '菜单',
 // }
 
-// 用户角色
 @Entity('sys_notice', {
   orderBy: {
     createTime: 'DESC',

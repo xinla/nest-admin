@@ -1,6 +1,7 @@
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository, UpdateResult } from 'typeorm'
+import { FindManyOptions, Like, Repository, UpdateResult } from 'typeorm'
 import { BoolNum } from './type/base'
+import { QueryListDto, ResponseListDto } from './dto'
 
 export class BaseService<T, K> {
   Entity = null
@@ -13,6 +14,14 @@ export class BaseService<T, K> {
   async save(dto) {
     let data = new this.Entity().assignOwn(dto)
     return this.repository.save(data)
+  }
+
+  async listBy(queryOrm: FindManyOptions = {}, query: QueryListDto = {}): Promise<ResponseListDto<T>> {
+    let { pageNum, pageSize } = query
+    pageNum && pageSize && ((queryOrm.skip = --pageNum * pageSize), (queryOrm.take = pageSize))
+
+    let [data, total] = await this.repository.findAndCount(queryOrm)
+    return { total: total, data: data, _flag: true }
   }
 
   // async update(updateDto: Role): Promise<UpdateResult> {

@@ -12,6 +12,7 @@ import { DepstModule } from './modules/depts/depts.module'
 import { RolesModule } from './modules/roles/module'
 import { NoticesModule } from './modules/notices/module'
 import { SystenConfigsModule } from './modules/configs/module'
+import { LoginLogsModule } from './modules/loginLogs/module'
 
 @Dependencies(DataSource)
 @Module({
@@ -25,6 +26,7 @@ import { SystenConfigsModule } from './modules/configs/module'
     RolesModule,
     NoticesModule,
     SystenConfigsModule,
+    LoginLogsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
