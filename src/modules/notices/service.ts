@@ -13,13 +13,10 @@ export class NoticesService extends BaseService<Notice, NoticeDto> {
   }
 
   async list(query: QueryListDto): Promise<ResponseListDto<Notice>> {
-    let { pageNum, pageSize, title, isActive } = query
+    let { title, isActive } = query
     let queryOrm: FindManyOptions = {
-      where: [{ isActive, title: (title &&= Like(`%${title}%`)) }],
+      where: [{ isActive, title: this.sqlLike(title) }],
     }
-    pageNum && pageSize && ((queryOrm.skip = --pageNum * pageSize), (queryOrm.take = pageSize))
-
-    let [data, total] = await this.repository.findAndCount(queryOrm)
-    return { total: total, data: data, _flag: true }
+    return this.listBy(queryOrm, query)
   }
 }

@@ -12,14 +12,7 @@ export class SystenConfigsService extends BaseService<SystenConfig, SystenConfig
     super(SystenConfig, repository)
   }
 
-  async list(query: QueryListDto): Promise<ResponseListDto<SystenConfig>> {
-    let { pageNum, pageSize, title, isActive } = query
-    let queryOrm: FindManyOptions = {
-      where: [{ isActive, title: (title &&= Like(`%${title}%`)) }],
-    }
-    pageNum && pageSize && ((queryOrm.skip = --pageNum * pageSize), (queryOrm.take = pageSize))
-
-    let [data, total] = await this.repository.findAndCount(queryOrm)
-    return { total: total, data: data, _flag: true }
+  async list(): Promise<ResponseListDto<SystenConfig>> {
+    return this.listBy()
   }
 }

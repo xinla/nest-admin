@@ -28,18 +28,15 @@ export class RolesService extends BaseService<Role, CreateRoleDto> {
   // }
 
   async list(query: QueryListDto): Promise<ResponseListDto<Role>> {
-    let { pageNum, pageSize, name, key, isActive } = query
+    let { name, permissionKey, isActive } = query
     let queryOrm: FindManyOptions = {
-      where: [{ isActive, name: (name &&= Like(`%${name}%`)) }, { key: (key &&= Like(`%${key}%`)) }],
+      where: { isActive, name: this.sqlLike(name), permissionKey: this.sqlLike(permissionKey) },
       relations: {
         users: true,
         menus: true,
       },
     }
-    pageNum && pageSize && ((queryOrm.skip = --pageNum * pageSize), (queryOrm.take = pageSize))
-
-    let [data, total] = await this.repository.findAndCount(queryOrm)
-    return { total: total, data: data, _flag: true }
+    return this.listBy(queryOrm, query)
   }
 
   async getOne(id: string): Promise<Role | null> {

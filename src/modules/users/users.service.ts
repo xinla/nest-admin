@@ -31,21 +31,15 @@ export class UsersService extends BaseService<User, CreateUserDto> {
   // 列表
   async list(query: QueryListDto): Promise<ResponseListDto<User>> {
     // let total = await this.usersRepository.count({ where })
-    let { pageNum, pageSize, deptId, name, roleId } = query
+    let { deptId, name, roleId } = query
     let queryOrm: FindManyOptions = {
-      where: [{ deptId: deptId == 0 ? undefined : deptId, name: (name &&= Like(`%${name}%`)) }],
+      where: { deptId: deptId == 0 ? undefined : deptId, name: this.sqlLike(name) },
       relations: {
         dept: true,
         roles: true,
       },
     }
-    pageNum && pageSize && ((queryOrm.skip = --pageNum * pageSize), (queryOrm.take = pageSize))
-
-    let [data, total] = await this.usersRepository.findAndCount(queryOrm)
-    data.forEach((element) => {
-      delete element.password
-    })
-    return { total: total, data: data, _flag: true }
+    return this.listBy(queryOrm, query, (data) => data.forEach((element) => delete element.password))
   }
 
   async resetPassword(updateDto: UpdateUserDto): Promise<UpdateResult> {

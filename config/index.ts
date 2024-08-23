@@ -14,6 +14,7 @@ export const databaseList: { dev: TypeOrmModuleOptions; prod } = {
     // dateStrings: true, // datetime无效，timestamp有效
     autoLoadEntities: true,
     // subscribers: [BaseSubscriber],
+    logging: true,
   },
   prod: {
     type: 'mysql',

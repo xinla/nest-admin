@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { LoginLogDto } from './dto'
 import { InjectRepository } from '@nestjs/typeorm'
-import { FindManyOptions, Like, Repository, UpdateResult } from 'typeorm'
+import { Between, FindManyOptions, Like, Raw, Repository, UpdateResult } from 'typeorm'
 import { LoginLog } from './entity'
 import { QueryListDto, ResponseListDto } from 'src/common/dto'
 import { BaseService } from 'src/common/BaseService'
@@ -13,16 +13,15 @@ export class LoginLogsService extends BaseService<LoginLog, LoginLogDto> {
   }
 
   async list(query: QueryListDto = {}): Promise<ResponseListDto<LoginLog>> {
-    let { account, isSuccess, ip, address, createTime } = query
+    let { account, isSuccess, ip, address, createTimeRange } = query
     let queryOrm: FindManyOptions = {
-      where: [
-        {
-          isSuccess,
-          account: (account &&= Like(`%${account}%`)),
-          ip: (ip &&= Like(`%${ip}%`)),
-          address: (address &&= Like(`%${address}%`)),
-        },
-      ],
+      where: {
+        isSuccess,
+        account: this.sqlLike(account),
+        ip: this.sqlLike(ip),
+        address: this.sqlLike(address),
+        createTime: this.betweenTime(createTimeRange),
+      },
     }
     return this.listBy(queryOrm, query)
   }
