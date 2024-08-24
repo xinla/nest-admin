@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put, Query, Req } from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put, Query, Req, HttpCode } from '@nestjs/common'
 import { LoginLogsService } from './service'
 import { QueryListDto, ResponseListDto } from 'src/common/dto'
 import { UpdateResult } from 'typeorm'
@@ -10,6 +10,9 @@ export class LoginLogsController extends BaseController<LoginLog, LoginLogsServi
   constructor(readonly service: LoginLogsService) {
     super(service)
   }
+
+  // 重写以避免暴露路由
   @Post('save')
+  @HttpCode(401)
   async save() {}
 }

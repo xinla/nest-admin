@@ -21,6 +21,7 @@ export class AuthService {
       account: body.account,
       password: await decrypt(body.password),
       ip: req.hostname,
+      // address: req.hostname,
       browser: getBrowser(req.headers['user-agent']),
       os: getSystem(req.headers['user-agent']),
     }

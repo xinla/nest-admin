@@ -201,11 +201,11 @@ export const getBrowser = (userAgent) => {
 export function getSystem(userAgent) {
   if (userAgent.indexOf('MicroMessenger') > -1) {
     return 'weChat'
-  } else if (!!userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
-    return 'ios'
+  } else if (/Mac OS X/gi.test(userAgent)) {
+    return 'Mac OS'
   } else if (userAgent.indexOf('Android') > -1) {
     return 'android'
-  } else if (/iphone/gi.test(userAgent) && screen.height === 812 && screen.width === 375) {
-    return 'iPhoneX'
+  } else if (/iphone/gi.test(userAgent)) {
+    return 'iPhone'
   }
 }
