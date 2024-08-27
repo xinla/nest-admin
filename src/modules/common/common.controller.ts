@@ -14,10 +14,11 @@ import {
   ParseFilePipe,
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
+import { CommonService } from './common.service'
 
 @Controller('system/common')
 export class CommonController {
-  // constructor(private readonly commonService: CommonService) {}
+  constructor(private readonly commonService: CommonService) {}
 
   @Post('upload')
   @UseInterceptors(
@@ -32,10 +33,12 @@ export class CommonController {
       },
     }),
   )
-  uploadFile(
-    @UploadedFile()
-    file: Express.Multer.File,
-  ) {
+  uploadFile(@UploadedFile() file: Express.Multer.File) {
     return { url: file.filename }
+  }
+
+  @Get('getOsInfo')
+  async getOsInfo() {
+    return await this.commonService.getOsInfo()
   }
 }
