@@ -5,6 +5,8 @@ import { decrypt } from 'src/common/utils/encrypt'
 import { getSystem, getBrowser } from 'src/common/utils/common'
 import { LoginLogsService } from '../loginLogs/service'
 import { BoolNum } from 'src/common/type/base'
+import { RedisService } from '../global/redis.service'
+import { ResponseListDto } from 'src/common/dto'
 
 @Injectable()
 export class AuthService {
@@ -12,19 +14,15 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
     private loginLogsService: LoginLogsService,
+    private redisService: RedisService,
   ) {}
 
-  async signIn(req): Promise<{ accessToken: string }> {
+  async login(req): Promise<{ accessToken: string }> {
     let user: any = {}
     let body: any = req.body || {}
-    let log: any = {
-      account: body.account,
-      password: await decrypt(body.password),
-      ip: req.hostname,
-      // address: req.hostname,
-      browser: getBrowser(req.headers['user-agent']),
-      os: getSystem(req.headers['user-agent']),
-    }
+
+    let log = await this.baseLog(req, body)
+
     try {
       user = await this.usersService.getOne({ name: body.account })
 
@@ -39,11 +37,55 @@ export class AuthService {
       throw error
     }
     let { password: _, ...result } = user
+
+    const payload = { sub: user.id, account: user.name, loginTime: new Date().toLocaleString(), ...result }
+    let accessToken = await this.jwtService.signAsync(payload)
+    log.session = accessToken.slice(10, 30)
+
     await this.loginLogsService.save(log)
 
-    const payload = { sub: user.id, account: user.name, ...result }
+    log.loginTime = payload.loginTime
+    await this.redisService.setRedisOnlineUser(log)
+
     return {
-      accessToken: await this.jwtService.signAsync(payload),
+      accessToken,
     }
+  }
+
+  async logout(req: Record<string, any>, isQuit?) {
+    let log
+    let session = ''
+    if (isQuit) {
+      log = await this.baseLog(req, req.body)
+      session = req.body.session
+      log.msg = '被强退'
+    } else {
+      log = await this.baseLog(req, req.user)
+      session = req.user.session
+      log.msg = '退出登录'
+    }
+
+    await this.loginLogsService.save(log)
+
+    await this.redisService.delRedisOnlineUser(session)
+  }
+
+  async getOnlineUsers(query): Promise<ResponseListDto<any>> {
+    let data = await this.redisService.getRedisOnlineUser(query)
+    return { total: 10, data: data, _flag: true }
+  }
+
+  private async baseLog(req, user: any = {}) {
+    let log: any = {
+      session: user.session,
+      account: user.account,
+      password: await decrypt(user.password),
+      ip: req.hostname,
+      // address: req.hostname,
+      browser: getBrowser(req.headers['user-agent']),
+      os: getSystem(req.headers['user-agent']),
+      createTime: new Date().toLocaleString(),
+    }
+    return log
   }
 }

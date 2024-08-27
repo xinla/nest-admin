@@ -13,6 +13,7 @@ import { RolesModule } from './modules/roles/module'
 import { NoticesModule } from './modules/notices/module'
 import { SystenConfigsModule } from './modules/configs/module'
 import { LoginLogsModule } from './modules/loginLogs/module'
+import { GlobalModule } from './modules/global/global.module'
 
 @Dependencies(DataSource)
 @Module({
@@ -27,6 +28,7 @@ import { LoginLogsModule } from './modules/loginLogs/module'
     NoticesModule,
     SystenConfigsModule,
     LoginLogsModule,
+    GlobalModule,
   ],
   controllers: [AppController],
   providers: [AppService],

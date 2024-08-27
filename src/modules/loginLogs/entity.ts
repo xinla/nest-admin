@@ -10,6 +10,10 @@ import { BoolNum } from 'src/common/type/base'
   },
 })
 export class LoginLog extends Base {
+  @Column({ type: 'varchar', length: 200, default: '', comment: '会话编号' })
+  @IsNotEmpty()
+  session: string
+
   @Column({ type: 'varchar', length: 30, default: '', comment: '登录账号' })
   @IsNotEmpty()
   account: string

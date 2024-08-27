@@ -1,8 +1,9 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Request, UseGuards } from '@nestjs/common'
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Query, Request, UseGuards } from '@nestjs/common'
 import { AuthGuard } from './auth.guard'
 import { AuthService } from './auth.service'
 import { UsersService } from '../users/users.service'
 import { Public } from './constants'
+import { QueryListDto } from 'src/common/dto'
 
 @Controller('auth')
 export class AuthController {
@@ -14,13 +15,28 @@ export class AuthController {
   @Public()
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  async signIn(@Request() req: Record<string, any>) {
-    return this.authService.signIn(req)
+  async login(@Request() req: Record<string, any>) {
+    return this.authService.login(req)
+  }
+
+  @Post('logout')
+  async logout(@Request() req: Record<string, any>) {
+    return this.authService.logout(req)
   }
 
   @Get('getLoginUser')
-  async getProfile(@Request() req) {
+  async getLoginUser(@Request() req: Record<string, any>) {
     const user = await this.usersService.getOne({ id: req.user.id })
     return user
+  }
+
+  @Get('getOnlineUsers')
+  async getOnlineUsers(@Query() query: QueryListDto) {
+    return await this.authService.getOnlineUsers(query)
+  }
+
+  @Post('quit')
+  async quit(@Request() req: Record<string, any>) {
+    return this.authService.logout(req, true)
   }
 }

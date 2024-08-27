@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
+import { UserInterceptor } from './common/interceptor/user.interceptor'
 import { LoggingInterceptor } from './common/interceptor/logging.interceptor'
 import * as csurf from 'csurf'
 import { AllExceptionsFilter } from './common/filters/allExceptions.filter'
@@ -8,6 +9,7 @@ import * as compression from 'compression'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { abortOnError: false })
+  app.useGlobalInterceptors(new UserInterceptor())
   app.useGlobalInterceptors(new LoggingInterceptor())
   app.useGlobalFilters(new AllExceptionsFilter())
   // app.use(csurf())
