@@ -29,6 +29,6 @@ export const databaseList: { dev: TypeOrmModuleOptions; prod } = {
   },
 }
 
-const mode = process.env.npm_lifecycle_event.split(':')[1]
+const mode = process.argv.find((e) => e.includes('env=')).split('=')[1]
 
 export const database = databaseList[mode]
