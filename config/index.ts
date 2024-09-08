@@ -1,5 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm'
 // import { BaseSubscriber } from 'src/common/entity/base'
+import { SECRET } from './secret'
 
 export const databaseList: { dev: TypeOrmModuleOptions; prod } = {
   dev: {
@@ -21,7 +22,7 @@ export const databaseList: { dev: TypeOrmModuleOptions; prod } = {
     host: 'localhost',
     port: 3306,
     username: 'root',
-    password: 'a1111111',
+    password: SECRET.mysqlPassword,
     database: 'nest',
     // entities: [],
     // synchronize: true,
