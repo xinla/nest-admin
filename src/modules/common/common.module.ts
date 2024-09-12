@@ -9,32 +9,6 @@ import { ServeStaticModule, ServeStaticModuleOptions } from '@nestjs/serve-stati
 
 @Module({
   imports: [
-    MulterModule.registerAsync({
-      useFactory: () => ({
-        // dest: 'src/upload',
-        storage: diskStorage({
-          destination: function (req, file, cb) {
-            cb(null, 'src/upload')
-          },
-          filename: async function (req, file, cb) {
-            let dirDay = new Date().toLocaleString().replaceAll('/', '-').split(' ')[0]
-            try {
-              // await access(
-              //   'src/upload/' + new Date().toLocaleString().replaceAll('/', '-').split(' ')[0],
-              //   constants.R_OK | constants.W_OK,
-              // )
-              await mkdir('src/upload/' + dirDay, { recursive: true })
-            } catch (error) {
-              throw error
-              // console.error(error.message)
-            }
-            const filename =
-              dirDay + '/' + Date.now() + '-' + Math.round(Math.random() * 1e9) + extname(file.originalname)
-            cb(null, filename)
-          },
-        }),
-      }),
-    }),
     // 服务静态化, 生产环境最好使用 nginx 做资源映射， 可以根据环境配置做区分
     ServeStaticModule.forRootAsync({
       // imports: [ConfigModule],

@@ -4,7 +4,6 @@ import { CreateDeptDto } from './dto/create-dept.dto'
 import { UpdateDeptDto } from './dto/update-dept.dto'
 import { Dept } from './entities/dept.entity'
 import { UpdateResult } from 'typeorm'
-import { PageQueryDto, PageListDto } from 'src/common/dto'
 
 @Controller('system/dept')
 export class DeptController {

@@ -7,7 +7,9 @@ export class LoggingInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     let req = context.switchToHttp().getRequest()
     console.log('--> 请求数据：', req.url, req.method, { query: req.query, body: req.body, params: req.params })
-
+    // req.on('data', (data) => {
+    //   console.log(String.fromCharCode.apply(null, new Uint8Array(data)))
+    // })
     return next.handle().pipe(
       // timeout(8000),
       catchError((err) => {

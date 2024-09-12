@@ -16,6 +16,7 @@ import {
 import { BoolNum } from '../type/base'
 import { validate } from 'class-validator'
 import { BeforeQueryEvent } from 'typeorm/subscriber/event/QueryEvent'
+import dayjs from 'dayjs'
 
 export class Base {
   @PrimaryGeneratedColumn({ type: 'bigint' })
@@ -25,7 +26,7 @@ export class Base {
   @Column({
     type: 'datetime',
     transformer: {
-      from: (date) => date?.toLocaleString(),
+      from: (date) => dayjs(date).format('YYYY-MM-DD HH:mm:ss'),
       to: (value: string) => value,
     },
     default: () => 'CURRENT_TIMESTAMP',
@@ -41,7 +42,7 @@ export class Base {
   @Column({
     type: 'datetime',
     transformer: {
-      from: (date) => date?.toLocaleString(),
+      from: (date) => dayjs(date).format('YYYY-MM-DD HH:mm:ss'),
       to: (value: string) => value,
     },
     // default: () => 'CURRENT_TIMESTAMP',

@@ -28,6 +28,16 @@ export class UsersService extends BaseService<User, CreateUserDto> {
     return await this.usersRepository.save(new User().assignOwn(createDto))
   }
 
+  async getOne(query): Promise<User | null> {
+    return this.usersRepository.findOne({
+      where: { id: query.id },
+      relations: {
+        dept: true,
+        roles: true,
+      },
+    })
+  }
+
   // 列表
   async list(query: QueryListDto): Promise<ResponseListDto<User>> {
     // let total = await this.usersRepository.count({ where })

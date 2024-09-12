@@ -5,7 +5,7 @@ import { LoggingInterceptor } from './common/interceptor/logging.interceptor'
 import * as csurf from 'csurf'
 import { AllExceptionsFilter } from './common/filters/allExceptions.filter'
 // import { HttpExceptionFilter } from './common/filters/httpException.filter'
-import * as compression from 'compression'
+import compression from 'compression'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { abortOnError: false })

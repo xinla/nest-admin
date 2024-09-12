@@ -26,9 +26,9 @@ export class User extends Base {
   @Column({ type: 'varchar', default: '', comment: '头像地址' })
   avatar: string
 
-  // @Column({ type: 'varchar', default: '', comment: '' })
-  // @IsEmail()
-  // email: string
+  @Column({ type: 'varchar', default: '', comment: '邮箱' })
+  @IsEmail()
+  email: string
 
   @Column({ type: 'varchar', length: 11, default: '', comment: '手机号' })
   @MaxLength(11)

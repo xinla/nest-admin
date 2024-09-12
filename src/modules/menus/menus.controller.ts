@@ -2,7 +2,6 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestj
 import { MenusService } from './menus.service'
 import { CreateMenuDto } from './dto/create-menu.dto'
 import { UpdateMenuDto } from './dto/update-menu.dto'
-import { PageListDto, PageQueryDto } from 'src/common/dto'
 import { Menu, MenuType, menuTypes } from './menu.entity'
 import { BaseController } from 'src/common/BaseController'
 

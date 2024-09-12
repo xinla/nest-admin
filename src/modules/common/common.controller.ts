@@ -12,27 +12,24 @@ import {
   FileTypeValidator,
   MaxFileSizeValidator,
   ParseFilePipe,
+  UploadedFiles,
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { CommonService } from './common.service'
+import { MulterFileInterceptor } from 'src/common/interceptor/file.interceptor'
 
 @Controller('system/common')
 export class CommonController {
   constructor(private readonly commonService: CommonService) {}
 
+  /**
+   * 通用文件上传
+   * @param module 文件所属模块，用于创建模块文件夹
+   * @param file 文件字段
+   * @returns
+   */
   @Post('upload')
-  @UseInterceptors(
-    FileInterceptor('file', {
-      limits: { fileSize: Math.pow(1024, 2) * 2 },
-      fileFilter(req: any, file: Express.Multer.File, callback: (error: Error | null, acceptFile: boolean) => void) {
-        if (!file.mimetype.includes('image')) {
-          callback(new Error('类型不支持'), false)
-        } else {
-          callback(null, true)
-        }
-      },
-    }),
-  )
+  @MulterFileInterceptor()
   uploadFile(@UploadedFile() file: Express.Multer.File) {
     return { url: file.filename }
   }

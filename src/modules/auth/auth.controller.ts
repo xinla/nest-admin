@@ -27,7 +27,8 @@ export class AuthController {
   @Get('getLoginUser')
   async getLoginUser(@Request() req: Record<string, any>) {
     const user = await this.usersService.getOne({ id: req.user.id })
-    return user
+    let { password, ...userInfo } = user
+    return userInfo
   }
 
   @Get('getOnlineUsers')

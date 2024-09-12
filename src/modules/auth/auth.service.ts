@@ -7,6 +7,7 @@ import { LoginLogsService } from '../loginLogs/service'
 import { BoolNum } from 'src/common/type/base'
 import { RedisService } from '../global/redis.service'
 import { ResponseListDto } from 'src/common/dto'
+import dayjs from 'dayjs'
 
 @Injectable()
 export class AuthService {
@@ -38,7 +39,7 @@ export class AuthService {
     }
     let { password: _, ...result } = user
 
-    const payload = { sub: user.id, account: user.name, loginTime: new Date().toLocaleString(), ...result }
+    const payload = { sub: user.id, account: user.name, loginTime: dayjs().format('YYYY-MM-DD HH:mm:ss'), ...result }
     let accessToken = await this.jwtService.signAsync(payload)
     log.session = accessToken.slice(10, 30)
 
@@ -84,7 +85,7 @@ export class AuthService {
       // address: req.hostname,
       browser: getBrowser(req.headers['user-agent']),
       os: getSystem(req.headers['user-agent']),
-      createTime: new Date().toLocaleString(),
+      createTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
     }
     return log
   }

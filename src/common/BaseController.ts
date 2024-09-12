@@ -20,16 +20,22 @@ export class BaseController<T, K> {
     return this.service.save(createDto)
   }
 
+  /**
+   * 删除
+   * @param ids id主键 多个用’,’分割，eg: '1,2,3'
+   */
   @Delete('del/:ids')
   async del(@Param('ids') ids: string, @Req() req) {
     return this.service.del(ids, req.user.name)
   }
 
+  // 分页查询
   @Get('list')
   async list(@Query() query: QueryListDto): Promise<ResponseListDto<T>> {
     return this.service.list(query)
   }
 
+  // 单个查询，获取详情
   @Get('getOne')
   async getOne(@Param('id') id: string): Promise<T> {
     return this.service.getOne({ id })
