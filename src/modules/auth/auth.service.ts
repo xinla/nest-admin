@@ -25,6 +25,12 @@ export class AuthService {
     let log = await this.baseLog(req, body)
 
     try {
+      if (!body.account) {
+        throw new Error('账号不能为空')
+      }
+      if (!body.password) {
+        throw new Error('密码不能为空')
+      }
       user = await this.usersService.getOne({ name: body.account })
 
       // let _password = await decrypt(user?.password)

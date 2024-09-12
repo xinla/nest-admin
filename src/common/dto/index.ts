@@ -1,10 +1,14 @@
 export class ResponseData {}
+export type SaveDto<T> = {
+  [index: string]: any
+} & T
+
 export type QueryOneDto = {
   id?: string
   [index: string]: any
 }
 export type QueryListDto = {
-  pageNum?: number // 当前页码
+  pageNum?: number // 当前页码 从1开始
   pageSize?: number // 每页条数
   [index: string]: any
 }

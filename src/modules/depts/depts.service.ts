@@ -6,47 +6,40 @@ import { Repository, Like, TreeRepository } from 'typeorm'
 import { Dept } from './entities/dept.entity'
 import { DataSource } from 'typeorm'
 import { validate } from 'class-validator'
+import { BaseService } from 'src/common/BaseService'
 
 @Injectable()
-export class DeptService {
+export class DeptService extends BaseService<Dept, CreateDeptDto> {
   constructor(
     @InjectRepository(Dept)
-    private repository: Repository<Dept>,
+    repository: Repository<Dept>,
     @InjectRepository(Dept)
     private treeRepository: TreeRepository<Dept>,
-  ) {}
+  ) {
+    super(Dept, repository)
+  }
 
-  async add(createDto) {
-    let data = Object.assign(new Dept(), createDto)
+  async save(data) {
     if (data.parentId && data.parentId != '0') {
       data.parent = Object.assign(new Dept(), { id: data.parentId })
     } else {
       delete data.parentId
     }
-    return this.repository.save(data)
+    return await this.repository.save(new Dept().assignOwn(data))
   }
 
   findTree(query): Promise<Dept[]> {
     return this.treeRepository.findTrees()
   }
 
-  async list(query): Promise<Dept[]> {
-    let { name, roleId } = query
-    return this.repository.find({ where: [{ name: Like(`%${name}%`) }] })
-  }
-
-  async update(updateDto: Dept) {
-    let { id, parentId, name } = updateDto
-    let data = Object.assign(new Dept(), { id, parentId, name })
-    if (data.parentId !== '0') {
-      data.parent = Object.assign(new Dept(), { id: data.parentId })
-    } else {
-      delete data.parentId
-    }
-    return this.repository.update(data.id, data)
-  }
-
-  async del(id: string): Promise<void> {
-    await this.repository.softDelete(id)
-  }
+  // async update(updateDto: Dept) {
+  //   let { id, parentId, name } = updateDto
+  //   let data = Object.assign(new Dept(), { id, parentId, name })
+  //   if (data.parentId !== '0') {
+  //     data.parent = Object.assign(new Dept(), { id: data.parentId })
+  //   } else {
+  //     delete data.parentId
+  //   }
+  //   return this.repository.update(data.id, data)
+  // }
 }

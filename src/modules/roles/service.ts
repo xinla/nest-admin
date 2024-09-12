@@ -22,11 +22,6 @@ export class RolesService extends BaseService<Role, CreateRoleDto> {
     return this.repository.save(new Role().assignOwn(createDto))
   }
 
-  // async update(updateDto: Role): Promise<UpdateResult> {
-  //   let data = Object.assign(new Role(), updateDto)
-  //   return this.repository.update(data.id, data)
-  // }
-
   async list(query: QueryListDto): Promise<ResponseListDto<Role>> {
     let { name, permissionKey, isActive } = query
     let queryOrm: FindManyOptions = {
@@ -37,9 +32,5 @@ export class RolesService extends BaseService<Role, CreateRoleDto> {
       },
     }
     return this.listBy(queryOrm, query)
-  }
-
-  async getOne(id: string): Promise<Role | null> {
-    return this.repository.findOneBy({ id })
   }
 }

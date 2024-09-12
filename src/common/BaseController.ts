@@ -32,8 +32,18 @@ export class BaseController<T, K> {
   // 分页查询
   @Get('list')
   async list(@Query() query: QueryListDto): Promise<ResponseListDto<T>> {
-    return this.service.list(query)
+    if (query.pageNum && query.pageSize) {
+      return this.service.list(query)
+    } else {
+      throw new Error('pageNum or pageSize is required')
+    }
   }
+
+  // 查询全部，返回所有结果
+  // @Get('listAll')
+  // async listAll(@Query() query: QueryListDto): Promise<ResponseListDto<T>> {
+  //   return this.service.list(query)
+  // }
 
   // 单个查询，获取详情
   @Get('getOne')
