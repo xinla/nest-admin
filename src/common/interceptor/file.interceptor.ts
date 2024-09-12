@@ -27,24 +27,24 @@ export function MulterFileInterceptor(subDir = 'default', formats = ['*'], fileM
       },
       storage: diskStorage({
         destination: function (req, file, cb) {
-          cb(null, join('src/upload'))
+          cb(null, join('upload'))
         },
         filename: async function (req, file, cb) {
           let dirGroup = dayjs().format('YYYY-MM-DD')
           // let dirGroup = file.originalname.split('.').at(-1)
-          let fileDir = join(subDir, req.body.module || '', dirGroup)
+          let fileDir = join(subDir || req.body.module || '', dirGroup)
           try {
             // await access(
-            //   'src/upload/' + dayjs().format('YYYY-MM-DD'),
+            //   'upload/' + dayjs().format('YYYY-MM-DD'),
             //   constants.R_OK | constants.W_OK,
             // )
-            await mkdir(join('src/upload', fileDir), { recursive: true }, () => {})
+            await mkdir(join('upload', fileDir), { recursive: true }, () => {})
           } catch (error) {
             throw error
             // console.error(error.message)
           }
-          let filename = `${fileDir}/${Date.now()}-${Math.round(Math.random() * 1e9)}${extname(file.originalname)}`
-          filename = join(fileDir, filename)
+          let ext = extname(file.originalname) || '.' + file.mimetype.split('/')[1]
+          let filename = `${fileDir}/${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`
           cb(null, filename)
         },
       }),

@@ -21,4 +21,11 @@ export class UsersController extends BaseController<User, UsersService> {
   async resetPassword(@Body() updateUserDto) {
     return this.usersService.resetPassword(updateUserDto)
   }
+
+  @Post('uploadAvatar')
+  @MulterFileInterceptor('avatar')
+  async uploadFile(@Req() req, @UploadedFile() file: Express.Multer.File) {
+    await this.usersService.save({ id: req.user.id, avatar: file.filename })
+    return { url: file.filename }
+  }
 }

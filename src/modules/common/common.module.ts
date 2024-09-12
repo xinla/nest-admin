@@ -14,7 +14,7 @@ import { ServeStaticModule, ServeStaticModuleOptions } from '@nestjs/serve-stati
       // imports: [ConfigModule],
       // inject: [ConfigService],
       useFactory: (config) => {
-        const fileUploadLocationConfig = 'src/upload'
+        const fileUploadLocationConfig = 'upload'
         const rootPath = isAbsolute(fileUploadLocationConfig)
           ? `${fileUploadLocationConfig}`
           : join(process.cwd(), `${fileUploadLocationConfig}`)

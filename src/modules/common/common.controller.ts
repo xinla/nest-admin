@@ -30,7 +30,7 @@ export class CommonController {
    */
   @Post('upload')
   @MulterFileInterceptor()
-  uploadFile(@UploadedFile() file: Express.Multer.File) {
+  async uploadFile(@UploadedFile() file: Express.Multer.File) {
     return { url: file.filename }
   }
 

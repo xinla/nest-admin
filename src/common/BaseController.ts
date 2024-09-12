@@ -31,12 +31,11 @@ export class BaseController<T, K> {
 
   // 分页查询
   @Get('list')
+  @Get('pageList')
   async list(@Query() query: QueryListDto): Promise<ResponseListDto<T>> {
-    if (query.pageNum && query.pageSize) {
-      return this.service.list(query)
-    } else {
-      throw new Error('pageNum or pageSize is required')
-    }
+    query.pageNum ??= 1
+    query.pageSize ??= 10
+    return this.service.list(query)
   }
 
   // 查询全部，返回所有结果
