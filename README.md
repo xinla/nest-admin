@@ -26,6 +26,15 @@
 4. 角色管理：配置系统角色，角色可分配权限。
 5. 持续更新中...
 
+## 演示图
+
+<img src="./doc/image.png" width="50%" height="30%" />
+<img src="./doc/image.3.png" width="50%" height="30%" />
+<img src="./doc/image.1.png" width="50%" height="30%" />
+<img src="./doc/image.2.png" width="50%" height="30%" />
+<img src="./doc/image.4.png" width="50%" height="30%" />
+<img src="./doc/image.5.png" width="50%" height="30%" />
+
 ## 安装
 
 本地需要安装 nodejs v20+
