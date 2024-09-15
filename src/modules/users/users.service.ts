@@ -20,7 +20,7 @@ export class UsersService extends BaseService<User, CreateUserDto> {
   }
 
   // add Or Update
-  async save(createDto) {
+  async save(createDto: CreateUserDto) {
     // let data = new User()
     // createDto.dept = Object.assign(new Dept(), { id: createDto.deptId })
     delete createDto.dept
