@@ -1,6 +1,7 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm'
 // import { BaseSubscriber } from 'src/common/entity/base'
 // import { secret } from './secret'
+import { accessSync, constants } from 'fs'
 
 export const databaseList: { dev: TypeOrmModuleOptions; prod } = {
   dev: {
@@ -22,7 +23,7 @@ export const databaseList: { dev: TypeOrmModuleOptions; prod } = {
     host: 'localhost',
     port: 3306,
     username: 'root',
-    // password: secret.mysqlPassword,
+    password: 'your password',
     database: 'nest',
     // entities: [],
     // synchronize: true,
@@ -31,9 +32,15 @@ export const databaseList: { dev: TypeOrmModuleOptions; prod } = {
 }
 
 const mode = process.argv.find((e) => e.includes('env=')).split('=')[1]
-mode == 'prod' &&
-  import(`./${'secret'}.js`).then((module) => {
-    const { secret } = module
-    databaseList[mode].password = secret.mysqlPassword
-  })
+
+try {
+  accessSync('./secret.js', constants.R_OK)
+  mode == 'prod' &&
+    import(`./${'secret'}.js`).then((module) => {
+      const { secret } = module
+      databaseList[mode].password = secret.mysqlPassword
+    })
+} catch (err) {
+  // console.error('no access!')
+}
 export const database = databaseList[mode]
