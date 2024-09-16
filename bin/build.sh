@@ -37,3 +37,5 @@ if [ ! -d "$(pwd)/node_modules" ]; then
 fi
 
 npm run build
+echo 打包完成
+# pm2 start "npm run start:prod"
