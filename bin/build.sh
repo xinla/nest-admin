@@ -23,6 +23,7 @@ echo 拉取完毕
 
 if [$1]; then
     cd $1 # 进入传参 项目
+fi
 
 if [ ! -d "$(pwd)/node_modules" ]; then
     # if ! command -v cnpm &> /dev/null; then
