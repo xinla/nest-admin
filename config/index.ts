@@ -1,6 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm'
 // import { BaseSubscriber } from 'src/common/entity/base'
-import { SECRET } from './secret'
+// import { secret } from './secret'
 
 export const databaseList: { dev: TypeOrmModuleOptions; prod } = {
   dev: {
@@ -22,7 +22,7 @@ export const databaseList: { dev: TypeOrmModuleOptions; prod } = {
     host: 'localhost',
     port: 3306,
     username: 'root',
-    password: SECRET.mysqlPassword,
+    // password: secret.mysqlPassword,
     database: 'nest',
     // entities: [],
     // synchronize: true,
@@ -31,5 +31,9 @@ export const databaseList: { dev: TypeOrmModuleOptions; prod } = {
 }
 
 const mode = process.argv.find((e) => e.includes('env=')).split('=')[1]
-
+mode == 'prod' &&
+  import(`./${'secret'}.js`).then((module) => {
+    const { secret } = module
+    databaseList[mode].password = secret.mysqlPassword
+  })
 export const database = databaseList[mode]
