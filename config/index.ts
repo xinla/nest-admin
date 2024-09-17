@@ -33,14 +33,15 @@ export const databaseList: { dev: TypeOrmModuleOptions; prod } = {
 
 const mode = process.argv.find((e) => e.includes('env=')).split('=')[1]
 
-try {
-  accessSync('./secret.js', constants.R_OK)
-  mode == 'prod' &&
-    import(`./${'secret'}.js`).then((module) => {
-      const { secret } = module
-      databaseList[mode].password = secret.mysqlPassword
-    })
-} catch (err) {
-  // console.error('no access!')
+export const database = async () => {
+  try {
+    accessSync('config/secret.ts', constants.F_OK)
+    if (mode !== 'prod') return databaseList[mode]
+    let module = await import(`./${'secret'}.js`)
+    const { secret } = module
+    databaseList[mode].password = secret.mysqlPassword
+  } catch (err) {
+    console.error('no access!')
+  }
+  return databaseList[mode]
 }
-export const database = databaseList[mode]

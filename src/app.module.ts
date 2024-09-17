@@ -18,7 +18,7 @@ import { GlobalModule } from './modules/global/global.module'
 @Dependencies(DataSource)
 @Module({
   imports: [
-    TypeOrmModule.forRoot(database),
+    TypeOrmModule.forRootAsync({ useFactory: database }),
     MenusModule,
     UsersModule,
     CommonModule,
