@@ -8,6 +8,9 @@ import { BoolNum } from 'src/common/type/base'
 import { RedisService } from '../global/redis.service'
 import { ResponseListDto } from 'src/common/dto'
 import dayjs from 'dayjs'
+import { HttpService } from '@nestjs/axios'
+import { catchError, firstValueFrom } from 'rxjs'
+import { AxiosError } from 'axios'
 
 @Injectable()
 export class AuthService {
@@ -16,8 +19,8 @@ export class AuthService {
     private jwtService: JwtService,
     private loginLogsService: LoginLogsService,
     private redisService: RedisService,
+    private httpService: HttpService,
   ) {}
-
   async login(req): Promise<{ accessToken: string }> {
     let user: any = {}
     let body: any = req.body || {}
@@ -47,12 +50,26 @@ export class AuthService {
 
     const payload = { sub: user.id, account: user.name, loginTime: dayjs().format('YYYY-MM-DD HH:mm:ss'), ...result }
     let accessToken = await this.jwtService.signAsync(payload)
-    log.session = accessToken.slice(10, 30)
+    log.session = accessToken.split('.').at(-1)
+    await firstValueFrom(
+      this.httpService
+        .get(`https://api.map.baidu.com/location/ip?ip=${log.ip}&coor=bd09ll&ak=PRhu32fNCW4cib8JYW0SJGYzPQ6ORLso`)
+        .pipe(
+          catchError((error: AxiosError) => {
+            // this.logger.error(error.response.data)
+            throw 'An error happened!'
+          }),
+        ),
+    )
+      .then(({ data }) => {
+        log.address = data.content.address
+      })
+      .finally(() => {
+        this.loginLogsService.save(log)
 
-    await this.loginLogsService.save(log)
-
-    log.loginTime = payload.loginTime
-    await this.redisService.setRedisOnlineUser(log)
+        log.loginTime = payload.loginTime
+        this.redisService.setRedisOnlineUser(log)
+      })
 
     return {
       accessToken,
@@ -87,7 +104,7 @@ export class AuthService {
       session: user.session,
       account: user.account,
       password: await decrypt(user.password),
-      ip: req.hostname,
+      ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
       // address: req.hostname,
       browser: getBrowser(req.headers['user-agent']),
       os: getSystem(req.headers['user-agent']),
