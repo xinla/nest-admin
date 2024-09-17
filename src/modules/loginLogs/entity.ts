@@ -36,6 +36,15 @@ export class LoginLog extends Base {
   @Column(boolNumColumn('登录成功', 'is_success', BoolNum.Yes))
   isSuccess: BoolNum
 
-  @Column({ type: 'varchar', length: 30, default: '登录成功', comment: '提示消息' })
+  @Column({
+    type: 'varchar',
+    length: 500,
+    transformer: {
+      from: (value: string) => value,
+      to: (value: string) => (value.length > 500 ? value.substring(0, 500) : value),
+    },
+    default: '登录成功',
+    comment: '提示消息',
+  })
   msg: string
 }
