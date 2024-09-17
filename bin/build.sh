@@ -38,6 +38,14 @@ fi
 
 npm run build
 echo 打包完成
+
+echo pm2 ls
 pm2 ls
+
+echo pm2 stop "npm run start:prod"
 pm2 stop "npm run start:prod"
+echo 服务已停止
+
+echo pm2 start "npm run start:prod"
 pm2 start "npm run start:prod"
+echo 服务已启动

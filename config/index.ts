@@ -26,7 +26,7 @@ export const databaseList: { dev: TypeOrmModuleOptions; prod } = {
     password: 'your password',
     database: 'nest',
     // entities: [],
-    // synchronize: true,
+    synchronize: true,
     autoLoadEntities: true,
   },
 }
