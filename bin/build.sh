@@ -38,4 +38,6 @@ fi
 
 npm run build
 echo 打包完成
-# pm2 start "npm run start:prod"
+pm2 ls
+pm2 stop "npm run start:prod"
+pm2 start "npm run start:prod"
