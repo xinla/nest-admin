@@ -41,7 +41,7 @@ export class LoginLog extends Base {
     length: 500,
     transformer: {
       from: (value: string) => value,
-      to: (value: string) => (value.length > 500 ? value.substring(0, 490) + '...' : value),
+      to: (value: string) => (value?.length > 500 ? value.substring(0, 490) + '...' : value),
     },
     default: '登录成功',
     comment: '提示消息',
