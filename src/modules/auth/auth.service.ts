@@ -51,7 +51,8 @@ export class AuthService {
     const payload = { sub: user.id, account: user.name, loginTime: dayjs().format('YYYY-MM-DD HH:mm:ss'), ...result }
     let accessToken = await this.jwtService.signAsync(payload)
     log.session = accessToken.split('.').at(-1)
-    await firstValueFrom(
+
+    firstValueFrom(
       this.httpService
         .get(`https://api.map.baidu.com/location/ip?ip=${log.ip}&coor=bd09ll&ak=PRhu32fNCW4cib8JYW0SJGYzPQ6ORLso`)
         .pipe(
@@ -62,7 +63,7 @@ export class AuthService {
         ),
     )
       .then(({ data }) => {
-        log.address = data.content.address
+        log.address = data?.content?.address
       })
       .finally(() => {
         this.loginLogsService.save(log)

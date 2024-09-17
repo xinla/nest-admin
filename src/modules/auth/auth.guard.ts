@@ -32,7 +32,7 @@ export class AuthGuard implements CanActivate {
       })
       // 💡 We're assigning the payload to the request object here
       // so that we can access it in our route handlers
-      payload.session = token.slice(10, 30)
+      payload.session = token.split('.').at(-1)
       request['user'] = payload
     } catch {
       throw new UnauthorizedException()
