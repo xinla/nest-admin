@@ -35,6 +35,23 @@ export class LoginLogsService extends BaseService<LoginLog, LoginLogDto> {
     return this.listBy(queryOrm, query)
   }
 
+  async getOnlineUsersChart(query: QueryListDto = {}): Promise<ResponseListDto<LoginLog>> {
+    let { beginTime, endTime } = query
+    return this.repository
+      .createQueryBuilder('LoginLog')
+      .select('LoginLog.createTime', 'createTime')
+      .addSelect('count(*)', 'sum')
+      .where('LoginLog.createTime BETWEEN :beginTime AND :endTime', { beginTime, endTime })
+      .groupBy('LoginLog.createTime')
+      .getRawMany()
+      .then((data) => {
+        data?.forEach((element) => {
+          element.createTime = dayjs(element.createTime).format('YYYY-MM-DD')
+        })
+        return data
+      })
+  }
+
   async createLog(req, dto: any = {}, isSave = true) {
     let log: any = {
       session: dto.session,

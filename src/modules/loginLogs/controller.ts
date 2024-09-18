@@ -15,4 +15,9 @@ export class LoginLogsController extends BaseController<LoginLog, LoginLogsServi
   @Post('save')
   @HttpCode(401)
   async save() {}
+
+  @Get('getOnlineUsersChart')
+  async getOnlineUsersChart(@Query() query: QueryListDto) {
+    return await this.service.getOnlineUsersChart(query)
+  }
 }
