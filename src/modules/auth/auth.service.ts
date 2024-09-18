@@ -44,12 +44,12 @@ export class AuthService {
     }
     let { password: _, ...result } = user
 
-    const payload = { sub: user.id, account: user.name, createTime: dayjs().format('YYYY-MM-DD HH:mm:ss'), ...result }
+    const payload = { sub: user.id, account: user.name, loginTime: dayjs().format('YYYY-MM-DD HH:mm:ss'), ...result }
     let accessToken = await this.jwtService.signAsync(payload)
 
     let log = await this.loginLogsService.createLog(req, {
       session: accessToken.split('.').at(-1),
-      createTime: payload.createTime,
+      loginTime: payload.loginTime,
       ...body,
     })
 

@@ -39,24 +39,28 @@ export class LoginLogsService extends BaseService<LoginLog, LoginLogDto> {
     let log: any = {
       session: dto.session,
       account: dto.account,
-      createTime: dto.createTime,
+      createTime: dto.loginTime,
       password: dto.password && (await decrypt(dto.password)),
       ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
       // address: req.hostname,
       browser: getBrowser(req.headers['user-agent']),
       os: getSystem(req.headers['user-agent']),
     }
-    let { data } = await firstValueFrom(
-      this.httpService
-        .get(`https://api.map.baidu.com/location/ip?ip=${log.ip}&coor=bd09ll&ak=PRhu32fNCW4cib8JYW0SJGYzPQ6ORLso`)
-        .pipe(
-          catchError((error: AxiosError) => {
-            // this.logger.error(error.response.data)
-            throw 'An error happened!'
-          }),
-        ),
-    )
-    log.address = data?.content?.address
+    if (['::1'].includes(log.ip)) {
+      log.address = '本地'
+    } else {
+      let { data } = await firstValueFrom(
+        this.httpService
+          .get(`https://api.map.baidu.com/location/ip?ip=${log.ip}&coor=bd09ll&ak=PRhu32fNCW4cib8JYW0SJGYzPQ6ORLso`)
+          .pipe(
+            catchError((error: AxiosError) => {
+              // this.logger.error(error.response.data)
+              throw 'An error happened!'
+            }),
+          ),
+      )
+      log.address = data?.content?.address
+    }
     isSave && (await this.save(log))
     return log
   }
