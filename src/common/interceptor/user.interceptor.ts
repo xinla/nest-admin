@@ -7,7 +7,7 @@ import { RedisService } from 'src/modules/global/redis.service'
 export class UserInterceptor implements NestInterceptor {
   redisService: RedisService
   constructor() {
-    this.redisService = new RedisService()
+    // this.redisService = new RedisService()
     console.log('--> UserInterceptor')
   }
   async intercept(context: ExecutionContext, next: CallHandler): Promise<Observable<any>> {

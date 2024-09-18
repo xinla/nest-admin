@@ -26,7 +26,7 @@ export class Base {
   @Column({
     type: 'datetime',
     transformer: {
-      from: (date) => dayjs(date).format('YYYY-MM-DD HH:mm:ss'),
+      from: (date) => date && dayjs(date).format('YYYY-MM-DD HH:mm:ss'),
       to: (value: string) => value,
     },
     default: () => 'CURRENT_TIMESTAMP',
@@ -42,7 +42,7 @@ export class Base {
   @Column({
     type: 'datetime',
     transformer: {
-      from: (date) => dayjs(date).format('YYYY-MM-DD HH:mm:ss'),
+      from: (date) => date && dayjs(date).format('YYYY-MM-DD HH:mm:ss'),
       to: (value: string) => value,
     },
     // default: () => 'CURRENT_TIMESTAMP',

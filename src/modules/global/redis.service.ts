@@ -2,11 +2,12 @@ import { Injectable } from '@nestjs/common'
 import { Redis } from 'ioredis'
 import { getBrowser, getSystem } from 'src/common/utils/common'
 import { decrypt } from 'src/common/utils/encrypt'
+import { LoginLogsService } from '../loginLogs/service'
 
 @Injectable()
 export class RedisService {
   redis: Redis
-  constructor() {
+  constructor(private loginLogsService: LoginLogsService) {
     this.redis = new Redis({
       port: 6379, // Redis port
       host: '127.0.0.1', // Redis host
@@ -81,29 +82,16 @@ export class RedisService {
     return data
   }
 
-  async setRedisOnlineUser(req, user: any = {}) {
-    if (req.session) {
-      return await this.set(`user.online:${req?.session}`, req, 5 * 60)
+  async setRedisOnlineUser(reqOrData, user: any = {}) {
+    if (reqOrData.session) {
+      return await this.set(`user.online:${reqOrData?.session}`, reqOrData, 5 * 60)
     } else {
-      let log = await this.onlineInfo(req, user)
+      let log = await this.loginLogsService.createLog(reqOrData, user, false)
       return await this.set(`user.online:${user?.session}`, log, 5 * 60)
     }
   }
 
   async delRedisOnlineUser(session) {
     return await this.del(`user.online:${session}`)
-  }
-
-  private async onlineInfo(req, user: any = {}) {
-    let log: any = {
-      session: user.session,
-      account: user.account,
-      loginTime: user.loginTime,
-      ip: req.hostname,
-      // address: req.hostname,
-      browser: getBrowser(req.headers['user-agent']),
-      os: getSystem(req.headers['user-agent']),
-    }
-    return log
   }
 }

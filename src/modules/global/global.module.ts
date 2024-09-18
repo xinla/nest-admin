@@ -1,9 +1,10 @@
 import { Global, Module } from '@nestjs/common'
 import { RedisService } from './redis.service'
+import { LoginLogsModule } from '../loginLogs/module'
 
 @Global()
 @Module({
-  imports: [],
+  imports: [LoginLogsModule],
   controllers: [],
   providers: [RedisService],
   exports: [RedisService],

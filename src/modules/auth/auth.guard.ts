@@ -3,12 +3,14 @@ import { JwtService } from '@nestjs/jwt'
 import { IS_PUBLIC_KEY, jwtConstants } from './constants'
 import { Request } from 'express'
 import { Reflector } from '@nestjs/core'
+import { RedisService } from '../global/redis.service'
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
     private reflector: Reflector,
+    private redisService: RedisService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -26,8 +28,9 @@ export class AuthGuard implements CanActivate {
     if (!token) {
       throw new UnauthorizedException()
     }
+    let payload
     try {
-      const payload = await this.jwtService.verifyAsync(token, {
+      payload = await this.jwtService.verifyAsync(token, {
         secret: jwtConstants.secret,
       })
       // 💡 We're assigning the payload to the request object here
@@ -37,6 +40,8 @@ export class AuthGuard implements CanActivate {
     } catch {
       throw new UnauthorizedException()
     }
+    await this.redisService.setRedisOnlineUser(request, payload)
+
     return true
   }
 
