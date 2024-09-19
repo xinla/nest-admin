@@ -16,6 +16,11 @@ export class LoginLogsController extends BaseController<LoginLog, LoginLogsServi
   @HttpCode(401)
   async save() {}
 
+  /**
+   * 在线用户折线图
+   * @param query { beginTime; endTime }
+   * @returns
+   */
   @Get('getOnlineUsersChart')
   async getOnlineUsersChart(@Query() query: { beginTime; endTime }) {
     return await this.service.getOnlineUsersChart(query)

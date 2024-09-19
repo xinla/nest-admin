@@ -2,6 +2,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Between, FindManyOptions, FindOptions, FindOptionsWhere, Like, Raw, Repository, UpdateResult } from 'typeorm'
 import { BoolNum } from './type/base'
 import { QueryListDto, ResponseListDto, SaveDto } from './dto'
+import dayjs from 'dayjs'
 
 export class BaseService<T, K> {
   Entity = null
@@ -62,5 +63,16 @@ export class BaseService<T, K> {
       beginEndTime[1] += ' 23:59:59'
     }
     return beginEndTime?.[0] && Between(beginEndTime[0], beginEndTime[1])
+  }
+
+  // 时间范围处理，返回日期数组
+  betweenDateArr(beginEndTime: [string, string]) {
+    return (
+      beginEndTime?.[0] &&
+      beginEndTime?.[1] &&
+      Array.from({ length: dayjs(beginEndTime[1]).diff(beginEndTime[0], 'day') + 1 }, (_, i) =>
+        dayjs(beginEndTime[0]).add(i, 'day').format('YYYY-MM-DD'),
+      )
+    )
   }
 }

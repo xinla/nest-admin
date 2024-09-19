@@ -35,20 +35,28 @@ export class LoginLogsService extends BaseService<LoginLog, LoginLogDto> {
     return this.listBy(queryOrm, query)
   }
 
-  async getOnlineUsersChart(query: QueryListDto = {}): Promise<ResponseListDto<LoginLog>> {
+  /**
+   * 在线用户折线图
+   * @param query { beginTime; endTime }
+   * @returns
+   */
+  async getOnlineUsersChart(query: QueryListDto = {}): Promise<{ date: string; num: number }[]> {
     let { beginTime, endTime } = query
     return this.repository
       .createQueryBuilder('LoginLog')
-      .select('LoginLog.createTime', 'createTime')
-      .addSelect('count(*)', 'sum')
+      .select('DATE(LoginLog.createTime)', 'date')
+      .addSelect('count(*)', 'num')
       .where('LoginLog.createTime BETWEEN :beginTime AND :endTime', { beginTime, endTime })
-      .groupBy('LoginLog.createTime')
+      .groupBy('DATE(LoginLog.createTime)')
+      .orderBy({ 'DATE(LoginLog.createTime)': 'ASC' })
       .getRawMany()
       .then((data) => {
         data?.forEach((element) => {
-          element.createTime = dayjs(element.createTime).format('YYYY-MM-DD')
+          element.date = dayjs(element.date).format('YYYY-MM-DD')
         })
-        return data
+        return this.betweenDateArr([beginTime, endTime]).map(
+          (item) => data.find((element) => element.date === item) || { date: item, num: 0 },
+        )
       })
   }
 
