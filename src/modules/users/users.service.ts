@@ -43,7 +43,11 @@ export class UsersService extends BaseService<User, CreateUserDto> {
     // let total = await this.usersRepository.count({ where })
     let { deptId, name, roleId } = query
     let queryOrm: FindManyOptions = {
-      where: { deptId: deptId == 0 ? undefined : deptId, name: this.sqlLike(name) },
+      where: {
+        deptId: deptId == 0 ? undefined : deptId,
+        roles: { id: roleId },
+        name: this.sqlLike(name),
+      },
       relations: {
         dept: true,
         roles: true,
