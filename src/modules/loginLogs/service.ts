@@ -46,7 +46,7 @@ export class LoginLogsService extends BaseService<LoginLog, LoginLogDto> {
       .createQueryBuilder('LoginLog')
       .select('DATE(LoginLog.createTime)', 'date')
       .addSelect('count(*)', 'num')
-      .where('LoginLog.createTime BETWEEN :beginTime AND :endTime', { beginTime, endTime })
+      .where('LoginLog.createTime BETWEEN :beginTime AND :endTime', { beginTime, endTime: this.dateToEndTime(endTime) })
       .groupBy('DATE(LoginLog.createTime)')
       .orderBy({ 'DATE(LoginLog.createTime)': 'ASC' })
       .getRawMany()

@@ -56,12 +56,15 @@ export class BaseService<T, K> {
     // : Raw((alias) => `${alias} LIKE :value`, { value: `%${value.replace(/%/g, '\\%').replace(/_/g, '\\_')}%` })
   }
 
+  // 日期加上23:59:59
+  dateToEndTime(date: string) {
+    return date.includes('23:59:59') ? date : (date += ' 23:59:59')
+  }
+
   // 时间范围处理
   betweenTime(beginEndTime: [string, string]) {
     // 需要查询包含结束当天的值，需给结束日期加上23:59:59
-    if (beginEndTime?.[1]?.length <= 10) {
-      beginEndTime[1] += ' 23:59:59'
-    }
+    beginEndTime[1] = this.dateToEndTime(beginEndTime[1])
     return beginEndTime?.[0] && Between(beginEndTime[0], beginEndTime[1])
   }
 
