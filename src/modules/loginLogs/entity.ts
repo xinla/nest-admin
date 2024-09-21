@@ -1,6 +1,6 @@
 import { IsNotEmpty, MaxLength } from 'class-validator'
-import { Base, boolNumColumn } from 'src/common/entity/base'
-import { Column, Entity, JoinTable, ManyToMany } from 'typeorm'
+import { Base, boolNumColumn, BaseColumn, overLengthCut } from 'src/common/entity/base'
+import { Column, ColumnOptions, Entity, JoinTable, ManyToMany } from 'typeorm'
 import { BoolNum } from 'src/common/type/base'
 
 // 用户角色
@@ -14,11 +14,11 @@ export class LoginLog extends Base {
   @IsNotEmpty()
   session: string
 
-  @Column({ type: 'varchar', length: 30, default: '', comment: '登录账号' })
+  @BaseColumn({ type: 'varchar', length: 30, overLengthCut: true, default: '', comment: '登录账号' })
   @IsNotEmpty()
   account: string
 
-  @Column({ type: 'varchar', length: 30, default: '', comment: '登录密码' })
+  @BaseColumn({ type: 'varchar', length: 30, overLengthCut: true, default: '', comment: '登录密码' })
   password: string
 
   @Column({ type: 'varchar', length: 30, default: '', comment: 'ip地址' })
@@ -36,13 +36,10 @@ export class LoginLog extends Base {
   @Column(boolNumColumn('登录成功', 'is_success', BoolNum.Yes))
   isSuccess: BoolNum
 
-  @Column({
+  @BaseColumn({
     type: 'varchar',
     length: 500,
-    transformer: {
-      from: (value: string) => value,
-      to: (value: string) => (value?.length > 500 ? value.substring(0, 490) + '...' : value),
-    },
+    overLengthCut: true,
     default: '登录成功',
     comment: '提示消息',
   })

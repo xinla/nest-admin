@@ -5,6 +5,18 @@ import { Dept } from 'src/modules/depts/entities/dept.entity'
 import { IsEmail, IsNotEmpty, IsNumberString, MaxLength } from 'class-validator'
 import { Role } from 'src/modules/roles/entity'
 
+// 菜单类型
+export enum GenderTypes {
+  man = 'man',
+  woamn = 'woamn',
+  no = 'no',
+}
+export const genderTypes = {
+  [GenderTypes.man]: '男',
+  [GenderTypes.woamn]: '女',
+  [GenderTypes.no]: '未知',
+}
+
 @Entity('sys_user', {
   orderBy: {
     createTime: 'DESC',
@@ -34,6 +46,9 @@ export class User extends Base {
   @MaxLength(11)
   @IsNumberString()
   phone: string
+
+  @Column({ type: 'enum', enum: GenderTypes, default: GenderTypes.no, comment: '性别，默认 未知(no)' })
+  gender: GenderTypes
 
   // @Column({ nullable: true, name: 'roles', comment: '' })
   @ManyToMany(() => Role, (role) => role.users, {

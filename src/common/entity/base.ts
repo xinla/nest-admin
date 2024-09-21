@@ -12,6 +12,7 @@ import {
   AfterLoad,
   Repository,
   FindManyOptions,
+  ColumnOptions,
 } from 'typeorm'
 import { BoolNum } from '../type/base'
 import { validate } from 'class-validator'
@@ -112,6 +113,21 @@ export function boolNumColumn(title: string, name: string, defaultValue = BoolNu
     comment: `是否${title}: 1是，0否，默认${defaultValue}`,
     ...options,
   }
+}
+
+// 字符串超长截取
+export function overLengthCut(value: string, maxLength: string | number) {
+  return value?.length > +maxLength ? value.substring(0, +maxLength - 3) + '...' : value
+}
+
+export function BaseColumn(config: { overLengthCut?: boolean } & ColumnOptions = { overLengthCut: false }) {
+  if (config.overLengthCut) {
+    config.transformer ??= {
+      from: (value: string) => value,
+      to: (value: string) => overLengthCut(value, config.length),
+    }
+  }
+  return Column(config)
 }
 
 // Object.assign(Repository.prototype, {

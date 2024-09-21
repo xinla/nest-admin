@@ -44,16 +44,16 @@ export class LoginLogsService extends BaseService<LoginLog, LoginLogDto> {
     let { beginTime, endTime } = query
     return this.repository
       .createQueryBuilder('LoginLog')
-      .select('DATE(LoginLog.createTime)', 'date')
+      .select('DATE_FORMAT(LoginLog.createTime,"%Y-%m-%d")', 'date')
       .addSelect('count(*)', 'num')
-      .where('LoginLog.createTime BETWEEN :beginTime AND :endTime', { beginTime, endTime: this.dateToEndTime(endTime) })
-      .groupBy('DATE(LoginLog.createTime)')
-      .orderBy({ 'DATE(LoginLog.createTime)': 'ASC' })
+      .where('DATE(LoginLog.createTime) BETWEEN :beginTime AND :endTime', { beginTime, endTime: endTime })
+      .groupBy('DATE_FORMAT(LoginLog.createTime,"%Y-%m-%d")')
+      .orderBy({ 'DATE_FORMAT(LoginLog.createTime,"%Y-%m-%d")': 'ASC' })
       .getRawMany()
       .then((data) => {
-        data?.forEach((element) => {
-          element.date = dayjs(element.date).format('YYYY-MM-DD')
-        })
+        // data?.forEach((element) => {
+        //   element.date = dayjs(element.date).format('YYYY-MM-DD')
+        // })
         return this.betweenDateArr([beginTime, endTime]).map(
           (item) => data.find((element) => element.date === item) || { date: item, num: 0 },
         )
