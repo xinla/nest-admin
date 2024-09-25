@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 08/09/2024 18:23:20
+ Date: 25/09/2024 18:56:58
 */
 
 SET NAMES utf8mb4;
@@ -37,7 +37,7 @@ CREATE TABLE `sys_config` (
 -- Records of sys_config
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_config` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `is_delete`, `system_name`, `system_logo`) VALUES (1, '2024-08-18 23:31:34', 'admin', NULL, '', NULL, 'Nest Admin1', '');
+INSERT INTO `sys_config` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `is_delete`, `system_name`, `system_logo`) VALUES (1, '2024-08-18 23:31:34', 'admin', '2024-09-25 18:31:25', '', NULL, 'Nest Admin', '');
 COMMIT;
 
 -- ----------------------------
@@ -56,29 +56,13 @@ CREATE TABLE `sys_dept` (
   PRIMARY KEY (`id`),
   KEY `FK_92dad1cb42d3b62bc9f2e8e58ba` (`parent_id`),
   CONSTRAINT `FK_92dad1cb42d3b62bc9f2e8e58ba` FOREIGN KEY (`parent_id`) REFERENCES `sys_dept` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of sys_dept
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_dept` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `name`, `parent_id`, `is_delete`) VALUES (1, '2024-07-24 20:57:43', '', '2024-07-25 01:51:44', '', 'nestw', NULL, NULL);
-INSERT INTO `sys_dept` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `name`, `parent_id`, `is_delete`) VALUES (2, '2024-07-24 21:03:18', '', '2024-07-25 13:53:11', '', 'nests', NULL, NULL);
-INSERT INTO `sys_dept` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `name`, `parent_id`, `is_delete`) VALUES (3, '2024-07-24 21:03:34', '', '2024-07-25 14:15:34', '', 'nests2', NULL, NULL);
-INSERT INTO `sys_dept` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `name`, `parent_id`, `is_delete`) VALUES (4, '2024-07-24 21:04:06', '', '2024-07-24 21:04:06', '', 'nests2s', NULL, NULL);
-INSERT INTO `sys_dept` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `name`, `parent_id`, `is_delete`) VALUES (5, '2024-07-24 21:08:17', '', '2024-07-24 21:08:17', '', 'nests2sa', NULL, NULL);
-INSERT INTO `sys_dept` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `name`, `parent_id`, `is_delete`) VALUES (6, '2024-07-24 21:09:40', '', '2024-07-25 14:27:21', '', 'nests2sa', NULL, NULL);
-INSERT INTO `sys_dept` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `name`, `parent_id`, `is_delete`) VALUES (7, '2024-07-24 21:12:36', '', '2024-07-24 21:12:36', '', 'nests2sa', NULL, NULL);
-INSERT INTO `sys_dept` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `name`, `parent_id`, `is_delete`) VALUES (12, '2024-07-25 00:00:56', '', '2024-07-25 14:15:57', '', 'xc', 1, NULL);
-INSERT INTO `sys_dept` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `name`, `parent_id`, `is_delete`) VALUES (15, '2024-07-25 00:17:50', '', '2024-07-27 01:33:54', '', '123', NULL, NULL);
-INSERT INTO `sys_dept` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `name`, `parent_id`, `is_delete`) VALUES (18, '2024-07-25 15:19:30', '', '2024-07-26 21:45:12', '', 'd', NULL, NULL);
-INSERT INTO `sys_dept` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `name`, `parent_id`, `is_delete`) VALUES (19, '2024-07-25 15:19:39', '', '2024-07-25 15:19:39', '', 'd', 1, NULL);
-INSERT INTO `sys_dept` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `name`, `parent_id`, `is_delete`) VALUES (20, '2024-07-25 15:19:52', '', '2024-07-25 15:19:52', '', 'd', 4, NULL);
-INSERT INTO `sys_dept` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `name`, `parent_id`, `is_delete`) VALUES (21, '2024-07-27 01:34:01', '', '2024-07-27 01:34:01', '', '11', NULL, NULL);
-INSERT INTO `sys_dept` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `name`, `parent_id`, `is_delete`) VALUES (22, '2024-07-27 01:34:15', '', '2024-07-27 01:34:15', '', '12', NULL, NULL);
-INSERT INTO `sys_dept` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `name`, `parent_id`, `is_delete`) VALUES (23, '2024-07-27 01:36:25', '', '2024-07-27 01:36:25', '', '12', 1, NULL);
-INSERT INTO `sys_dept` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `name`, `parent_id`, `is_delete`) VALUES (24, '2024-07-27 18:21:36', '', '2024-07-29 17:06:05', '', ' ', 22, NULL);
-INSERT INTO `sys_dept` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `name`, `parent_id`, `is_delete`) VALUES (25, '2024-07-27 18:22:01', '', '2024-07-29 17:06:20', '', ' ', 22, NULL);
+INSERT INTO `sys_dept` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `name`, `parent_id`, `is_delete`) VALUES (1, '2024-07-24 20:57:43', '', '2024-09-25 18:31:11', '', 'nest-root', NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -99,29 +83,6 @@ CREATE TABLE `sys_dept_closure` (
 -- Records of sys_dept_closure
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_dept_closure` (`id_ancestor`, `id_descendant`) VALUES (1, 1);
-INSERT INTO `sys_dept_closure` (`id_ancestor`, `id_descendant`) VALUES (1, 12);
-INSERT INTO `sys_dept_closure` (`id_ancestor`, `id_descendant`) VALUES (1, 19);
-INSERT INTO `sys_dept_closure` (`id_ancestor`, `id_descendant`) VALUES (1, 23);
-INSERT INTO `sys_dept_closure` (`id_ancestor`, `id_descendant`) VALUES (2, 2);
-INSERT INTO `sys_dept_closure` (`id_ancestor`, `id_descendant`) VALUES (3, 3);
-INSERT INTO `sys_dept_closure` (`id_ancestor`, `id_descendant`) VALUES (4, 4);
-INSERT INTO `sys_dept_closure` (`id_ancestor`, `id_descendant`) VALUES (4, 20);
-INSERT INTO `sys_dept_closure` (`id_ancestor`, `id_descendant`) VALUES (5, 5);
-INSERT INTO `sys_dept_closure` (`id_ancestor`, `id_descendant`) VALUES (6, 6);
-INSERT INTO `sys_dept_closure` (`id_ancestor`, `id_descendant`) VALUES (7, 7);
-INSERT INTO `sys_dept_closure` (`id_ancestor`, `id_descendant`) VALUES (12, 12);
-INSERT INTO `sys_dept_closure` (`id_ancestor`, `id_descendant`) VALUES (15, 15);
-INSERT INTO `sys_dept_closure` (`id_ancestor`, `id_descendant`) VALUES (18, 18);
-INSERT INTO `sys_dept_closure` (`id_ancestor`, `id_descendant`) VALUES (19, 19);
-INSERT INTO `sys_dept_closure` (`id_ancestor`, `id_descendant`) VALUES (20, 20);
-INSERT INTO `sys_dept_closure` (`id_ancestor`, `id_descendant`) VALUES (21, 21);
-INSERT INTO `sys_dept_closure` (`id_ancestor`, `id_descendant`) VALUES (22, 22);
-INSERT INTO `sys_dept_closure` (`id_ancestor`, `id_descendant`) VALUES (22, 24);
-INSERT INTO `sys_dept_closure` (`id_ancestor`, `id_descendant`) VALUES (22, 25);
-INSERT INTO `sys_dept_closure` (`id_ancestor`, `id_descendant`) VALUES (23, 23);
-INSERT INTO `sys_dept_closure` (`id_ancestor`, `id_descendant`) VALUES (24, 24);
-INSERT INTO `sys_dept_closure` (`id_ancestor`, `id_descendant`) VALUES (25, 25);
 COMMIT;
 
 -- ----------------------------
@@ -135,33 +96,22 @@ CREATE TABLE `sys_login_log` (
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `update_user` varchar(30) NOT NULL DEFAULT '' COMMENT '更新人',
   `is_delete` char(1) DEFAULT NULL COMMENT '是否删除: NULL未删除，1删除',
-  `account` varchar(30) NOT NULL DEFAULT '' COMMENT '登录账号',
   `ip` varchar(30) NOT NULL DEFAULT '' COMMENT 'ip地址',
   `address` varchar(30) NOT NULL DEFAULT '' COMMENT '登录地点',
   `browser` varchar(30) NOT NULL DEFAULT '' COMMENT '浏览器类型',
   `os` varchar(30) NOT NULL DEFAULT '' COMMENT '操作系统',
   `is_success` char(1) NOT NULL DEFAULT '1' COMMENT '是否登录成功: 1是，0否，默认1',
-  `msg` varchar(30) NOT NULL DEFAULT '登录成功' COMMENT '提示消息',
   `password` varchar(30) NOT NULL DEFAULT '' COMMENT '登录密码',
   `session` varchar(200) NOT NULL DEFAULT '' COMMENT '会话编号',
+  `msg` varchar(500) NOT NULL DEFAULT '登录成功' COMMENT '提示消息',
+  `account` varchar(30) NOT NULL DEFAULT '' COMMENT '登录账号',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of sys_login_log
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_login_log` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `is_delete`, `account`, `ip`, `address`, `browser`, `os`, `is_success`, `msg`, `password`, `session`) VALUES (1, '2024-08-22 00:40:27', '', NULL, '', NULL, 'admin', 'localhost', '', 'Chrome', '', '0', '密码错误', '123456', '');
-INSERT INTO `sys_login_log` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `is_delete`, `account`, `ip`, `address`, `browser`, `os`, `is_success`, `msg`, `password`, `session`) VALUES (2, '2024-08-22 00:42:18', '', NULL, '', NULL, 'admin', 'localhost', '', 'Chrome', '', '1', '登录成功', '123456', '');
-INSERT INTO `sys_login_log` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `is_delete`, `account`, `ip`, `address`, `browser`, `os`, `is_success`, `msg`, `password`, `session`) VALUES (3, '2024-08-23 11:47:02', '', NULL, '', NULL, 'admin', 'localhost', '', 'Chrome', '', '1', '登录成功', '123456', '');
-INSERT INTO `sys_login_log` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `is_delete`, `account`, `ip`, `address`, `browser`, `os`, `is_success`, `msg`, `password`, `session`) VALUES (4, '2024-08-24 16:08:46', '', NULL, '', NULL, 'admin', 'localhost', '', 'Chrome', '', '1', '登录成功', '123456', '');
-INSERT INTO `sys_login_log` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `is_delete`, `account`, `ip`, `address`, `browser`, `os`, `is_success`, `msg`, `password`, `session`) VALUES (5, '2024-08-24 16:17:04', '', NULL, '', NULL, 'admin', 'localhost', '', 'Chrome', 'Mac OS', '1', '登录成功', '123456', '');
-INSERT INTO `sys_login_log` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `is_delete`, `account`, `ip`, `address`, `browser`, `os`, `is_success`, `msg`, `password`, `session`) VALUES (6, '2024-08-24 18:32:08', '', NULL, '', NULL, 'admin', 'localhost', '', 'Chrome', 'Mac OS', '1', '登录成功', '123456', '');
-INSERT INTO `sys_login_log` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `is_delete`, `account`, `ip`, `address`, `browser`, `os`, `is_success`, `msg`, `password`, `session`) VALUES (7, '2024-08-24 18:45:45', '', NULL, '', NULL, 'admin', 'localhost', 'Asia/Shanghai', 'Chrome', 'Mac OS', '1', '登录成功', '123456', '');
-INSERT INTO `sys_login_log` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `is_delete`, `account`, `ip`, `address`, `browser`, `os`, `is_success`, `msg`, `password`, `session`) VALUES (8, '2024-08-26 23:42:58', '', NULL, '', NULL, 'admin', 'localhost', '', 'Chrome', 'Mac OS', '1', '登录成功', '123456', '');
-INSERT INTO `sys_login_log` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `is_delete`, `account`, `ip`, `address`, `browser`, `os`, `is_success`, `msg`, `password`, `session`) VALUES (9, '2024-08-27 14:45:29', '', NULL, '', NULL, 'admin', 'localhost', '', 'Chrome', 'Mac OS', '1', '登录成功', '123456', 'JIUzI1NiIsInR5cCI6Ik');
-INSERT INTO `sys_login_log` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `is_delete`, `account`, `ip`, `address`, `browser`, `os`, `is_success`, `msg`, `password`, `session`) VALUES (10, '2024-08-27 14:52:35', '', NULL, '', NULL, 'admin', 'localhost', '', 'Chrome', 'Mac OS', '1', '登录成功', '123456', 'JIUzI1NiIsInR5cCI6Ik');
-INSERT INTO `sys_login_log` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `is_delete`, `account`, `ip`, `address`, `browser`, `os`, `is_success`, `msg`, `password`, `session`) VALUES (11, '2024-08-27 14:53:19', '', NULL, '', NULL, 'admin', 'localhost', '', 'Chrome', 'Mac OS', '1', '登录成功', '123456', 'JIUzI1NiIsInR5cCI6Ik');
 COMMIT;
 
 -- ----------------------------
@@ -287,10 +237,6 @@ CREATE TABLE `sys_notice` (
 -- Records of sys_notice
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_notice` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `is_delete`, `title`, `is_active`, `content`, `remark`) VALUES (1, '2024-08-18 01:28:14', 'admin', '2024-08-18 01:28:32', 'admin', NULL, '公告标题1', '1', '公告内容q', '备注q');
-INSERT INTO `sys_notice` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `is_delete`, `title`, `is_active`, `content`, `remark`) VALUES (2, '2024-08-18 01:28:40', 'admin', '2024-08-18 01:29:27', 'admin', '1', 'e', '1', 'e', 'e');
-INSERT INTO `sys_notice` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `is_delete`, `title`, `is_active`, `content`, `remark`) VALUES (3, '2024-08-18 01:28:47', 'admin', '2024-08-18 01:29:36', 'admin', '1', 'a', '0', 'a', 'a');
-INSERT INTO `sys_notice` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `is_delete`, `title`, `is_active`, `content`, `remark`) VALUES (4, '2024-08-18 01:29:18', 'admin', '2024-08-18 01:29:27', 'admin', '1', 'er', '1', 'er', 'er');
 COMMIT;
 
 -- ----------------------------
@@ -318,8 +264,6 @@ CREATE TABLE `sys_role` (
 -- Records of sys_role
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `name`, `remark`, `order`, `permissionKey`, `is_active`, `is_delete`) VALUES (1, '2024-08-03 11:30:42', '', '2024-08-05 13:30:12', '', 'admin', '都是', '1', 'admin', '1', NULL);
-INSERT INTO `sys_role` (`id`, `create_time`, `create_user`, `update_time`, `update_user`, `name`, `remark`, `order`, `permissionKey`, `is_active`, `is_delete`) VALUES (2, '2024-08-03 19:46:41', '', '2024-08-16 15:08:57', '', 'ad', 'gfdsfdsafasf', '1.23', 'a d', '1', NULL);
 COMMIT;
 
 -- ----------------------------
@@ -340,9 +284,6 @@ CREATE TABLE `sys_role_menu` (
 -- Records of sys_role_menu
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role_menu` (`roleId`, `menuId`) VALUES (2, 5);
-INSERT INTO `sys_role_menu` (`roleId`, `menuId`) VALUES (2, 6);
-INSERT INTO `sys_role_menu` (`roleId`, `menuId`) VALUES (2, 7);
 COMMIT;
 
 -- ----------------------------
@@ -363,34 +304,18 @@ CREATE TABLE `sys_user` (
   `dept_id` bigint DEFAULT NULL COMMENT '部门id',
   `is_active` char(1) NOT NULL DEFAULT '1' COMMENT '是否激活: 1是，0否，默认1',
   `is_delete` char(1) DEFAULT NULL COMMENT '是否删除: NULL未删除，1删除',
+  `email` varchar(255) NOT NULL DEFAULT '' COMMENT '邮箱',
+  `gender` enum('man','woamn','no') NOT NULL DEFAULT 'no' COMMENT '性别，默认 未知(no)',
   PRIMARY KEY (`id`),
   KEY `FK_96bde34263e2ae3b46f011124ac` (`dept_id`),
   CONSTRAINT `FK_96bde34263e2ae3b46f011124ac` FOREIGN KEY (`dept_id`) REFERENCES `sys_dept` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_user` (`id`, `name`, `nickname`, `password`, `avatar`, `phone`, `create_user`, `update_user`, `create_time`, `update_time`, `dept_id`, `is_active`, `is_delete`) VALUES (1, 'admin', '', 's3wmd2VReF1IjZhK59gLBY0OjYlzjA==', '2024-8-13/1723537431148-747657234.jpeg', '13216791561', '', '', '2024-07-24 18:01:53', '2024-08-17 00:54:40', 1, '1', NULL);
-INSERT INTO `sys_user` (`id`, `name`, `nickname`, `password`, `avatar`, `phone`, `create_user`, `update_user`, `create_time`, `update_time`, `dept_id`, `is_active`, `is_delete`) VALUES (2, '', '', '', '', '', '', '', '2024-07-26 22:41:34', '2024-08-17 00:54:40', NULL, '1', NULL);
-INSERT INTO `sys_user` (`id`, `name`, `nickname`, `password`, `avatar`, `phone`, `create_user`, `update_user`, `create_time`, `update_time`, `dept_id`, `is_active`, `is_delete`) VALUES (4, '12', '', '', '', '', '', '', '2024-07-27 02:22:13', '2024-08-17 00:54:40', NULL, '1', NULL);
-INSERT INTO `sys_user` (`id`, `name`, `nickname`, `password`, `avatar`, `phone`, `create_user`, `update_user`, `create_time`, `update_time`, `dept_id`, `is_active`, `is_delete`) VALUES (6, '123', '', '', '', '', '', '', '2024-07-27 02:22:32', '2024-08-17 00:54:40', NULL, '1', NULL);
-INSERT INTO `sys_user` (`id`, `name`, `nickname`, `password`, `avatar`, `phone`, `create_user`, `update_user`, `create_time`, `update_time`, `dept_id`, `is_active`, `is_delete`) VALUES (7, '22', '', '', '', '', '', '', '2024-07-27 02:25:10', '2024-08-17 00:54:40', NULL, '1', NULL);
-INSERT INTO `sys_user` (`id`, `name`, `nickname`, `password`, `avatar`, `phone`, `create_user`, `update_user`, `create_time`, `update_time`, `dept_id`, `is_active`, `is_delete`) VALUES (8, '33', '', '', '', '', '', '', '2024-07-27 02:27:07', '2024-08-17 00:54:40', NULL, '1', NULL);
-INSERT INTO `sys_user` (`id`, `name`, `nickname`, `password`, `avatar`, `phone`, `create_user`, `update_user`, `create_time`, `update_time`, `dept_id`, `is_active`, `is_delete`) VALUES (9, '22', '', '', '', '', '', '', '2024-07-27 02:53:58', '2024-08-17 00:54:40', NULL, '1', NULL);
-INSERT INTO `sys_user` (`id`, `name`, `nickname`, `password`, `avatar`, `phone`, `create_user`, `update_user`, `create_time`, `update_time`, `dept_id`, `is_active`, `is_delete`) VALUES (10, '11', '', '', '', '', '', '', '2024-07-27 18:07:52', '2024-08-17 00:54:40', NULL, '1', NULL);
-INSERT INTO `sys_user` (`id`, `name`, `nickname`, `password`, `avatar`, `phone`, `create_user`, `update_user`, `create_time`, `update_time`, `dept_id`, `is_active`, `is_delete`) VALUES (11, 'sdfdsfdsfdsfsdfdsf', '', '', '', '', '', '', '2024-07-27 18:18:44', '2024-08-17 00:54:40', 22, '1', NULL);
-INSERT INTO `sys_user` (`id`, `name`, `nickname`, `password`, `avatar`, `phone`, `create_user`, `update_user`, `create_time`, `update_time`, `dept_id`, `is_active`, `is_delete`) VALUES (12, 'sdsdsdsdfsafafgdsfadsf', '', '', '', '', '', '', '2024-07-27 18:19:47', '2024-08-17 00:54:40', 22, '1', NULL);
-INSERT INTO `sys_user` (`id`, `name`, `nickname`, `password`, `avatar`, `phone`, `create_user`, `update_user`, `create_time`, `update_time`, `dept_id`, `is_active`, `is_delete`) VALUES (13, 'dfggdfdfgdgdfggfdgf', '', '', '', '', '', '', '2024-07-27 18:21:07', '2024-08-17 00:54:40', 22, '1', NULL);
-INSERT INTO `sys_user` (`id`, `name`, `nickname`, `password`, `avatar`, `phone`, `create_user`, `update_user`, `create_time`, `update_time`, `dept_id`, `is_active`, `is_delete`) VALUES (14, '', '', '', '', '', '', '', '2024-07-27 18:22:51', '2024-08-17 00:54:40', 22, '1', NULL);
-INSERT INTO `sys_user` (`id`, `name`, `nickname`, `password`, `avatar`, `phone`, `create_user`, `update_user`, `create_time`, `update_time`, `dept_id`, `is_active`, `is_delete`) VALUES (15, '', '', '', '', '', '', '', '2024-07-27 18:24:31', '2024-08-17 00:54:40', NULL, '1', NULL);
-INSERT INTO `sys_user` (`id`, `name`, `nickname`, `password`, `avatar`, `phone`, `create_user`, `update_user`, `create_time`, `update_time`, `dept_id`, `is_active`, `is_delete`) VALUES (16, 'aaaaa', '', '', '2024-8-13/1723534044817-836389812.jpeg', '163168891', '', '', '2024-07-29 09:26:50', '2024-08-17 00:54:40', 1, '1', NULL);
-INSERT INTO `sys_user` (`id`, `name`, `nickname`, `password`, `avatar`, `phone`, `create_user`, `update_user`, `create_time`, `update_time`, `dept_id`, `is_active`, `is_delete`) VALUES (17, 'bb', '', '', '', '16', '', 'admin', '2024-07-29 19:26:27', '2024-08-17 01:28:53', 1, '1', '1');
-INSERT INTO `sys_user` (`id`, `name`, `nickname`, `password`, `avatar`, `phone`, `create_user`, `update_user`, `create_time`, `update_time`, `dept_id`, `is_active`, `is_delete`) VALUES (18, 'cgdsfg', '', '', '', '19491', '', '', '2024-07-28 03:38:28', '2024-08-17 00:54:40', 1, '1', NULL);
-INSERT INTO `sys_user` (`id`, `name`, `nickname`, `password`, `avatar`, `phone`, `create_user`, `update_user`, `create_time`, `update_time`, `dept_id`, `is_active`, `is_delete`) VALUES (19, 'sdfds', '', '', '', '', '', '', '2024-07-29 19:51:32', '2024-08-17 00:54:40', 1, '1', NULL);
-INSERT INTO `sys_user` (`id`, `name`, `nickname`, `password`, `avatar`, `phone`, `create_user`, `update_user`, `create_time`, `update_time`, `dept_id`, `is_active`, `is_delete`) VALUES (20, 'admin2', '', 's3zqOFvQ9veFP6B/8h1W43ew', '2024-8-13/1723536593330-791793691.jpeg', '1896236', '', '', '2024-08-04 18:29:52', '2024-08-17 00:54:40', 1, '1', NULL);
-INSERT INTO `sys_user` (`id`, `name`, `nickname`, `password`, `avatar`, `phone`, `create_user`, `update_user`, `create_time`, `update_time`, `dept_id`, `is_active`, `is_delete`) VALUES (21, 'dd', '', 's3wmd2VReF1IjZhK59gLBY0OjYlzjA==', '', '16349864', '', '', '2024-08-05 01:49:13', '2024-08-17 00:54:40', 1, '1', NULL);
+INSERT INTO `sys_user` (`id`, `name`, `nickname`, `password`, `avatar`, `phone`, `create_user`, `update_user`, `create_time`, `update_time`, `dept_id`, `is_active`, `is_delete`, `email`, `gender`) VALUES (1, 'admin', 'ad', 's3wmd2VReF1IjZhK59gLBY0OjYlzjA==', 'avatar/2024-09-13/1726161629542-339708796.png', '13216791561', '', 'admin', '2024-07-24 18:01:53', '2024-09-13 01:20:29', 1, '1', NULL, '15494694@qq.com', 'no');
 COMMIT;
 
 -- ----------------------------
@@ -409,27 +334,6 @@ CREATE TABLE `sys_user_role` (
 
 -- ----------------------------
 -- Records of sys_user_role
--- ----------------------------
-BEGIN;
-INSERT INTO `sys_user_role` (`userId`, `roleId`) VALUES (20, 2);
-COMMIT;
-
--- ----------------------------
--- Table structure for sys_user_roles_sys_role
--- ----------------------------
-DROP TABLE IF EXISTS `sys_user_roles_sys_role`;
-CREATE TABLE `sys_user_roles_sys_role` (
-  `sysUserId` bigint NOT NULL,
-  `sysRoleId` bigint NOT NULL,
-  PRIMARY KEY (`sysUserId`,`sysRoleId`),
-  KEY `IDX_d1daac450217c1a1e384e99254` (`sysUserId`),
-  KEY `IDX_45602f09af1715f5532db91a43` (`sysRoleId`),
-  CONSTRAINT `FK_45602f09af1715f5532db91a43d` FOREIGN KEY (`sysRoleId`) REFERENCES `sys_role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_d1daac450217c1a1e384e99254a` FOREIGN KEY (`sysUserId`) REFERENCES `sys_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- ----------------------------
--- Records of sys_user_roles_sys_role
 -- ----------------------------
 BEGIN;
 COMMIT;

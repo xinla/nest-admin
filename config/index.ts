@@ -10,7 +10,7 @@ export const databaseList: { dev: TypeOrmModuleOptions; prod } = {
     port: 3306,
     username: 'root',
     password: 'a1111111',
-    database: 'nest',
+    database: 'nest_admin',
     // entities: [],
     synchronize: true,
     // dateStrings: true, // datetime无效，timestamp有效
@@ -24,7 +24,7 @@ export const databaseList: { dev: TypeOrmModuleOptions; prod } = {
     port: 3306,
     username: 'root',
     password: 'your password',
-    database: 'nest',
+    database: 'nest_admin',
     // entities: [],
     synchronize: true,
     autoLoadEntities: true,
