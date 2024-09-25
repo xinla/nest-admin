@@ -25,7 +25,6 @@ export const databaseList: { dev: TypeOrmModuleOptions; prod } = {
     username: 'root',
     password: 'your password',
     database: 'nest_admin',
-    // entities: [],
     synchronize: true,
     autoLoadEntities: true,
   },
@@ -34,14 +33,14 @@ export const databaseList: { dev: TypeOrmModuleOptions; prod } = {
 const mode = process.argv.find((e) => e.includes('env=')).split('=')[1]
 
 export const database = async () => {
-  try {
-    accessSync('config/secret.ts', constants.F_OK)
-    if (mode !== 'prod') return databaseList[mode]
-    let module = await import(`./${'secret'}.js`)
-    const { secret } = module
-    databaseList[mode].password = secret.mysqlPassword
-  } catch (err) {
-    console.error('no access!')
+  if (mode == 'prod') {
+    try {
+      // accessSync('config/secret.ts', constants.F_OK)
+      const { secret } = await import(`./${'secret'}.js`)
+      databaseList[mode].password = secret.mysqlPassword
+    } catch (err) {
+      // console.error('no access!')
+    }
   }
   return databaseList[mode]
 }

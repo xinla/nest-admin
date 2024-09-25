@@ -40,21 +40,37 @@
 
 ## 安装
 
-本地需要安装 nodejs v20+
+需要安装 nodejs v20+
 
 ```bash
-$ npm install
+# 进入项目根目录
+$ cd nest-admin
+
+# 安装依赖
+# 方式一： npm 指定淘宝镜像
+npm i --registry=https://registry.npmmirror.com
+
+# 方式二： 使用 cnpm 安装
+npm install -g cnpm --registry=https://registry.npmmirror.com
+cnpm i
+
+# 方式三： npm i 原始安装 国内推荐上述两种方式 DDDD(懂的都懂)
+npm i
 ```
 
 ## 运行
 
 ```bash
 # 本地开发
+$ npm run dev
+# 或
 $ npm run start:dev
 
 # 线上运行
 $ npm run start:prod
 ```
+
+在应用程序运行后, 打开浏览器并访问 http://localhost:3000/。 你应该看到 Hello world! 信息。
 
 ## 支持
 

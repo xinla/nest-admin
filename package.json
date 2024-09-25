@@ -6,10 +6,12 @@
   "private": false,
   "license": "MIT",
   "scripts": {
+    "dev": "nest start --debug --watch -- -b swc env=dev",
+    "pushtag": "git push --tags --force",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
+    "start": "nest start env=dev",
     "start:dev": "nest start --debug --watch -- -b swc env=dev",
     "start:prod": "node dist/src/main env=prod",
     "start:debug": "nest start --debug --watch",
