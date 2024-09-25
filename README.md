@@ -16,7 +16,7 @@
 
 本仓库为 Nest Admin 后端库，前端库暂未开放，敬请期待
 
-演示地址：https://nestts.com/
+演示地址：https://nestts.com
 
 - github地址：https://github.com/xinla/nest-admin
 - 国内gitee地址：https://gitee.com/hixinla/nest-admin
