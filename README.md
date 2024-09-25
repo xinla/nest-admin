@@ -1,6 +1,6 @@
 <h1 align="center">Nest Admin</h1>
-<h4 align="center">基于 Nest + Vue 前后端分离的 Nodejs TypeScript 快速开发框架，持续更新中... </h4>
-<h4 align="center">你的 ⭐️ Star ⭐️，是小伙伴加油的动力！</h4>
+<p align="center">基于 Nest + Vue 前后端分离的 Nodejs TypeScript 快速开发框架，持续更新中... </p>
+<p align="center">你的 ⭐️ Star ⭐️，是小伙伴加油的动力！</p>
 <p align="center">
 <a href="https://gitee.com/hixinla/nest-admin" target="_blank"><img src="https://img.shields.io/badge/node-^20-blue" alt="NPM Version" /></a>
 <a href="https://gitee.com/hixinla/nest-admin" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
