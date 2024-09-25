@@ -62,6 +62,7 @@ export class LoginLogsService extends BaseService<LoginLog, LoginLogDto> {
 
   async createLog(req, dto: any = {}, isSave = true) {
     let log: any = {
+      ...dto,
       session: dto.session,
       account: dto.account,
       createTime: dto.loginTime,
