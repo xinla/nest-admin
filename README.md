@@ -1,6 +1,6 @@
 <h1 align="center">Nest Admin</h1>
-<p align="center">基于 Nest + Vue 前后端分离的 Nodejs TypeScript 快速开发框架，持续更新中... </p>
-<p align="center">你的 ⭐️ Star ⭐️，是小伙伴加油的动力！</p>
+<p align="center" style="font-weight:600">基于 Nest + Vue 前后端分离的 Nodejs TypeScript 快速开发框架，持续更新中... </p>
+<p align="center" style="font-weight:600">你的 ⭐️ Star ⭐️，是小伙伴加油的动力！</p>
 <p align="center">
 <a href="https://gitee.com/hixinla/nest-admin" target="_blank"><img src="https://img.shields.io/badge/node-^20-blue" alt="NPM Version" /></a>
 <a href="https://gitee.com/hixinla/nest-admin" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
@@ -12,12 +12,8 @@
 - 前端采用 Vue3 + Vite + Element Plus 生态，后端采用 Nest + TypeOrm + MySql 生态。
 - 核心模块包括用户、角色、菜单、部门等，权限认证使用Jwt，支持加载动态权限菜单等功能。
 - 可以帮您快速搭建企业级中后台 RBAC 管理平台。
-- 持续更新中...
 
-本仓库为 Nest Admin 后端库，前端库暂未开放，敬请期待
-
-演示地址：https://nestts.com
-
+- 本仓库为 Nest Admin 后端库，前端库暂未开放，敬请期待
 - github地址：https://github.com/xinla/nest-admin
 - 国内gitee地址：https://gitee.com/hixinla/nest-admin
 
@@ -29,7 +25,11 @@
 4. 角色管理：配置系统角色，角色可分配权限。
 5. 持续更新中...
 
-## 演示图
+## 功能演示
+
+演示地址：https://nestts.com
+
+账密：admin/123456
 
 <img src="./doc/image.png" width="%" height="30%" />
 <img src="./doc/image.3.png" width="%" height="30%" />
@@ -46,16 +46,13 @@
 $ npm install
 ```
 
-## 运行
+## 开发运行
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
+# 本地开发
 $ npm run start:dev
 
-# production mode
+# 线上运行
 $ npm run start:prod
 ```
 
