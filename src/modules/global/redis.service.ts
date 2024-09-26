@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { Redis } from 'ioredis'
-import { getBrowser, getSystem } from 'src/common/utils/common'
-import { decrypt } from 'src/common/utils/encrypt'
 import { LoginLogsService } from '../loginLogs/service'
+import { QueryListDto } from 'src/common/dto'
 
 @Injectable()
 export class RedisService {
@@ -52,7 +51,7 @@ export class RedisService {
   }
 
   // getNotExpiredKeys
-  async getNotExpiredValues(pattern = '*', isDelExpired = false): Promise<{}[]> {
+  async getNotExpiredValues(pattern = '*'): Promise<{}[]> {
     let cursor = '0'
     const notExpiredKeys = []
 
@@ -65,8 +64,6 @@ export class RedisService {
         if (ttl > 0) {
           let value = await this.get(key)
           notExpiredKeys.push(JSON.parse(value))
-        } else if (isDelExpired) {
-          await this.del(key)
         }
       }
 
@@ -77,9 +74,20 @@ export class RedisService {
     return notExpiredKeys
   }
 
-  async getRedisOnlineUser(query) {
-    let data = await this.getNotExpiredValues('user.online:*')
-    return data
+  async getRedisOnlineUser(query: QueryListDto = {}) {
+    let data: any[] = await this.getNotExpiredValues('user.online:*')
+    data = data.filter((item) => {
+      return (
+        (!query.createTimeRange?.[0] ||
+          (+new Date(item.createTime) >= +new Date(query.createTimeRange[0]) &&
+            +new Date(item.createTime) <= +new Date(this.loginLogsService.dateToEndTime(query.createTimeRange[1])))) &&
+        (!query.account || item.account.includes(query.account)) &&
+        (!query.ip || item.ip.includes(query.ip)) &&
+        (!query.address || item.address.includes(query.address))
+      )
+    })
+    let { pageNum, pageSize } = query
+    return data.slice(--pageNum * pageSize, pageSize)
   }
 
   async setRedisOnlineUser(reqOrData, user: any = {}) {
