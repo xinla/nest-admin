@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { CreateCommonDto } from './dto/create-common.dto'
 import { UpdateCommonDto } from './dto/update-common.dto'
 import * as os from 'os'
+import * as fs from 'node:fs/promises'
 
 @Injectable()
 export class CommonService {
@@ -12,11 +13,16 @@ export class CommonService {
       // 获取系统发行版本
       release: os.release(),
       // 获取系统总内存大小，以字节为单位
-      totalMemory: os.totalmem() / 1024 / 1024,
-      // 获取系统剩余内存大小，以字节为单位
-      freeMemory: os.freemem() / 1024 / 1024,
+      mem: {
+        totalMemory: os.totalmem() / 1024 / 1024 / 1024,
+        // 获取系统剩余内存大小，以字节为单位
+        freeMemory: (os.freemem() / 1024 / 1024 / 1024).toFixed(2),
+        usedMemory: ((os.totalmem() - os.freemem()) / 1024 / 1024 / 1024).toFixed(2),
+      },
       // 获取系统CPU信息，包括CPU的型号和架构等
-      cpus: os.cpus(),
+      cpu: this.getCpuUsage(),
+      ip: this.getLocalIP(),
+      disk: await this.getDiskSpace(),
       // 获取系统负载平均值，通常包括1分钟、5分钟和15分钟的平均值
       loadAverage: os.loadavg(),
       // 获取当前用户的用户信息，包括用户名、UID等
@@ -31,23 +37,69 @@ export class CommonService {
     return data
   }
 
-  create(createCommonDto: CreateCommonDto) {
-    return 'This action adds a new common'
+  getLocalIP() {
+    const networkInterfaces = os.networkInterfaces()
+    const ipv4Addresses = []
+
+    for (const name in networkInterfaces) {
+      const iface = networkInterfaces[name]
+      for (const addressInfo of iface) {
+        if (!addressInfo.internal && addressInfo.family === 'IPv4') {
+          ipv4Addresses.push(addressInfo.address)
+        }
+      }
+    }
+
+    return ipv4Addresses[0]
   }
 
-  findAll() {
-    return `This action returns all common`
+  getCpuUsage() {
+    const cpus = os.cpus()
+    let freeCpu = 0
+    let totalCpu = 0
+
+    cpus.forEach((cpu) => {
+      for (const type in cpu.times) {
+        totalCpu += cpu.times[type]
+      }
+      freeCpu += cpu.times.idle
+    })
+
+    let _freeCpu = ((100 * freeCpu) / totalCpu).toFixed(2)
+    return {
+      totalCpu: 100,
+      freeCpu: _freeCpu,
+      usedCpu: (100 - +_freeCpu).toFixed(2),
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} common`
-  }
+  async getDiskSpace() {
+    const platform = os.platform()
+    let diskPath = ''
 
-  update(id: number, updateCommonDto: UpdateCommonDto) {
-    return `This action updates a #${id} common`
-  }
+    if (platform === 'win32') {
+      // Windows 系统
+      diskPath = 'c:'
+    } else if (platform === 'darwin' || platform === 'linux') {
+      // macOS 或 Linux 系统
+      diskPath = '/'
+    } else {
+      console.error('Unsupported platform:', platform)
+      return
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} common`
+    try {
+    } catch (error) {
+      console.error('Error getting disk space:', error)
+    }
+    let stats = await fs.statfs(diskPath)
+    let totalDisk = stats.blocks * stats.bsize
+    let freeDisk = stats.bavail * stats.bsize
+    let usedDisk = totalDisk - freeDisk
+    return {
+      totalDisk: (totalDisk / 1024 / 1024 / 1024).toFixed(2),
+      freeDisk: (freeDisk / 1024 / 1024 / 1024).toFixed(2),
+      usedDisk: (usedDisk / 1024 / 1024 / 1024).toFixed(2),
+    }
   }
 }
