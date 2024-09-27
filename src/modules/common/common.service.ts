@@ -14,8 +14,8 @@ export class CommonService {
       release: os.release(),
       // 获取系统总内存大小，以字节为单位
       mem: {
-        totalMemory: os.totalmem() / 1024 / 1024 / 1024,
         // 获取系统剩余内存大小，以字节为单位
+        totalMemory: (os.totalmem() / 1024 / 1024 / 1024).toFixed(2),
         freeMemory: (os.freemem() / 1024 / 1024 / 1024).toFixed(2),
         usedMemory: ((os.totalmem() - os.freemem()) / 1024 / 1024 / 1024).toFixed(2),
       },
