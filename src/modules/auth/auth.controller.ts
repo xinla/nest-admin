@@ -4,6 +4,7 @@ import { AuthService } from './auth.service'
 import { UsersService } from '../users/users.service'
 import { Public } from './constants'
 import { QueryListDto } from 'src/common/dto'
+import { encrypt } from 'src/common/utils/encrypt'
 
 @Controller('auth')
 export class AuthController {
@@ -22,7 +23,9 @@ export class AuthController {
   @Public()
   @Post('register')
   async register(@Body() createDto: { name; password; email }) {
-    const { name, password, email } = createDto
+    let { name, password, email } = createDto
+    password = await encrypt(password)
+
     return this.usersService.add({ name, password, email })
   }
 
