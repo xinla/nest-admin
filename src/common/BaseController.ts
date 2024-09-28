@@ -20,6 +20,20 @@ export class BaseController<T, K> {
     return this.service.save(createDto)
   }
 
+  @Post('add')
+  async add(@Body() createDto, @Req() req) {
+    delete createDto.updateUser
+    createDto.createUser = req.user.name
+    return this.service.add(createDto)
+  }
+
+  @Post('update')
+  async update(@Body() createDto, @Req() req) {
+    delete createDto.createUser
+    createDto.updateUser = req.user.name
+    return this.service.update(createDto)
+  }
+
   /**
    * 删除
    * @param ids id主键 多个用’,’分割，eg: '1,2,3'

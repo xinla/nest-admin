@@ -1,5 +1,5 @@
 import { Request } from 'express'
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Query, Put, Req, UploadedFile } from '@nestjs/common'
+import { Body, Controller, Get, Post, Query, Put, Req, UploadedFile, HttpCode } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { User } from './entities/user.entity'
 import { HttpExceptionFilter } from '../../common/filters/httpException.filter'
@@ -16,6 +16,11 @@ export class UsersController extends BaseController<User, UsersService> {
   constructor(readonly usersService: UsersService) {
     super(usersService)
   }
+
+  // 重写以避免暴露路由
+  @Post('save')
+  @HttpCode(404)
+  async save() {}
 
   @Put('resetPassword')
   async resetPassword(@Body() updateUserDto) {

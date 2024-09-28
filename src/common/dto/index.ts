@@ -1,7 +1,9 @@
 export class ResponseData {}
+// export interface SaveDto<T> extends Partial<T> {}
+
 export type SaveDto<T> = {
   [index: string]: any
-} & T
+} & Partial<T>
 
 export type QueryOneDto = {
   id?: string

@@ -18,6 +18,16 @@ export class BaseService<T, K> {
     return this.repository.save(data)
   }
 
+  async add(dto: SaveDto<T>) {
+    delete dto.id
+    return this.save(dto)
+  }
+
+  async update(dto: SaveDto<T>) {
+    if (!dto.id) new Error('数据不存在')
+    return this.save(dto)
+  }
+
   async del(ids: string[] | string, updateUser?: string): Promise<UpdateResult> {
     if (typeof ids == 'string') {
       ids = ids.split(',')

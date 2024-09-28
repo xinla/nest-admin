@@ -13,7 +13,7 @@ export class LoginLogsController extends BaseController<LoginLog, LoginLogsServi
 
   // 重写以避免暴露路由
   @Post('save')
-  @HttpCode(401)
+  @HttpCode(404)
   async save() {}
 
   /**

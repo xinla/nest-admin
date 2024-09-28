@@ -19,6 +19,13 @@ export class AuthController {
     return this.authService.login(req)
   }
 
+  @Public()
+  @Post('register')
+  async register(@Body() createDto: { name; password; email }) {
+    const { name, password, email } = createDto
+    return this.usersService.add({ name, password, email })
+  }
+
   @Post('logout')
   async logout(@Request() req: Record<string, any>) {
     return this.authService.logout(req)
