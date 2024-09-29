@@ -4,7 +4,7 @@
 
 - 新增 用户注册接口
 - 新增 BaseController，BaseService中add和updat专用逻辑
-- 优化部分接口和类型
+- 优化 部分接口和类型
 
 ## v1.0.1-240927
 
