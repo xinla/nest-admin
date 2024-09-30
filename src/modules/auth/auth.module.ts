@@ -7,10 +7,12 @@ import { jwtConstants } from './constants'
 import { APP_GUARD } from '@nestjs/core'
 import { AuthGuard } from './auth.guard'
 import { LoginLogsModule } from '../loginLogs/module'
+import { CommonModule } from '../common/common.module'
 
 @Module({
   imports: [
     UsersModule,
+    CommonModule,
     LoginLogsModule,
     JwtModule.register({
       global: true,

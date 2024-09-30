@@ -6,6 +6,7 @@ import { diskStorage } from 'multer'
 import path, { extname, isAbsolute, join } from 'path'
 import { access, constants, mkdir } from 'fs/promises'
 import { ServeStaticModule, ServeStaticModuleOptions } from '@nestjs/serve-static'
+import { CaptchaService } from './captcha.service'
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { ServeStaticModule, ServeStaticModuleOptions } from '@nestjs/serve-stati
     }),
   ],
   controllers: [CommonController],
-  providers: [CommonService],
+  providers: [CommonService, CaptchaService],
+  exports: [CommonService, CaptchaService],
 })
 export class CommonModule {}

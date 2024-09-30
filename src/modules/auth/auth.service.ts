@@ -7,6 +7,8 @@ import { BoolNum } from 'src/common/type/base'
 import { RedisService } from '../global/redis.service'
 import { ResponseListDto } from 'src/common/dto'
 import dayjs from 'dayjs'
+import { CaptchaService } from '../common/captcha.service'
+import { uuid } from '../../common/utils/common'
 
 @Injectable()
 export class AuthService {
@@ -15,6 +17,7 @@ export class AuthService {
     private jwtService: JwtService,
     private loginLogsService: LoginLogsService,
     private redisService: RedisService,
+    private readonly captchaService: CaptchaService,
   ) {}
   async login(req): Promise<{ accessToken: string }> {
     let user: any = {}
@@ -27,6 +30,12 @@ export class AuthService {
       if (!body.password) {
         throw new Error('密码不能为空')
       }
+
+      let result = this.captchaService.validateCaptcha(body.uuid, body.code)
+      if (!result) {
+        throw new Error('验证码错误')
+      }
+
       user = await this.usersService.getOne({ name: body.account })
 
       // let _password = await decrypt(user?.password)

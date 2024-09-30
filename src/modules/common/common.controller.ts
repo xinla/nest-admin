@@ -17,10 +17,15 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express'
 import { CommonService } from './common.service'
 import { MulterFileInterceptor } from 'src/common/interceptor/file.interceptor'
+import { CaptchaService } from './captcha.service'
+import { Public } from '../auth/constants'
 
 @Controller('system/common')
 export class CommonController {
-  constructor(private readonly commonService: CommonService) {}
+  constructor(
+    private readonly commonService: CommonService,
+    private readonly captchaService: CaptchaService,
+  ) {}
 
   /**
    * 通用文件上传
@@ -37,5 +42,11 @@ export class CommonController {
   @Get('getOsInfo')
   async getOsInfo() {
     return await this.commonService.getOsInfo()
+  }
+
+  @Public()
+  @Get('getCaptchaImage')
+  async getCaptchaImage() {
+    return this.captchaService.getCaptchaImage()
   }
 }
