@@ -5,12 +5,14 @@ import { UsersService } from '../users/users.service'
 import { Public } from './constants'
 import { QueryListDto } from 'src/common/dto'
 import { encrypt } from 'src/common/utils/encrypt'
+import { CaptchaService } from '../common/captcha.service'
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private authService: AuthService,
     private usersService: UsersService,
+    private captchaService: CaptchaService,
   ) {}
 
   @Public()
@@ -22,8 +24,13 @@ export class AuthController {
 
   @Public()
   @Post('register')
-  async register(@Body() createDto: { name; password; email }) {
-    let { name, password, email } = createDto
+  async register(@Body() body: { name; password; uuid; code; email? }) {
+    let result = this.captchaService.validateCaptcha(body.uuid, body.code)
+    if (result !== 'true') {
+      throw new Error(result)
+    }
+
+    let { name, password, email } = body
     password = await encrypt(password)
 
     return this.usersService.add({ name, password, email })

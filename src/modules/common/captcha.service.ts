@@ -13,15 +13,15 @@ export class CaptchaService {
     return { data, uuid }
   }
 
-  validateCaptcha(key: string, value: string): boolean {
+  validateCaptcha(key: string, value: string): string {
     if (!key || !value) {
-      return false
+      return '验证码错误'
     }
     const storedValue = this.captchaMap.get(key)
     if (!storedValue) {
-      return false
+      return '验证码错误'
     }
     this.captchaMap.delete(key)
-    return `${storedValue}`.toLowerCase() === `${value}`.toLowerCase()
+    return `${storedValue}`.toLowerCase() === `${value}`.toLowerCase() ? 'true' : '验证码错误'
   }
 }

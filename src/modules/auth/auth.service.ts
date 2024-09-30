@@ -17,7 +17,7 @@ export class AuthService {
     private jwtService: JwtService,
     private loginLogsService: LoginLogsService,
     private redisService: RedisService,
-    private readonly captchaService: CaptchaService,
+    private captchaService: CaptchaService,
   ) {}
   async login(req): Promise<{ accessToken: string }> {
     let user: any = {}
@@ -32,8 +32,8 @@ export class AuthService {
       }
 
       let result = this.captchaService.validateCaptcha(body.uuid, body.code)
-      if (!result) {
-        throw new Error('验证码错误')
+      if (result !== 'true') {
+        throw new Error(result)
       }
 
       user = await this.usersService.getOne({ name: body.account })
