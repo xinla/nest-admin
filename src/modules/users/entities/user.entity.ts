@@ -23,7 +23,7 @@ export const genderTypes = {
   },
 })
 export class User extends Base {
-  @Column({ type: 'varchar', length: 30, default: '', comment: '' })
+  @Column({ type: 'varchar', length: 30, unique: true, default: '', comment: '' })
   @IsNotEmpty()
   @MaxLength(30)
   name: string
@@ -38,11 +38,11 @@ export class User extends Base {
   @Column({ type: 'varchar', default: '', comment: '头像地址' })
   avatar: string
 
-  @Column({ type: 'varchar', default: '', comment: '邮箱' })
+  @Column({ type: 'varchar', unique: true, default: '', comment: '邮箱' })
   @IsEmail()
   email: string
 
-  @Column({ type: 'varchar', length: 11, default: '', comment: '手机号' })
+  @Column({ type: 'varchar', length: 11, unique: true, default: '', comment: '手机号' })
   @MaxLength(11)
   @IsNumberString()
   phone: string
