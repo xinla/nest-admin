@@ -9,22 +9,27 @@ import { UpdateResult } from 'typeorm'
 import { QueryListDto, ResponseListDto } from '../../common/dto/index'
 import { BaseController } from 'src/common/BaseController'
 import { MulterFileInterceptor } from 'src/common/interceptor/file.interceptor'
+import { CaptchaService } from '../common/captcha.service'
+import { Public } from '../auth/constants'
 
 @Controller('system/users')
 // @UseFilters(new HttpExceptionFilter())
 export class UsersController extends BaseController<User, UsersService> {
-  constructor(readonly usersService: UsersService) {
+  constructor(
+    readonly usersService: UsersService,
+    private captchaService: CaptchaService,
+  ) {
     super(usersService)
   }
 
-  // 重写以避免暴露路由
-  @Post('save')
-  @HttpCode(404)
-  async save() {}
-
+  @Public()
   @Put('resetPassword')
-  async resetPassword(@Body() updateUserDto) {
-    return this.usersService.resetPassword(updateUserDto)
+  async resetPassword(@Body() body) {
+    let result = this.captchaService.validateCaptcha(body.uuid, body.code)
+    if (result !== 'true') {
+      throw new Error(result)
+    }
+    return this.usersService.resetPassword(body)
   }
 
   @Post('uploadAvatar')
