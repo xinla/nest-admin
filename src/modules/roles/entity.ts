@@ -1,5 +1,5 @@
 import { IsNotEmpty, MaxLength } from 'class-validator'
-import { Base, boolNumColumn } from 'src/common/entity/base'
+import { Base, BaseColumn, boolNumColumn } from 'src/common/entity/base'
 import { Column, Entity, JoinTable, ManyToMany } from 'typeorm'
 import { User } from '../users/entities/user.entity'
 import { Menu } from '../menus/menu.entity'
@@ -13,13 +13,13 @@ import { BoolNum } from 'src/common/type/base'
   },
 })
 export class Role extends Base {
-  @Column({ type: 'varchar', length: 30, unique: true, default: '', comment: '' })
+  @BaseColumn({ unique: true })
   @IsNotEmpty()
   @MaxLength(30)
   name: string
 
   // 权限字符
-  @Column({ type: 'varchar', length: 30, unique: true, default: '', comment: '' })
+  @BaseColumn({ unique: true })
   @IsNotEmpty()
   @MaxLength(30)
   permissionKey: string
@@ -45,12 +45,12 @@ export class Role extends Base {
   })
   menus: Menu[]
 
-  @Column(boolNumColumn('激活', 'is_active', BoolNum.Yes))
+  @BaseColumn(boolNumColumn('激活', 'is_active', BoolNum.Yes))
   isActive: BoolNum
 
-  @Column({ type: 'varchar', length: 8, name: 'order', default: '1', comment: '排序' })
+  @BaseColumn({ length: 8, name: 'order', default: '1', comment: '排序' })
   order: string
 
-  @Column({ type: 'varchar', length: 200, name: 'remark', default: '', comment: '备注' })
+  @BaseColumn({ length: 200, name: 'remark', comment: '备注' })
   remark: string
 }

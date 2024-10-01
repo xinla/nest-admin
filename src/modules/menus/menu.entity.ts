@@ -1,5 +1,5 @@
 import { MaxLength, IsNotEmpty } from 'class-validator'
-import { Base, boolNumColumn } from 'src/common/entity/base'
+import { Base, BaseColumn, boolNumColumn } from 'src/common/entity/base'
 import { BoolNum } from 'src/common/type/base'
 import { Column, Entity, JoinColumn, Tree, TreeChildren, TreeParent } from 'typeorm'
 
@@ -28,12 +28,12 @@ export const menuTypes = {
   },
 })
 export class Menu extends Base {
-  @Column({ type: 'varchar', length: 30, default: '', comment: '菜单名称' })
+  @BaseColumn({ comment: '菜单名称' })
   @MaxLength(30)
   @IsNotEmpty()
   name: string
 
-  @Column({ type: 'varchar', length: 100, default: '', comment: '菜单描述' })
+  @BaseColumn({ length: 100, comment: '菜单描述' })
   @MaxLength(100)
   desc: string
 
@@ -45,8 +45,9 @@ export class Menu extends Base {
   })
   parent: Menu
 
-  @Column({
+  @BaseColumn({
     nullable: true,
+    default: null,
     name: 'parent_id',
     comment: '父级id',
     transformer: { from: (value) => value || '0', to: (value: string) => value },
@@ -56,24 +57,24 @@ export class Menu extends Base {
   @TreeChildren()
   children: Menu[]
 
-  @Column({ type: 'varchar', length: 100, default: '', comment: '菜单图标' })
+  @BaseColumn({ length: 100, comment: '菜单图标' })
   icon: string
 
-  @Column({ type: 'varchar', length: 8, default: '1', comment: '排序' })
+  @BaseColumn({ length: 8, default: '1', comment: '排序' })
   order: string
 
-  @Column({ type: 'varchar', length: 100, default: '', comment: '路由地址' })
+  @BaseColumn({ length: 100, comment: '路由地址' })
   path: string
 
-  @Column({ type: 'varchar', length: 100, default: '', comment: '组件路径' })
+  @BaseColumn({ length: 100, comment: '组件路径' })
   component: string
 
-  @Column({ type: 'enum', enum: MenuType, default: MenuType.catalog, comment: '菜单类型，默认catalog' })
+  @BaseColumn({ type: 'enum', enum: MenuType, default: MenuType.catalog, comment: '菜单类型，默认catalog' })
   type: MenuType
 
-  @Column(boolNumColumn('隐藏', 'is_hidden'))
+  @BaseColumn(boolNumColumn('隐藏', 'is_hidden'))
   isHidden: BoolNum
 
-  @Column(boolNumColumn('激活', 'is_active', BoolNum.Yes))
+  @BaseColumn(boolNumColumn('激活', 'is_active', BoolNum.Yes))
   isActive: BoolNum
 }

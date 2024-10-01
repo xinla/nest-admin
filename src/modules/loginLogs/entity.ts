@@ -10,34 +10,33 @@ import { BoolNum } from 'src/common/type/base'
   },
 })
 export class LoginLog extends Base {
-  @Column({ type: 'varchar', length: 200, default: '', comment: '会话编号' })
+  @BaseColumn({ length: 200, comment: '会话编号' })
   @IsNotEmpty()
   session: string
 
-  @BaseColumn({ type: 'varchar', length: 30, overLengthCut: true, default: '', comment: '登录账号' })
+  @BaseColumn({ overLengthCut: true, comment: '登录账号' })
   @IsNotEmpty()
   account: string
 
-  @BaseColumn({ type: 'varchar', length: 30, overLengthCut: true, default: '', comment: '登录密码' })
+  @BaseColumn({ overLengthCut: true, comment: '登录密码' })
   password: string
 
-  @Column({ type: 'varchar', length: 30, default: '', comment: 'ip地址' })
+  @BaseColumn({ comment: 'ip地址' })
   ip: string
 
-  @Column({ type: 'varchar', length: 30, default: '', comment: '登录地点' })
+  @BaseColumn({ comment: '登录地点' })
   address: string
 
-  @Column({ type: 'varchar', length: 30, default: '', comment: '浏览器类型' })
+  @BaseColumn({ comment: '浏览器类型' })
   browser: string
 
-  @Column({ type: 'varchar', length: 30, default: '', comment: '操作系统' })
+  @BaseColumn({ comment: '操作系统' })
   os: string
 
-  @Column(boolNumColumn('登录成功', 'is_success', BoolNum.Yes))
+  @BaseColumn(boolNumColumn('登录成功', 'is_success', BoolNum.Yes))
   isSuccess: BoolNum
 
   @BaseColumn({
-    type: 'varchar',
     length: 500,
     overLengthCut: true,
     default: '登录成功',

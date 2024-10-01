@@ -11,14 +11,14 @@ import {
   JoinColumn,
   RelationId,
 } from 'typeorm'
-import { Base } from 'src/common/entity/base'
+import { Base, BaseColumn } from 'src/common/entity/base'
 import { IsEmpty, IsInt, IsNotEmpty, validate } from 'class-validator'
 import { User } from 'src/modules/users/entities/user.entity'
 
 @Tree('closure-table')
 @Entity('sys_dept')
 export class Dept extends Base {
-  @Column({ type: 'varchar', length: 30, default: '', comment: '部门名称' })
+  @BaseColumn({ comment: '部门名称' })
   @IsNotEmpty()
   name: string
 
@@ -31,8 +31,9 @@ export class Dept extends Base {
   })
   parent: Dept
 
-  @Column({
+  @BaseColumn({
     nullable: true,
+    default: null,
     name: 'parent_id',
     comment: '父级id',
     transformer: { from: (value) => value || '0', to: (value: string) => value },

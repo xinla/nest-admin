@@ -1,5 +1,5 @@
 import { Entity, Column, ManyToOne, OneToMany, RelationId, JoinColumn, ManyToMany, JoinTable } from 'typeorm'
-import { Base, boolNumColumn } from 'src/common/entity/base'
+import { Base, BaseColumn, boolNumColumn } from 'src/common/entity/base'
 import { BoolNum } from 'src/common/type/base'
 import { Dept } from 'src/modules/depts/entities/dept.entity'
 import { IsEmail, IsNotEmpty, IsNumberString, MaxLength, ValidateIf } from 'class-validator'
@@ -23,35 +23,35 @@ export const genderTypes = {
   },
 })
 export class User extends Base {
-  @Column({ type: 'varchar', length: 30, unique: true, default: '', comment: '' })
+  @BaseColumn({ unique: true })
   @IsNotEmpty()
   @MaxLength(30)
   name: string
 
-  @Column({ type: 'varchar', length: 30, default: '', comment: '昵称' })
+  @BaseColumn({ comment: '昵称' })
   nickname: string
 
   // AES:nestAdmin,123456
-  @Column({ type: 'varchar', length: 50, default: 's3wmd2VReF1IjZhK59gLBY0OjYlzjA==', comment: '密码' })
+  @BaseColumn({ length: 50, default: 's3wmd2VReF1IjZhK59gLBY0OjYlzjA==', comment: '密码' })
   password: string
 
-  @Column({ type: 'varchar', default: '', comment: '头像地址' })
+  @BaseColumn({ comment: '头像地址' })
   avatar: string
 
-  @Column({ type: 'varchar', unique: true, default: '', comment: '邮箱' })
+  @BaseColumn({ unique: true, comment: '邮箱' })
   @ValidateIf((o) => o.email !== '')
   @IsEmail()
   email: string
 
-  @Column({ type: 'varchar', length: 11, unique: true, default: '', comment: '手机号' })
+  @BaseColumn({ length: 11, unique: true, comment: '手机号' })
   @MaxLength(11)
   @IsNumberString()
   phone: string
 
-  @Column({ type: 'enum', enum: GenderTypes, default: GenderTypes.no, comment: '性别，默认 未知(no)' })
+  @BaseColumn({ type: 'enum', enum: GenderTypes, default: GenderTypes.no, comment: '性别，默认 未知(no)' })
   gender: GenderTypes
 
-  // @Column({ nullable: true, name: 'roles', comment: '' })
+  // @BaseColumn({ nullable: true, name: 'roles', })
   @ManyToMany(() => Role, (role) => role.users, {
     cascade: true,
   })
@@ -74,10 +74,10 @@ export class User extends Base {
   @JoinColumn({ name: 'dept_id' })
   dept: Dept
 
-  @Column({ nullable: true, name: 'dept_id', comment: '部门id' })
+  @BaseColumn({ nullable: true, name: 'dept_id', comment: '部门id' })
   // @RelationId((dept: Dept) => dept.id)
   deptId: string
 
-  @Column(boolNumColumn('激活', 'is_active', BoolNum.Yes))
+  @BaseColumn(boolNumColumn('激活', 'is_active', BoolNum.Yes))
   isActive: BoolNum
 }

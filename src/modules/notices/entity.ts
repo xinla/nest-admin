@@ -1,5 +1,5 @@
 import { IsNotEmpty, MaxLength } from 'class-validator'
-import { Base, boolNumColumn } from 'src/common/entity/base'
+import { Base, BaseColumn, boolNumColumn } from 'src/common/entity/base'
 import { Column, Entity, JoinTable, ManyToMany } from 'typeorm'
 import { BoolNum } from 'src/common/type/base'
 
@@ -19,20 +19,20 @@ import { BoolNum } from 'src/common/type/base'
   },
 })
 export class Notice extends Base {
-  @Column({ type: 'varchar', length: 30, default: '', comment: '公告标题' })
+  @BaseColumn({ comment: '公告标题' })
   @IsNotEmpty()
   @MaxLength(30)
   title: string
 
-  @Column(boolNumColumn('激活', 'is_active', BoolNum.Yes))
+  @BaseColumn(boolNumColumn('激活', 'is_active', BoolNum.Yes))
   isActive: BoolNum
 
-  // @Column({ type: 'enum', enum: Type, default: Type.catalog, comment: '公告类型，默认catalog' })
+  // @BaseColumn({ type: 'enum', enum: Type, default: Type.catalog, comment: '公告类型，默认catalog' })
   // type: Type
 
-  @Column({ type: 'varchar', length: 200, name: 'content', default: '', comment: '公告内容' })
+  @BaseColumn({ length: 200, name: 'content', comment: '公告内容' })
   content: string
 
-  @Column({ type: 'varchar', length: 200, name: 'remark', default: '', comment: '备注' })
+  @BaseColumn({ length: 200, name: 'remark', comment: '备注' })
   remark: string
 }

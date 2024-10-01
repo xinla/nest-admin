@@ -24,7 +24,7 @@ export class Base {
   // @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @Column({
+  @BaseColumn({
     type: 'datetime',
     transformer: {
       from: (date) => date && dayjs(date).format('YYYY-MM-DD HH:mm:ss'),
@@ -37,10 +37,10 @@ export class Base {
   // @CreateDateColumn()
   createTime: string
 
-  @Column({ type: 'varchar', length: 30, name: 'create_user', default: '', comment: '创建人' })
+  @BaseColumn({ name: 'create_user', comment: '创建人' })
   createUser: string
 
-  @Column({
+  @BaseColumn({
     type: 'datetime',
     transformer: {
       from: (date) => date && dayjs(date).format('YYYY-MM-DD HH:mm:ss'),
@@ -55,7 +55,7 @@ export class Base {
   // @UpdateDateColumn()
   updateTime: string
 
-  @Column({ type: 'varchar', length: 30, name: 'update_user', default: '', comment: '更新人' })
+  @BaseColumn({ name: 'update_user', comment: '更新人' })
   updateUser: string
 
   @DeleteDateColumn({
@@ -65,16 +65,16 @@ export class Base {
     select: false,
     comment: '是否删除: NULL未删除，1删除',
   })
-  // @Column(boolNumColumn('删除', 'is_delete', BoolNum.No, { select: false }))
+  // @BaseColumn(boolNumColumn('删除', 'is_delete', BoolNum.No, { select: false }))
   isDelete: BoolNum
 
   // @DeleteDateColumn({ name: 'delete_time', select: false, comment: '删除时间 是否删除' })
   // deleteTime: string
 
-  // @Column(boolNumColumn('激活', 'is_active', BoolNum.Yes))
+  // @BaseColumn(boolNumColumn('激活', 'is_active', BoolNum.Yes))
   // isActive: BoolNum
 
-  // @Column({ type: 'varchar', length: 200, name: 'remark', default: '', comment: '备注' })
+  // @BaseColumn({ length: 200, name: 'remark', comment: '备注' })
   // remark: string
 
   // 实体监听器
@@ -127,6 +127,8 @@ export function BaseColumn(config: { overLengthCut?: boolean } & ColumnOptions) 
       to: (value: string) => overLengthCut(value, config.length),
     }
   }
+  config.type ??= 'varchar'
+  config.type == 'varchar' && !config.nullable && !Object.hasOwn(config, 'default') && (config.default ??= '')
   return Column(config)
 }
 
