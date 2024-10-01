@@ -120,8 +120,8 @@ export function overLengthCut(value: string, maxLength: string | number) {
   return value?.length > +maxLength ? value.substring(0, +maxLength - 3) + '...' : value
 }
 
-export function BaseColumn(config: { overLengthCut?: boolean } & ColumnOptions = { overLengthCut: false }) {
-  if (config.overLengthCut) {
+export function BaseColumn(config: { overLengthCut?: boolean } & ColumnOptions) {
+  if (config?.overLengthCut) {
     config.transformer ??= {
       from: (value: string) => value,
       to: (value: string) => overLengthCut(value, config.length),

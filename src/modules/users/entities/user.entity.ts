@@ -2,7 +2,7 @@ import { Entity, Column, ManyToOne, OneToMany, RelationId, JoinColumn, ManyToMan
 import { Base, boolNumColumn } from 'src/common/entity/base'
 import { BoolNum } from 'src/common/type/base'
 import { Dept } from 'src/modules/depts/entities/dept.entity'
-import { IsEmail, IsNotEmpty, IsNumberString, MaxLength } from 'class-validator'
+import { IsEmail, IsNotEmpty, IsNumberString, MaxLength, ValidateIf } from 'class-validator'
 import { Role } from 'src/modules/roles/entity'
 
 // 菜单类型
@@ -39,6 +39,7 @@ export class User extends Base {
   avatar: string
 
   @Column({ type: 'varchar', unique: true, default: '', comment: '邮箱' })
+  @ValidateIf((o) => o.email !== '')
   @IsEmail()
   email: string
 
