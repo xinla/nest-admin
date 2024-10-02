@@ -24,7 +24,7 @@ export class BaseService<T, K> {
   }
 
   async update(dto: SaveDto<T>) {
-    if (!dto.id) new Error('数据不存在')
+    if (!dto.id) throw new Error('数据不存在')
     return this.save(dto)
   }
 
@@ -36,7 +36,11 @@ export class BaseService<T, K> {
   }
 
   async getOne(query: FindOptionsWhere<T>): Promise<T | null> {
-    return this.repository.findOneByOrFail(query)
+    let res = await this.repository.findOneBy(query)
+    if (!res) {
+      throw new Error('数据不存在')
+    }
+    return res
   }
 
   // async update(updateDto: Role): Promise<UpdateResult> {

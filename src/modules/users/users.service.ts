@@ -29,13 +29,17 @@ export class UsersService extends BaseService<User, CreateUserDto> {
   }
 
   async getOne(query): Promise<User | null> {
-    return this.usersRepository.findOneOrFail({
+    let res = await this.usersRepository.findOne({
       where: query,
       relations: {
         dept: true,
         roles: true,
       },
     })
+    if (!res) {
+      throw new Error('用户不存在')
+    }
+    return res
   }
 
   // 列表
@@ -61,7 +65,7 @@ export class UsersService extends BaseService<User, CreateUserDto> {
     if (passwordNew !== passwordNewConfirm) {
       throw new Error('两次输入的密码不一致')
     } else {
-      let user = await this.usersRepository.findOneByOrFail({ id })
+      let user = await this.getOne({ id })
       let _passwordOld = await decrypt(user.password)
       if (_passwordOld !== passwordOld) {
         throw new Error('旧密码不正确 ')
