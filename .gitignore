@@ -19,3 +19,4 @@ bin-release/
 node_modules
 dist
 config/secret.ts
+deploy/deploy.config.mjs
