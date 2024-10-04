@@ -28,7 +28,7 @@ export class MenusService extends BaseService<Menu, CreateMenuDto> {
     return await this.repository.save(data)
   }
 
-  async list(query, isTree = true): Promise<Menu[]> {
+  async list(query: any = {}, isTree = true): Promise<Menu[]> {
     let { isActive, name, type } = query
     let queryOrm: FindManyOptions = {
       where: { isActive, type, name: this.sqlLike(name) },

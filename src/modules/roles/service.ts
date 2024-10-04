@@ -7,12 +7,15 @@ import { Role } from './entity'
 import { QueryListDto, ResponseListDto } from 'src/common/dto'
 import { BaseService } from 'src/common/BaseService'
 import { Menu } from '../menus/menu.entity'
+import { MenusService } from '../menus/menus.service'
+import { arrayToTree } from 'src/common/utils/common'
 
 @Injectable()
 export class RolesService extends BaseService<Role, CreateRoleDto> {
   constructor(
     @InjectRepository(Role)
     repository: Repository<Role>,
+    private menusService: MenusService,
   ) {
     super(Role, repository)
   }
@@ -32,5 +35,25 @@ export class RolesService extends BaseService<Role, CreateRoleDto> {
       },
     }
     return this.listBy(queryOrm, query)
+  }
+
+  async getLoginUserMenus(user): Promise<Menu[]> {
+    if (user.name === 'admin') {
+      return this.menusService.list()
+    } else {
+      let allMenus = []
+      // 多角色菜单合并去重
+      for (const element of user.roles || []) {
+        if (element.isActive == 1) {
+          let menus = (await this.getOne({ permissionKey: element.permissionKey }, { relations: ['menus'] })).menus
+          allMenus.length
+            ? menus?.forEach((ele) => {
+                allMenus.some((item) => ele.id == item.id) || allMenus.push(ele)
+              })
+            : allMenus.push(...menus)
+        }
+      }
+      return arrayToTree(allMenus)
+    }
   }
 }

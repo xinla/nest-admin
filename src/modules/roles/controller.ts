@@ -13,4 +13,9 @@ export class RolesController extends BaseController<Role, RolesService> {
   constructor(readonly service: RolesService) {
     super(service)
   }
+
+  @Get('getLoginUserMenus')
+  async getLoginUserMenus(@Req() req): Promise<{}[]> {
+    return this.service.getLoginUserMenus(req.user)
+  }
 }

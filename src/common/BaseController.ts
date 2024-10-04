@@ -45,7 +45,7 @@ export class BaseController<T, K> {
 
   // 分页查询
   @Get('list')
-  @Get('pageList')
+  // @Get('pageList')
   async list(@Query() query: QueryListDto): Promise<ResponseListDto<T>> {
     query.pageNum ??= 1
     query.pageSize ??= 10

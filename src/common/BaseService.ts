@@ -1,5 +1,4 @@
-import { InjectRepository } from '@nestjs/typeorm'
-import { Between, FindManyOptions, FindOptions, FindOptionsWhere, Like, Raw, Repository, UpdateResult } from 'typeorm'
+import { Between, FindManyOptions, FindOneOptions, FindOptionsWhere, Like, Repository, UpdateResult } from 'typeorm'
 import { BoolNum } from './type/base'
 import { QueryListDto, ResponseListDto, SaveDto } from './dto'
 import dayjs from 'dayjs'
@@ -35,8 +34,8 @@ export class BaseService<T, K> {
     return this.repository.update(ids, { isDelete: BoolNum.Yes, updateUser })
   }
 
-  async getOne(query: FindOptionsWhere<T>): Promise<T | null> {
-    let res = await this.repository.findOneBy(query)
+  async getOne(query: FindOptionsWhere<T>, releate: FindOneOptions = {}): Promise<T | null> {
+    let res = await this.repository.findOne({ where: query, ...releate })
     if (!res) {
       throw new Error('数据不存在')
     }
