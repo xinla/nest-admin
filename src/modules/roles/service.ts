@@ -46,6 +46,13 @@ export class RolesService extends BaseService<Role, CreateRoleDto> {
       for (const element of user.roles || []) {
         if (element.isActive == 1) {
           let menus = (await this.getOne({ permissionKey: element.permissionKey }, { relations: ['menus'] })).menus
+          menus.sort((a, b) => {
+            if (a.order == b.order) {
+              return +new Date(b.createTime) - +new Date(a.createTime)
+            } else {
+              return +a.order - +b.order
+            }
+          })
           allMenus.length
             ? menus?.forEach((ele) => {
                 allMenus.some((item) => ele.id == item.id) || allMenus.push(ele)
