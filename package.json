@@ -1,7 +1,7 @@
 {
   "name": "nest",
   "version": "1.0.0",
-  "description": "基于 Nest + Vue 前后端分离的 Nodejs TypeScript 快速开发框架，持续更新中... & 你的 ⭐️ Star ⭐️，是小伙伴加油的动力！",
+  "description": "基于 Nestjs + Vue 前后端分离的 Nodejs TypeScript 快速开发框架，持续更新中... & 你的 ⭐️ Star ⭐️，是小伙伴加油的动力！",
   "author": "xinla",
   "private": false,
   "license": "MIT",
