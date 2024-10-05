@@ -7,6 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nest start --debug --watch -- -b swc env=dev",
+    "deploy": "deploy prod",
     "pushtag": "git push --tags --force",
     "prebuild": "rimraf dist",
     "build": "nest build",
