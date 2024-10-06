@@ -9,12 +9,10 @@ import { Role } from 'src/modules/roles/entity'
 export enum GenderTypes {
   man = 'man',
   woamn = 'woamn',
-  no = 'no',
 }
 export const genderTypes = {
   [GenderTypes.man]: '男',
   [GenderTypes.woamn]: '女',
-  [GenderTypes.no]: '未知',
 }
 
 @Entity('sys_user', {
@@ -48,7 +46,7 @@ export class User extends Base {
   @IsNumberString()
   phone: string
 
-  @BaseColumn({ type: 'enum', enum: GenderTypes, default: GenderTypes.no, comment: '性别，默认 未知(no)' })
+  @BaseColumn({ type: 'enum', enum: GenderTypes, default: null, comment: '性别，默认 null' })
   gender: GenderTypes
 
   // @BaseColumn({ nullable: true, name: 'roles', })
