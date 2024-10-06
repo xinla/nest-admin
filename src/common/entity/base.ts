@@ -1,22 +1,6 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
-  BeforeInsert,
-  BeforeUpdate,
-  EntitySubscriberInterface,
-  EventSubscriber,
-  AfterLoad,
-  Repository,
-  FindManyOptions,
-  ColumnOptions,
-} from 'typeorm'
+import { Column, PrimaryGeneratedColumn, DeleteDateColumn, BeforeInsert, BeforeUpdate, ColumnOptions } from 'typeorm'
 import { BoolNum } from '../type/base'
 import { validate } from 'class-validator'
-import { BeforeQueryEvent } from 'typeorm/subscriber/event/QueryEvent'
 import dayjs from 'dayjs'
 
 export class Base {

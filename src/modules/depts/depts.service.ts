@@ -23,13 +23,13 @@ export class DeptService extends BaseService<Dept, CreateDeptDto> {
     if (data.parentId && data.parentId != '0') {
       data.parent = Object.assign(new Dept(), { id: data.parentId })
     } else {
-      delete data.parentId
+      data.parentId = null
     }
     return await this.repository.save(new Dept().assignOwn(data))
   }
 
-  findTree(query): Promise<Dept[]> {
-    return this.treeRepository.findTrees()
+  async findTree(query): Promise<Dept[]> {
+    return await this.treeRepository.findTrees()
   }
 
   // async update(updateDto: Dept) {
