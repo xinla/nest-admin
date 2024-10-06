@@ -112,7 +112,9 @@ export function BaseColumn(config: { overLengthCut?: boolean } & ColumnOptions) 
     }
   }
   config.type ??= 'varchar'
+  config.unique && !Object.hasOwn(config, 'nullable') && !Object.hasOwn(config, 'default') && (config.default = null) // 避免唯一约束的not null必填校验
   config.type == 'varchar' && !config.nullable && !Object.hasOwn(config, 'default') && (config.default ??= '')
+
   return Column(config)
 }
 
