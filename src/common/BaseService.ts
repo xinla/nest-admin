@@ -2,6 +2,7 @@ import { Between, FindManyOptions, FindOneOptions, FindOptionsWhere, Like, Repos
 import { BoolNum } from './type/base'
 import { QueryListDto, ResponseListDto, SaveDto } from './dto'
 import dayjs from 'dayjs'
+import { validate } from 'class-validator'
 
 export class BaseService<T, K> {
   Entity = null
@@ -14,6 +15,20 @@ export class BaseService<T, K> {
   // typeorm save 会保存关系，create 和 update 不会保存关系
   async save(dto: SaveDto<T>) {
     let data = new this.Entity().assignOwn(dto)
+
+    // 字段校验 / class-validator
+    const errors = await validate(data, { skipMissingProperties: true })
+    if (errors.length > 0) {
+      throw new Error(Object.values(errors[0].constraints)[0])
+    }
+
+    // 数据库唯一字段校验 / @DbUnique
+    for (const element of data._DbUnique || []) {
+      let res = await this.sqlOne({ [element]: data[element] })
+      if (res && res.id != data.id) {
+        throw new Error(`${data[element]} 已存在`)
+      }
+    }
     return this.repository.save(data)
   }
 
@@ -34,9 +49,9 @@ export class BaseService<T, K> {
     return this.repository.update(ids, { isDelete: BoolNum.Yes, updateUser })
   }
 
-  async getOne(query: FindOptionsWhere<T>, releate: FindOneOptions = {}): Promise<T | null> {
-    let res = await this.repository.findOne({ where: query, ...releate })
-    if (!res) {
+  async getOne(query: FindOptionsWhere<T> & FindOneOptions, isError = true): Promise<any | null> {
+    let res = await this.sqlOne(query)
+    if (!res && isError) {
       throw new Error('数据不存在')
     }
     return res
@@ -61,6 +76,11 @@ export class BaseService<T, K> {
 
     let [data, total] = await this.repository.findAndCount(queryOrm)
     return { total: total, data: cb?.(data) || data, _flag: true }
+  }
+
+  // 单条查询统一公用接口，禁止子类重写
+  async sqlOne(query: FindOptionsWhere<T> & FindOneOptions): Promise<any | null> {
+    return this.repository.findOne(query.where && typeof query.where == 'object' ? query : { where: query })
   }
 
   // 模糊匹配

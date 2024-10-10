@@ -22,7 +22,7 @@ export class RolesService extends BaseService<Role, CreateRoleDto> {
 
   async save(createDto) {
     createDto.menus = createDto.menuIds?.map((id) => Object.assign(new Menu(), { id }))
-    return this.repository.save(new Role().assignOwn(createDto))
+    return super.save(createDto)
   }
 
   async list(query: QueryListDto): Promise<ResponseListDto<Role>> {
@@ -45,7 +45,8 @@ export class RolesService extends BaseService<Role, CreateRoleDto> {
       // 多角色菜单合并去重
       for (const element of user.roles || []) {
         if (element.isActive == 1) {
-          let menus = (await this.getOne({ permissionKey: element.permissionKey }, { relations: ['menus'] })).menus
+          let menus = (await this.getOne({ where: { permissionKey: element.permissionKey }, relations: ['menus'] }))
+            .menus
           menus.sort((a, b) => {
             if (a.order == b.order) {
               return +new Date(b.createTime) - +new Date(a.createTime)

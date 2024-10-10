@@ -1,5 +1,5 @@
 import { IsNotEmpty, MaxLength } from 'class-validator'
-import { Base, BaseColumn, boolNumColumn } from 'src/common/entity/base'
+import { Base, BaseColumn, boolNumColumn, DbUnique } from 'src/common/entity/base'
 import { Column, Entity, JoinTable, ManyToMany } from 'typeorm'
 import { User } from '../users/entities/user.entity'
 import { Menu } from '../menus/menu.entity'
@@ -13,15 +13,17 @@ import { BoolNum } from 'src/common/type/base'
   },
 })
 export class Role extends Base {
-  @BaseColumn({ unique: true })
+  @DbUnique
   @IsNotEmpty()
   @MaxLength(30)
+  @BaseColumn()
   name: string
 
   // 权限字符
-  @BaseColumn({ unique: true })
+  @DbUnique
   @IsNotEmpty()
   @MaxLength(30)
+  @BaseColumn()
   permissionKey: string
 
   @ManyToMany((type) => User, (user) => user.roles)

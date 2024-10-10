@@ -25,17 +25,11 @@ export class UsersService extends BaseService<User, CreateUserDto> {
     // createDto.dept = Object.assign(new Dept(), { id: createDto.deptId })
     delete createDto.dept
     createDto.roles = createDto.roleIds?.map((id) => Object.assign(new Role(), { id }))
-    return await this.usersRepository.save(new User().assignOwn(createDto))
+    return await super.save(createDto)
   }
 
   async getOne(query): Promise<User | null> {
-    let res = await this.usersRepository.findOne({
-      where: query,
-      relations: {
-        dept: true,
-        roles: true,
-      },
-    })
+    let res = await super.getOne({ where: query, relations: ['dept', 'roles'] }, false)
     if (!res) {
       throw new Error('用户不存在')
     }
@@ -57,7 +51,7 @@ export class UsersService extends BaseService<User, CreateUserDto> {
         roles: true,
       },
     }
-    return this.listBy(queryOrm, query, (data) => data.forEach((element) => delete element.password))
+    return super.listBy(queryOrm, query, (data) => data.forEach((element) => delete element.password))
   }
 
   async resetPassword(updateDto: UpdateUserDto): Promise<UpdateResult> {
@@ -71,7 +65,7 @@ export class UsersService extends BaseService<User, CreateUserDto> {
         throw new Error('旧密码不正确 ')
       }
       let data = Object.assign(new User(), { id, password: await encrypt(passwordNew) })
-      return this.usersRepository.update(data.id, data)
+      return super.update(data)
     }
   }
 }

@@ -1,5 +1,5 @@
-import { Entity, Column, ManyToOne, OneToMany, RelationId, JoinColumn, ManyToMany, JoinTable } from 'typeorm'
-import { Base, BaseColumn, boolNumColumn } from 'src/common/entity/base'
+import { Entity, Column, ManyToOne, OneToMany, RelationId, JoinColumn, ManyToMany, JoinTable, Index } from 'typeorm'
+import { Base, BaseColumn, boolNumColumn, DbUnique } from 'src/common/entity/base'
 import { BoolNum } from 'src/common/type/base'
 import { Dept } from 'src/modules/depts/entities/dept.entity'
 import { IsEmail, IsNotEmpty, IsNumberString, MaxLength, ValidateIf } from 'class-validator'
@@ -20,10 +20,12 @@ export const genderTypes = {
     createTime: 'DESC',
   },
 })
+// @Index(['email', 'isDelete', 'createTime'], { })
 export class User extends Base {
-  @BaseColumn({ unique: true })
+  @DbUnique
   @IsNotEmpty()
   @MaxLength(30)
+  @BaseColumn()
   name: string
 
   @BaseColumn({ comment: '昵称' })
@@ -36,14 +38,16 @@ export class User extends Base {
   @BaseColumn({ comment: '头像地址' })
   avatar: string
 
-  @BaseColumn({ unique: true, comment: '邮箱' })
-  @ValidateIf((o) => o.email !== '')
+  @DbUnique
   @IsEmail()
+  @BaseColumn()
   email: string
+  // @ValidateIf((o) => o.email !== '')
 
-  @BaseColumn({ length: 11, unique: true, comment: '手机号' })
+  @DbUnique
   @MaxLength(11)
   @IsNumberString()
+  @BaseColumn({ length: 11 })
   phone: string
 
   @BaseColumn({ type: 'enum', enum: GenderTypes, default: null, comment: '性别，默认 null' })

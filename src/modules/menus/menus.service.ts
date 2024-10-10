@@ -25,7 +25,7 @@ export class MenusService extends BaseService<Menu, CreateMenuDto> {
     } else {
       delete data.parentId
     }
-    return await this.repository.save(data)
+    return await super.save(data)
   }
 
   async list(query: any = {}, isTree = true): Promise<Menu[]> {

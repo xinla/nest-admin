@@ -1,6 +1,5 @@
 import { Column, PrimaryGeneratedColumn, DeleteDateColumn, BeforeInsert, BeforeUpdate, ColumnOptions } from 'typeorm'
 import { BoolNum } from '../type/base'
-import { validate } from 'class-validator'
 import dayjs from 'dayjs'
 
 export class Base {
@@ -62,14 +61,11 @@ export class Base {
   // remark: string
 
   // 实体监听器
-  @BeforeInsert()
-  @BeforeUpdate()
-  async updateDates() {
-    const errors = await validate(this, { skipMissingProperties: true })
-    if (errors.length > 0) {
-      throw new Error(Object.values(errors[0].constraints)[0])
-    }
-  }
+  // @BeforeInsert()
+  // @BeforeUpdate()
+  // async validate() {
+
+  // }
 
   // @AfterLoad()
   // updateCounters() {
@@ -104,7 +100,7 @@ export function overLengthCut(value: string, maxLength: string | number) {
   return value?.length > +maxLength ? value.substring(0, +maxLength - 3) + '...' : value
 }
 
-export function BaseColumn(config: { overLengthCut?: boolean } & ColumnOptions) {
+export function BaseColumn(config: { overLengthCut?: boolean } & ColumnOptions = {}) {
   if (config?.overLengthCut) {
     config.transformer ??= {
       from: (value: string) => value,
@@ -112,10 +108,16 @@ export function BaseColumn(config: { overLengthCut?: boolean } & ColumnOptions) 
     }
   }
   config.type ??= 'varchar'
-  config.unique && !Object.hasOwn(config, 'nullable') && !Object.hasOwn(config, 'default') && (config.default = null) // 避免唯一约束的not null必填校验
-  config.type == 'varchar' && !config.nullable && !Object.hasOwn(config, 'default') && (config.default ??= '')
+  config.default ??= null
+  // config.unique && !Object.hasOwn(config, 'nullable') && !Object.hasOwn(config, 'default') && (config.default = null) // 避免唯一约束的not null必填校验
+  // config.type == 'varchar' && !config.nullable && !Object.hasOwn(config, 'default') && (config.default ??= null)
 
   return Column(config)
+}
+
+// 数据库唯一约束装饰器，调用baseService.save()是自动校验
+export function DbUnique(target, propertyKey) {
+  ;(target._DbUnique ??= []).push(propertyKey)
 }
 
 // Object.assign(Repository.prototype, {

@@ -25,7 +25,7 @@ export class DeptService extends BaseService<Dept, CreateDeptDto> {
     } else {
       data.parentId = null
     }
-    return await this.repository.save(new Dept().assignOwn(data))
+    return await super.save(data)
   }
 
   async findTree(query): Promise<Dept[]> {
