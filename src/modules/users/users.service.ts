@@ -43,7 +43,7 @@ export class UsersService extends BaseService<User, CreateUserDto> {
     // let total = await this.usersRepository.count({ where })
     let { deptId, name, roleId } = query
     // 获取指定deptId节点的子节点
-    let deptIds = (await this.deptService.getChildren({ id: deptId, name: '1' }))?.map((item) => item.id)
+    let deptIds = (await this.deptService.getChildren({ id: deptId }))?.map((item) => item.id)
     let queryOrm: FindManyOptions = {
       where: {
         deptId: deptId == 0 ? undefined : In(deptIds),
