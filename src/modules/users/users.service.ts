@@ -2,19 +2,21 @@ import { Injectable } from '@nestjs/common'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { User } from './entities/user.entity'
-import { FindManyOptions, Like, Repository, UpdateResult } from 'typeorm'
+import { FindManyOptions, In, Like, Repository, UpdateResult } from 'typeorm'
 import { ResponseListDto, QueryListDto } from 'src/common/dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Dept } from '../depts/entities/dept.entity'
 import { Role } from '../roles/entity'
 import { decrypt, encrypt } from 'src/common/utils/encrypt'
 import { BaseService } from 'src/common/BaseService'
+import { DeptService } from '../depts/depts.service'
 
 @Injectable()
 export class UsersService extends BaseService<User, CreateUserDto> {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    private deptService: DeptService,
   ) {
     super(User, usersRepository)
   }
@@ -40,9 +42,11 @@ export class UsersService extends BaseService<User, CreateUserDto> {
   async list(query: QueryListDto): Promise<ResponseListDto<User>> {
     // let total = await this.usersRepository.count({ where })
     let { deptId, name, roleId } = query
+    // 获取指定deptId节点的子节点
+    let deptIds = (await this.deptService.getChildren({ id: deptId, name: '1' }))?.map((item) => item.id)
     let queryOrm: FindManyOptions = {
       where: {
-        deptId: deptId == 0 ? undefined : deptId,
+        deptId: deptId == 0 ? undefined : In(deptIds),
         roles: { id: roleId },
         name: this.sqlLike(name),
       },

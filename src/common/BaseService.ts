@@ -14,7 +14,7 @@ export class BaseService<T, K> {
 
   // typeorm save 会保存关系，create 和 update 不会保存关系
   async save(dto: SaveDto<T>) {
-    let data = new this.Entity().assignOwn(dto)
+    let data = new this.Entity(dto)
 
     // 字段校验 / class-validator
     const errors = await validate(data, { skipMissingProperties: true })

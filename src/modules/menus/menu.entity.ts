@@ -28,6 +28,11 @@ export const menuTypes = {
   },
 })
 export class Menu extends Base {
+  constructor(obj = {}) {
+    super()
+    this.assignOwn(obj)
+  }
+
   @BaseColumn({ comment: '菜单名称' })
   @MaxLength(30)
   @IsNotEmpty()

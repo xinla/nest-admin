@@ -18,6 +18,11 @@ import { User } from 'src/modules/users/entities/user.entity'
 @Tree('closure-table')
 @Entity('sys_dept')
 export class Dept extends Base {
+  constructor(obj = {}) {
+    super()
+    this.assignOwn(obj)
+  }
+
   @BaseColumn({ comment: '部门名称' })
   @IsNotEmpty()
   name: string

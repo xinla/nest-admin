@@ -6,6 +6,11 @@ import { BoolNum } from 'src/common/type/base'
 // 系统配置
 @Entity('sys_config', { orderBy: { createTime: 'DESC' } })
 export class SystenConfig extends Base {
+  constructor(obj = {}) {
+    super()
+    this.assignOwn(obj)
+  }
+
   @BaseColumn({ length: 100, name: 'system_name', comment: '系统名称' })
   @MaxLength(30)
   systemName: string

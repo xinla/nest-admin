@@ -13,6 +13,11 @@ import { BoolNum } from 'src/common/type/base'
   },
 })
 export class Role extends Base {
+  constructor(obj = {}) {
+    super()
+    this.assignOwn(obj)
+  }
+
   @DbUnique
   @IsNotEmpty()
   @MaxLength(30)

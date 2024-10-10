@@ -19,6 +19,11 @@ import { BoolNum } from 'src/common/type/base'
   },
 })
 export class Notice extends Base {
+  constructor(obj = {}) {
+    super()
+    this.assignOwn(obj)
+  }
+
   @BaseColumn({ comment: '公告标题' })
   @IsNotEmpty()
   @MaxLength(30)

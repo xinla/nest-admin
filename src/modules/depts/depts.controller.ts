@@ -13,7 +13,7 @@ export class DeptController extends BaseController<Dept, DeptService> {
   }
 
   @Get('findTree')
-  findTree(@Query() query): Promise<Dept[]> {
+  findTree(@Query() query) {
     return this.service.findTree(query)
   }
 }

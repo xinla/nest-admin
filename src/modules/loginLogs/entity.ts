@@ -10,6 +10,11 @@ import { BoolNum } from 'src/common/type/base'
   },
 })
 export class LoginLog extends Base {
+  constructor(obj = {}) {
+    super()
+    this.assignOwn(obj)
+  }
+
   @BaseColumn({ length: 200, comment: '会话编号' })
   @IsNotEmpty()
   session: string

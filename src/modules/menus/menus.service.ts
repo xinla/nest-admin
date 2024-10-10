@@ -19,7 +19,7 @@ export class MenusService extends BaseService<Menu, CreateMenuDto> {
   }
 
   async save(createDto: CreateMenuDto) {
-    let data = new Menu().assignOwn(createDto)
+    let data = new Menu(createDto)
     if (data.parentId && data.parentId != '0') {
       data.parent = Object.assign(new Menu(), { id: data.parentId })
     } else {

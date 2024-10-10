@@ -22,6 +22,11 @@ export const genderTypes = {
 })
 // @Index(['email', 'isDelete', 'createTime'], { })
 export class User extends Base {
+  constructor(obj = {}) {
+    super()
+    this.assignOwn(obj)
+  }
+
   @DbUnique
   @IsNotEmpty()
   @MaxLength(30)

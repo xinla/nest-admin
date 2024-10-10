@@ -74,6 +74,8 @@ export class Base {
 
   // 自定义公共方法
   assignOwn(obj) {
+    if (!obj) return
+    obj = JSON.parse(JSON.stringify(obj))
     for (const key in obj) {
       if (!Object.hasOwn(this, key)) {
         delete obj[key]

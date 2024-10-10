@@ -28,8 +28,17 @@ export class DeptService extends BaseService<Dept, CreateDeptDto> {
     return await super.save(data)
   }
 
-  async findTree(query): Promise<Dept[]> {
-    return await this.treeRepository.findTrees()
+  // 获取部门树
+  async findTree(query): Promise<Dept | Dept[]> {
+    return await (query?.id
+      ? query?.id == 0
+        ? this.treeRepository.findRoots() // 获取所有根节点
+        : (await this.treeRepository.findDescendantsTree(new Dept(query), { depth: 2 })).children // 获取指定id节点的子节点
+      : this.treeRepository.findTrees()) // 获取所有节点树
+  }
+
+  async getChildren(query): Promise<Dept[]> {
+    return this.treeRepository.findDescendants(new Dept(query))
   }
 
   // async update(updateDto: Dept) {
