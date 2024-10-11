@@ -11,8 +11,4 @@ export class SystenConfigsService extends BaseService<SystenConfig, SystenConfig
   constructor(@InjectRepository(SystenConfig) repository: Repository<SystenConfig>) {
     super(SystenConfig, repository)
   }
-
-  async list(): Promise<ResponseListDto<SystenConfig>> {
-    return this.listBy()
-  }
 }

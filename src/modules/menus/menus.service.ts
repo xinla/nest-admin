@@ -6,14 +6,13 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { FindManyOptions, Like, Repository, TreeRepository } from 'typeorm'
 import { BaseService } from 'src/common/BaseService'
 import { arrayToTree } from 'src/common/utils/common'
+import { QueryListDto } from 'src/common/dto'
 
 @Injectable()
 export class MenusService extends BaseService<Menu, CreateMenuDto> {
   constructor(
     @InjectRepository(Menu)
-    repository: Repository<Menu>,
-    @InjectRepository(Menu)
-    private treeRepository: TreeRepository<Menu>,
+    repository: TreeRepository<Menu>,
   ) {
     super(Menu, repository)
   }
@@ -28,18 +27,18 @@ export class MenusService extends BaseService<Menu, CreateMenuDto> {
     return await super.save(data)
   }
 
-  async list(query: any = {}, isTree = true): Promise<Menu[]> {
+  async list(query: QueryListDto = {}, isTree = true) {
     let { isActive, name, type } = query
     let queryOrm: FindManyOptions = {
       where: { isActive, type, name: this.sqlLike(name) },
     }
 
-    let data = await this.treeRepository.find(queryOrm)
+    let data = await this.repository.find(queryOrm)
     // let trees = arrayToTree(data)
     return isTree ? arrayToTree(data) : data
   }
 
   async getTrees(query): Promise<Menu[]> {
-    return this.treeRepository.findTrees()
+    return this.repository.findTrees()
   }
 }

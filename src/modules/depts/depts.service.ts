@@ -12,9 +12,7 @@ import { BaseService } from 'src/common/BaseService'
 export class DeptService extends BaseService<Dept, CreateDeptDto> {
   constructor(
     @InjectRepository(Dept)
-    repository: Repository<Dept>,
-    @InjectRepository(Dept)
-    private treeRepository: TreeRepository<Dept>,
+    readonly repository: TreeRepository<Dept>,
   ) {
     super(Dept, repository)
   }
@@ -32,13 +30,13 @@ export class DeptService extends BaseService<Dept, CreateDeptDto> {
   async findTree(query): Promise<Dept | Dept[]> {
     return await (query?.id
       ? query?.id == 0
-        ? this.treeRepository.findRoots() // 获取所有根节点
-        : (await this.treeRepository.findDescendantsTree(new Dept(query), { depth: 2 })).children // 获取指定id节点的子节点
-      : this.treeRepository.findTrees()) // 获取所有节点树
+        ? this.repository.findRoots() // 获取所有根节点
+        : (await this.repository.findDescendantsTree(new Dept(query), { depth: 2 })).children // 获取指定id节点的子节点
+      : this.repository.findTrees()) // 获取所有节点树
   }
 
   async getChildren(query): Promise<Dept[]> {
-    return this.treeRepository.findDescendants(new Dept(query))
+    return this.repository.findDescendants(new Dept(query))
   }
 
   // async update(updateDto: Dept) {

@@ -42,6 +42,10 @@ export class BaseService<T, K> {
     return this.save(dto)
   }
 
+  async list(uery: QueryListDto, other?): Promise<ResponseListDto<T> | T[]> {
+    return this.listBy()
+  }
+
   async del(ids: string[] | string, updateUser?: string): Promise<UpdateResult> {
     if (typeof ids == 'string') {
       ids = ids.split(',')
