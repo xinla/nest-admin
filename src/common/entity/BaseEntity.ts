@@ -1,8 +1,9 @@
-import { Column, PrimaryGeneratedColumn, DeleteDateColumn, BeforeInsert, BeforeUpdate, ColumnOptions } from 'typeorm'
+import { Column, PrimaryGeneratedColumn, DeleteDateColumn, ColumnOptions, Entity, EntityOptions } from 'typeorm'
 import { BoolNum } from '../type/base'
 import dayjs from 'dayjs'
+import { A2_a } from '../utils/common'
 
-export class Base {
+export class BaseEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   // @PrimaryGeneratedColumn('uuid')
   id: string
@@ -102,7 +103,18 @@ export function overLengthCut(value: string, maxLength: string | number) {
   return value?.length > +maxLength ? value.substring(0, +maxLength - 3) + '...' : value
 }
 
+export function MyEntity(
+  optionsOrName: string | EntityOptions = {},
+  options: EntityOptions = { orderBy: { createTime: 'DESC' } },
+) {
+  if (typeof optionsOrName === 'string') {
+    options.name = A2_a(optionsOrName)
+  }
+  return Entity(options)
+}
+
 export function BaseColumn(config: { overLengthCut?: boolean } & ColumnOptions = {}) {
+  config.name &&= A2_a(config.name)
   if (config?.overLengthCut) {
     config.transformer ??= {
       from: (value: string) => value,

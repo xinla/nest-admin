@@ -1,15 +1,10 @@
 import { IsNotEmpty, MaxLength } from 'class-validator'
-import { Base, boolNumColumn, BaseColumn, overLengthCut } from 'src/common/entity/base'
-import { Column, ColumnOptions, Entity, JoinTable, ManyToMany } from 'typeorm'
+import { BaseEntity, boolNumColumn, BaseColumn, overLengthCut, MyEntity } from 'src/common/entity/BaseEntity'
 import { BoolNum } from 'src/common/type/base'
 
 // 用户角色
-@Entity('sys_login_log', {
-  orderBy: {
-    createTime: 'DESC',
-  },
-})
-export class LoginLog extends Base {
+@MyEntity('sys_login_log')
+export class LoginLog extends BaseEntity {
   constructor(obj = {}) {
     super()
     this.assignOwn(obj)

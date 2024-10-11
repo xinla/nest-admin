@@ -70,8 +70,13 @@ export function titleCase(str) {
 }
 
 // 下划转驼峰
-export function camelCase(str) {
-  return str.replace(/-[a-z]/g, (str1) => str1.substr(-1).toUpperCase())
+export function _a2A(str) {
+  return str.replace(/_[a-z]/g, (str1) => str1.substr(-1).toUpperCase())
+}
+
+// 驼峰转下划
+export function A2_a(str) {
+  return str.replace(/[A-Z]/g, (str1) => '_' + str1.substr(-1).toLowerCase())
 }
 
 /**

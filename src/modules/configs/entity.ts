@@ -1,20 +1,20 @@
 import { IsNotEmpty, MaxLength } from 'class-validator'
-import { Base, BaseColumn, boolNumColumn } from 'src/common/entity/base'
+import { BaseEntity, BaseColumn, MyEntity, boolNumColumn } from 'src/common/entity/BaseEntity'
 import { Column, Entity, JoinTable, ManyToMany } from 'typeorm'
 import { BoolNum } from 'src/common/type/base'
 
 // 系统配置
-@Entity('sys_config', { orderBy: { createTime: 'DESC' } })
-export class SystenConfig extends Base {
+@MyEntity('sys_config')
+export class SystenConfig extends BaseEntity {
   constructor(obj = {}) {
     super()
     this.assignOwn(obj)
   }
 
-  @BaseColumn({ length: 100, name: 'system_name', comment: '系统名称' })
+  @BaseColumn({ name: 'systemName' })
   @MaxLength(30)
   systemName: string
 
-  @BaseColumn({ length: 200, name: 'system_logo', comment: '系统logo' })
+  @BaseColumn({ name: 'systemLogo' })
   systemLogo: string
 }

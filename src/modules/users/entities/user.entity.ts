@@ -1,5 +1,5 @@
 import { Entity, Column, ManyToOne, OneToMany, RelationId, JoinColumn, ManyToMany, JoinTable, Index } from 'typeorm'
-import { Base, BaseColumn, boolNumColumn, DbUnique } from 'src/common/entity/base'
+import { BaseEntity, BaseColumn, MyEntity, boolNumColumn, DbUnique } from 'src/common/entity/BaseEntity'
 import { BoolNum } from 'src/common/type/base'
 import { Dept } from 'src/modules/depts/entities/dept.entity'
 import { IsEmail, IsNotEmpty, IsNumberString, MaxLength, ValidateIf } from 'class-validator'
@@ -15,13 +15,9 @@ export const genderTypes = {
   [GenderTypes.woamn]: '女',
 }
 
-@Entity('sys_user', {
-  orderBy: {
-    createTime: 'DESC',
-  },
-})
+@MyEntity('sys_user')
 // @Index(['email', 'isDelete', 'createTime'], { })
-export class User extends Base {
+export class User extends BaseEntity {
   constructor(obj = {}) {
     super()
     this.assignOwn(obj)

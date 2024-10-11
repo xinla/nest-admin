@@ -11,13 +11,13 @@ import {
   JoinColumn,
   RelationId,
 } from 'typeorm'
-import { Base, BaseColumn } from 'src/common/entity/base'
+import { BaseEntity, BaseColumn, MyEntity } from 'src/common/entity/BaseEntity'
 import { IsEmpty, IsInt, IsNotEmpty, validate } from 'class-validator'
 import { User } from 'src/modules/users/entities/user.entity'
 
 @Tree('closure-table')
-@Entity('sys_dept')
-export class Dept extends Base {
+@MyEntity('sys_dept')
+export class Dept extends BaseEntity {
   constructor(obj = {}) {
     super()
     this.assignOwn(obj)

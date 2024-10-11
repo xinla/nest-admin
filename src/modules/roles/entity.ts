@@ -1,18 +1,18 @@
 import { IsNotEmpty, MaxLength } from 'class-validator'
-import { Base, BaseColumn, boolNumColumn, DbUnique } from 'src/common/entity/base'
+import { BaseEntity, BaseColumn, MyEntity, boolNumColumn, DbUnique } from 'src/common/entity/BaseEntity'
 import { Column, Entity, JoinTable, ManyToMany } from 'typeorm'
 import { User } from '../users/entities/user.entity'
 import { Menu } from '../menus/menu.entity'
 import { BoolNum } from 'src/common/type/base'
 
 // 用户角色
-@Entity('sys_role', {
+@MyEntity('sys_role', {
   orderBy: {
     order: 'ASC',
     createTime: 'DESC',
   },
 })
-export class Role extends Base {
+export class Role extends BaseEntity {
   constructor(obj = {}) {
     super()
     this.assignOwn(obj)

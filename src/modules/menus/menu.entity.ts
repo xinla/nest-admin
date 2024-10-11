@@ -1,5 +1,5 @@
 import { MaxLength, IsNotEmpty } from 'class-validator'
-import { Base, BaseColumn, boolNumColumn } from 'src/common/entity/base'
+import { BaseEntity, BaseColumn, MyEntity, boolNumColumn } from 'src/common/entity/BaseEntity'
 import { BoolNum } from 'src/common/type/base'
 import { Column, Entity, JoinColumn, Tree, TreeChildren, TreeParent } from 'typeorm'
 
@@ -21,13 +21,13 @@ export const menuTypes = {
 // ]
 
 @Tree('closure-table')
-@Entity('sys_menu', {
+@MyEntity('sys_menu', {
   orderBy: {
     order: 'ASC',
     createTime: 'DESC',
   },
 })
-export class Menu extends Base {
+export class Menu extends BaseEntity {
   constructor(obj = {}) {
     super()
     this.assignOwn(obj)

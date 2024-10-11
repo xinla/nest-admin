@@ -1,5 +1,5 @@
 import { IsNotEmpty, MaxLength } from 'class-validator'
-import { Base, BaseColumn, boolNumColumn } from 'src/common/entity/base'
+import { BaseEntity, BaseColumn, MyEntity, boolNumColumn } from 'src/common/entity/BaseEntity'
 import { Column, Entity, JoinTable, ManyToMany } from 'typeorm'
 import { BoolNum } from 'src/common/type/base'
 
@@ -13,12 +13,8 @@ import { BoolNum } from 'src/common/type/base'
 //   [Type.menu]: '菜单',
 // }
 
-@Entity('sys_notice', {
-  orderBy: {
-    createTime: 'DESC',
-  },
-})
-export class Notice extends Base {
+@MyEntity('sys_notice')
+export class Notice extends BaseEntity {
   constructor(obj = {}) {
     super()
     this.assignOwn(obj)
