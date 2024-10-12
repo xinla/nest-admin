@@ -6,7 +6,7 @@ export class CaptchaService {
   private captchaMap = new Map<string, string>()
 
   getCaptchaImage(type = 'math'): { data: string; uuid: string } {
-    const captcha = svgCaptcha.createMathExpr({})
+    const captcha = svgCaptcha.createMathExpr({ color: true })
     const { data, text } = captcha
     const uuid = Math.random().toString(36).substring(2, 10)
     this.captchaMap.set(uuid, text)
