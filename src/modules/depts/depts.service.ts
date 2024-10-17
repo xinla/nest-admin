@@ -27,7 +27,7 @@ export class DeptService extends BaseService<Dept, CreateDeptDto> {
   }
 
   // 获取部门树
-  async findTree(query): Promise<Dept | Dept[]> {
+  async getTrees(query): Promise<Dept | Dept[]> {
     return await (query?.id
       ? query?.id == 0
         ? this.repository.findRoots() // 获取所有根节点

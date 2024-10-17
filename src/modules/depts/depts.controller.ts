@@ -12,8 +12,8 @@ export class DeptController extends BaseController<Dept, DeptService> {
     super(service)
   }
 
-  @Get('findTree')
-  findTree(@Query() query) {
-    return this.service.findTree(query)
+  @Get('getTrees')
+  getTrees(@Query() query) {
+    return this.service.getTrees(query)
   }
 }

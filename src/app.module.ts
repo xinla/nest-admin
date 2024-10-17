@@ -14,6 +14,8 @@ import { NoticesModule } from './modules/notices/module'
 import { SystenConfigsModule } from './modules/configs/module'
 import { LoginLogsModule } from './modules/loginLogs/module'
 import { GlobalModule } from './modules/global/global.module'
+import { ArticlesModule } from './modulesBusi/articles/module'
+import { ArticleCatalogsModule } from './modulesBusi/articleCatalogs/module'
 
 @Dependencies(DataSource)
 @Module({
@@ -29,6 +31,8 @@ import { GlobalModule } from './modules/global/global.module'
     SystenConfigsModule,
     LoginLogsModule,
     GlobalModule,
+    ArticlesModule,
+    ArticleCatalogsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
