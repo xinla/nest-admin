@@ -198,19 +198,28 @@ export const getBrowser = (userAgent) => {
   else if (isExplorer('Chrome')) return 'Chrome'
   else if (isExplorer('Opera')) return 'Opera'
   else if (isExplorer('Safari')) return 'Safari'
+  else return '其他'
 }
 
 /**
  * 判断当前系统类型
  */
 export function getSystem(userAgent) {
-  if (userAgent.indexOf('MicroMessenger') > -1) {
+  if (/MicroMessenger/i.test(userAgent)) {
     return 'weChat'
-  } else if (/Mac OS X/gi.test(userAgent)) {
+  } else if (/win/i.test(userAgent)) {
+    return 'Windows'
+  } else if (/linux/i.test(userAgent)) {
+    return 'Linux'
+  } else if (/macintosh|mac os x/i.test(userAgent)) {
     return 'Mac OS'
-  } else if (userAgent.indexOf('Android') > -1) {
-    return 'android'
+  } else if (/android/i.test(userAgent)) {
+    return 'Android'
   } else if (/iphone/gi.test(userAgent)) {
-    return 'iPhone'
+    return 'IOS iPhone'
+  } else if (/ipad|iPod/gi.test(userAgent)) {
+    return 'IOS ipad'
+  } else {
+    return '其他'
   }
 }
