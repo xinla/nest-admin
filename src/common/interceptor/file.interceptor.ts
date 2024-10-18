@@ -1,11 +1,11 @@
 import { UseInterceptors } from '@nestjs/common'
 import { AnyFilesInterceptor, FileInterceptor } from '@nestjs/platform-express'
-import { mkdir } from 'fs'
+import { mkdir } from 'node:fs/promises'
 import { diskStorage } from 'multer'
 import { extname, join } from 'path'
 import dayjs from 'dayjs'
 
-export function MulterFileInterceptor(subDir = 'default', formats = ['*'], fileMaxSize = Math.pow(1024, 2) * 20) {
+export function MulterFileInterceptor(subDir = '', formats = ['*'], fileMaxSize = Math.pow(1024, 2) * 20) {
   return UseInterceptors(
     FileInterceptor('file', {
       // AnyFilesInterceptor({
@@ -32,13 +32,13 @@ export function MulterFileInterceptor(subDir = 'default', formats = ['*'], fileM
         filename: async function (req, file, cb) {
           let dirGroup = dayjs().format('YYYY-MM-DD')
           // let dirGroup = file.originalname.split('.').at(-1)
-          let fileDir = join(subDir || req.body.module || '', dirGroup)
+          let fileDir = join(subDir || req.body.module || 'default', dirGroup)
           try {
             // await access(
             //   'upload/' + dayjs().format('YYYY-MM-DD'),
             //   constants.R_OK | constants.W_OK,
             // )
-            await mkdir(join('upload', fileDir), { recursive: true }, () => {})
+            await mkdir(join('upload', fileDir), { recursive: true })
           } catch (error) {
             throw error
             // console.error(error.message)

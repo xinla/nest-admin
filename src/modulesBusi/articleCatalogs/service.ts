@@ -36,4 +36,8 @@ export class ArticleCatalogsService extends BaseService<ArticleCatalog, ArticleC
         : (await this.repository.findDescendantsTree(new ArticleCatalog(query), { depth: 2 })).children // 获取指定id节点的子节点
       : this.repository.findTrees()) // 获取所有节点树
   }
+
+  async getChildren(query): Promise<ArticleCatalog[]> {
+    return this.repository.findDescendants(new ArticleCatalog(query))
+  }
 }

@@ -59,7 +59,7 @@ export class BaseController<T, K> {
   // }
 
   // 单个查询，获取详情
-  @Get('getOne')
+  @Get('getOne/:id')
   async getOne(@Param('id') id: string): Promise<T> {
     return this.service.getOne({ id })
   }
