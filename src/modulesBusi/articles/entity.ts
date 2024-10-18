@@ -1,5 +1,5 @@
 import { IsNotEmpty, MaxLength } from 'class-validator'
-import { BaseEntity, BaseColumn, MyEntity, boolNumColumn } from 'src/common/entity/BaseEntity'
+import { BaseEntity, BaseColumn, MyEntity, boolNumColumn, DbUnique } from 'src/common/entity/BaseEntity'
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne } from 'typeorm'
 import { BoolNum } from 'src/common/type/base'
 import { ArticleCatalog } from '../articleCatalogs/entity'
@@ -16,6 +16,7 @@ export class Article extends BaseEntity {
     this.assignOwn(obj)
   }
 
+  @DbUnique
   @BaseColumn()
   @IsNotEmpty()
   @MaxLength(30)
