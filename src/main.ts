@@ -26,6 +26,7 @@ async function bootstrap() {
 \\____|__  /\\___  >____  > |__|   \\____|__  /\\____ |__|_|  /__|___|  /
         \\/     \\/     \\/                 \\/      \\/     \\/        \\/
 `)
+  console.log('localhost:3000 启动成功')
 }
 bootstrap()
 
