@@ -24,6 +24,7 @@ export class BaseService<T, K> {
 
     // 数据库唯一字段校验 / @DbUnique
     for (const element of data._DbUnique || []) {
+      if (!data[element] && data[element] !== 0) continue
       let res = await this.sqlOne({ [element]: data[element] })
       if (res && res.id != data.id) {
         throw new Error(`${data[element]} 已存在`)
