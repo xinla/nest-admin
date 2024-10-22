@@ -63,6 +63,12 @@ cnpm i
 npm i
 ```
 
+## 配置
+
+1. 在 `config/config.ts`里的 `databaseList.dev`中配置本地数据库连接信息
+2. 执行 `doc/sql/nest_admin.sql` 文件，创建表到数据库中
+3. 执行 `doc/sql` 文件夹下的其他sql 文件，导入对应表数据到数据库中
+
 ## 运行
 
 ```bash
