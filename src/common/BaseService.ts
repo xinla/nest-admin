@@ -26,7 +26,7 @@ export class BaseService<T, K> {
     for (const element of data._DbUnique || []) {
       if (!data[element] && data[element] !== 0) continue
       let res = await this.sqlOne({ [element]: data[element] })
-      if (res && res.id != data.id) {
+      if (res && res?.id != data.id) {
         throw new Error(`${data[element]} 已存在`)
       }
     }
@@ -85,7 +85,27 @@ export class BaseService<T, K> {
 
   // 单条查询统一公用接口，禁止子类重写
   async sqlOne(query: FindOptionsWhere<T> & FindOneOptions): Promise<any | null> {
-    return this.repository.findOne(query.where && typeof query.where == 'object' ? query : { where: query })
+    if (!query) return null
+    let isEmpty = true
+    // 查询参数为空，则返回空
+    if (typeof query?.where == 'object') {
+      for (const key in query.where) {
+        if (query.where[key] !== undefined) {
+          isEmpty = false
+          break
+        }
+      }
+    } else {
+      for (const key in query) {
+        if (query[key] !== undefined) {
+          isEmpty = false
+          break
+        }
+      }
+      query.where = JSON.parse(JSON.stringify(query))
+    }
+    if (isEmpty || Object.keys(query).length == 0) return null
+    return this.repository.findOne(query)
   }
 
   // 模糊匹配
