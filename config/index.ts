@@ -3,6 +3,10 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm'
 // import { secret } from './secret'
 import { accessSync, constants } from 'fs'
 
+export const config = {
+  adminKey: 'admin',
+}
+
 export const databaseList: { dev: TypeOrmModuleOptions; prod } = {
   dev: {
     type: 'mysql',

@@ -126,11 +126,9 @@ export function delTreeKeys(obj, keyArray) {
  * @param {*} id id字段 默认 'id'
  * @param {*} parentId 父节点字段 默认 'parentId'
  * @param {*} children 孩子节点字段 默认 'children'
+ * @param {*} rootId 根节点id 默认 '0'，可以用于匹配根节点，防止断层子级提升到根节点下面
  */
-export function arrayToTree(data, id?, parentId?, children?) {
-  id = id || 'id'
-  parentId = parentId || 'parentId'
-  children = children || 'children'
+export function arrayToTree(data, id = 'id', parentId = 'parentId', children = 'children', rootId = '0') {
   let result = []
   data = JSON.parse(JSON.stringify(data))
   if (!Array.isArray(data)) {
@@ -148,7 +146,7 @@ export function arrayToTree(data, id?, parentId?, children?) {
     if (parent) {
       parent[children] || (parent[children] = [])
       parent[children].push(item)
-    } else {
+    } else if (!rootId || item[parentId] === rootId) {
       result.push(item)
     }
   })

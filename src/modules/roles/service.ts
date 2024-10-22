@@ -9,6 +9,8 @@ import { BaseService } from 'src/common/BaseService'
 import { Menu } from '../menus/menu.entity'
 import { MenusService } from '../menus/menus.service'
 import { arrayToTree } from 'src/common/utils/common'
+import { BoolNum } from 'src/common/type/base'
+import { config } from 'config'
 
 @Injectable()
 export class RolesService extends BaseService<Role, CreateRoleDto> {
@@ -38,15 +40,23 @@ export class RolesService extends BaseService<Role, CreateRoleDto> {
   }
 
   async getLoginUserMenus(user): Promise<Menu[]> {
-    if (user.name === 'admin') {
-      return this.menusService.list()
+    if (user.name === config.adminKey) {
+      return this.menusService.list({ isActive: BoolNum.Yes })
     } else {
       let allMenus = []
       // 多角色菜单合并去重
       for (const element of user.roles || []) {
         if (element.isActive == 1) {
-          let menus = (await this.getOne({ where: { permissionKey: element.permissionKey }, relations: ['menus'] }))
-            .menus
+          let menus = (
+            await this.repository
+              .createQueryBuilder('Role')
+              .leftJoinAndSelect('Role.menus', 'menus', 'menus.isActive = :isActive', {
+                isActive: BoolNum.Yes,
+              })
+              .where('Role.permissionKey = :permissionKey', { permissionKey: element.permissionKey })
+          ).menus
+          // let menus = (await this.getOne({ where: { permissionKey: element.permissionKey }, relations: ['menus'] }))
+          //   .menus
           menus.sort((a, b) => {
             if (a.order == b.order) {
               return +new Date(b.createTime) - +new Date(a.createTime)
