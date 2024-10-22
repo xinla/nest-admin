@@ -45,11 +45,14 @@
 
 ## 安装
 
-需要安装 nodejs v20+
+本地需要提前安装 nodejs v20+
 
 ```bash
+# clone 项目
+git clone https://gitee.com/hixinla/nest-admin.git
+
 # 进入项目根目录
-$ cd nest-admin
+cd nest-admin
 
 # 安装依赖
 # 方式一： npm 指定淘宝镜像
@@ -82,6 +85,25 @@ $ npm run start:prod
 ```
 
 在应用程序运行后, 打开浏览器并访问 http://localhost:3000/。 你应该看到 Hello world! 信息。
+
+## 部署
+
+1. 和本地运行类似，在服务器执行上面安装和配置步骤
+
+2. 然后安装 [pm2](https://pm2.io/docs/plus/overview/)，目前使用 pm2 启动和管理node项目进程。有关pm2 的更多信息，请查看 [pm2 文档](https://pm2.io/docs/plus/overview/)。国内打不开的话，可以自行搜索相关中文网站。
+
+3. 执行 `npm run build`
+
+4. 执行 `pm2 start "npm run start:prod"` 即可启动。
+
+## 一键自动化部署
+
+- [`bin/build.sh`](bin/build.sh)是服务器构建运行脚本，后续更新部署可直接在服务器项目根目录下执行 `bash bin/build.sh` 即可。
+
+- 更简单的是，当前使用自动化部署插件 [cmd-deploy](https://www.npmjs.com/package/cmd-deploy)，借助插件，直接在本地执行 `deploy prod` 即可。有关 `cmd-deploy` 的使用，可参考 [cmd-deploy 文档](https://www.npmjs.com/package/cmd-deploy)。
+
+- 以下是 cmd-deploy 配置文件 deploy.config.mjs 的远程命令配置  
+  `remoteCommand: ['cd /usr/local/nest/admin', './bin/build.sh'], // 线上环境打包脚本`
 
 ## 支持
 
