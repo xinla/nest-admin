@@ -54,6 +54,7 @@ export class RolesService extends BaseService<Role, CreateRoleDto> {
                 isActive: BoolNum.Yes,
               })
               .where('Role.permissionKey = :permissionKey', { permissionKey: element.permissionKey })
+              .getOne()
           ).menus
           // let menus = (await this.getOne({ where: { permissionKey: element.permissionKey }, relations: ['menus'] }))
           //   .menus
