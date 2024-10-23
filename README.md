@@ -43,6 +43,38 @@
 <img src="./doc/image.4.png" width="%" height="30%" />
 <img src="./doc/image.5.png" width="%" height="30%" />
 
+## 目录结构
+
+```
+├── bin                        # 脚本
+│   │── build.sh               # 部署构建脚本
+├── config                     # 项目配置
+│   │── index.ts               # 配置文件
+│   │── secret.ts              # 密钥配置
+├── deploy                     # cmd-deploy 自动化部署
+│   │── deploy.config.mjs      # 自动化部署配置
+├── doc                        # 项目文档
+│   │── sql                    # sql 脚本
+│── dist                       # 构建目录
+├── src                        # 源代码
+│   ├── common                 # 公共文件
+│   ├── modules                # 系统模块
+│   ├── modulesBusi            # 业务模块
+│   ├── app.controller.spec.ts # 测试用例
+│   ├── app.controller.ts      # 根路由
+│   ├── app.module.ts          # 根模块
+│   ├── app.service.ts         # 根服务
+│   ├── main.ts                # 入口文件 加载组件 初始化等
+├── test                       # 测试脚本
+├── upload                     # 文件上传存储目录
+├── LICENSE                    # LICENSE文件
+├── .prettierrc                # prettier格式化配置
+├── package.json               # package.json
+├── README.md                  # README
+├── RELEASE.md                 # 发布日志
+├── tsconfig.json              # tsconfig 配置
+```
+
 ## 安装
 
 本地需要提前安装 nodejs v20+
