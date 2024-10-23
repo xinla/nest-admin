@@ -16,6 +16,8 @@
 - github地址：https://github.com/xinla/nest-admin
 - 国内gitee地址：https://gitee.com/hixinla/nest-admin
 
+另外，Nest Admin 使用 [cmd-deploy](https://www.npmjs.com/package/cmd-deploy) npm插件进行前后端的自动化部署，也欢迎大家Star。谢谢~
+
 ## 内置功能
 
 1. 用户管理：配置系统操作用户，角色等。
@@ -40,6 +42,9 @@
 - [ ] 数据大屏
 - [ ] 数字孪生 3D  
        ...
+
+如果觉得 [Nest Admin](https://gitee.com/hixinla/nest-admin) 有帮助到您，点个免费的 ⭐️ Star ⭐️ 就是最美的支持  
+Star 越快，更得越快~
 
 ## 功能演示
 
@@ -150,7 +155,9 @@ $ npm run start:prod
 
 ## 支持
 
-你的 ⭐️ Star ⭐️ 就是最美的支持
+点个免费的 ⭐️ Star ⭐️ 就是最美的支持
+
+如果有什么问题，欢迎提 issue，欢迎 PR。
 
 ## 协议
 
