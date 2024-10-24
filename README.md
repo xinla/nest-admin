@@ -2,8 +2,10 @@
 <p align="center"><b>基于 Nestjs + Vue 前后端分离的 Nodejs 中后台权限管理系统快速开发框架</b></p>
 <p align="center"><b>你的 ⭐️ Star ⭐️ 就是最美的支持</b></p>
 <p align="center">
-<a href="https://gitee.com/hixinla/nest-admin" target="_blank"><img src="https://img.shields.io/badge/node-^20-blue" alt="NPM Version" /></a>
-<a href="https://gitee.com/hixinla/nest-admin" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
+<a href="https://gitee.com/hixinla/nest-admin" target="_blank"><img src="https://img.shields.io/badge/node-^v20-blue" alt="node version" /></a>
+<a href="https://gitee.com/hixinla/nest-admin" target="_blank"><img src="https://img.shields.io/github/license/xinla/nest-admin" alt="Package License" /></a>
+<a href="https://gitee.com/hixinla/nest-admin" target="_blank"><img src="https://img.shields.io/badge/gitee-support star-yellow" alt="gitee" /></a>
+<!-- <a href="https://github.com/xinla/nest-admin" target="_blank"><img src="https://img.shields.io/badge/github-support star-yellow" alt="github" /></a> -->
 </p>
 
 ## 平台简介
