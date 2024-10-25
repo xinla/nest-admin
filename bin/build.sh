@@ -17,6 +17,8 @@ fi
 cd $(dirname $0)  # 进入当前文件所在目录
 cd ../
 
+git reset --hard HEAD
+
 echo 拉取项目...
 git pull
 echo 拉取完毕
