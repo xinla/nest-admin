@@ -8,6 +8,7 @@ import { APP_GUARD } from '@nestjs/core'
 import { AuthGuard } from './auth.guard'
 import { LoginLogsModule } from '../loginLogs/module'
 import { CommonModule } from '../common/common.module'
+import dayjs from 'dayjs'
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { CommonModule } from '../common/common.module'
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '1d' },
+      signOptions: { expiresIn: dayjs().add(1, 'day').startOf('day').diff(dayjs(), 'second') }, // 到当天结束过期
     }),
   ],
   providers: [
