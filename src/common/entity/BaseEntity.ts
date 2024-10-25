@@ -3,6 +3,18 @@ import { BoolNum } from '../type/base'
 import dayjs from 'dayjs'
 import { A2_a } from '../utils/common'
 
+// enum
+// export enum MenuType {
+//   catalog = '0',
+//   menu = '1',
+//   button = '2',
+// }
+// export const menuTypes = {
+//   [MenuType.catalog]: '目录',
+//   [MenuType.menu]: '菜单',
+//   [MenuType.button]: '按钮',
+// }
+
 export class BaseEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   // @PrimaryGeneratedColumn('uuid')

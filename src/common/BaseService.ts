@@ -14,6 +14,9 @@ export class BaseService<T, K> {
 
   // typeorm save 会保存关系，create 和 update 不会保存关系
   async save(dto: SaveDto<T>) {
+    delete dto.createTime
+    delete dto.updateTime
+
     let data = new this.Entity(dto)
 
     // 字段校验 / class-validator

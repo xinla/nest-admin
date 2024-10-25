@@ -3,6 +3,20 @@ import { BaseEntity, BaseColumn, MyEntity, boolNumColumn, DbUnique } from 'src/c
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne } from 'typeorm'
 import { BoolNum } from 'src/common/type/base'
 import { ArticleCatalog } from '../articleCatalogs/entity'
+import dayjs from 'dayjs'
+
+export enum Status {
+  draft = '0',
+  wait = '1',
+  published = '2',
+  outdate = '3',
+}
+export const status = {
+  [Status.draft]: '草稿',
+  [Status.wait]: '待发布',
+  [Status.published]: '已发布',
+  [Status.outdate]: '下架',
+}
 
 @MyEntity('busiArticle', {
   orderBy: {
@@ -41,6 +55,18 @@ export class Article extends BaseEntity {
   @BaseColumn({ length: 8, default: '1', comment: '排序' })
   order: string
 
-  @BaseColumn(boolNumColumn('激活', 'is_active', BoolNum.Yes))
-  isActive: BoolNum
+  @BaseColumn({ type: 'enum', enum: Status, default: Status.published, comment: '菜单类型，默认 2' })
+  status: Status
+
+  @BaseColumn({
+    type: 'datetime',
+    transformer: {
+      from: (date) => date && dayjs(date).format('YYYY-MM-DD HH:mm:ss'),
+      to: (value: string) => value,
+    },
+    nullable: true,
+    name: 'publishTime',
+    comment: '定时发布时间',
+  })
+  publishTime: string
 }

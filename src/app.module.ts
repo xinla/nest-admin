@@ -16,11 +16,15 @@ import { LoginLogsModule } from './modules/loginLogs/module'
 import { GlobalModule } from './modules/global/global.module'
 import { ArticlesModule } from './modulesBusi/articles/module'
 import { ArticleCatalogsModule } from './modulesBusi/articleCatalogs/module'
+import { ScheduleModule } from '@nestjs/schedule'
+import { TasksModule } from './common/tasks/tasks.module'
 
 @Dependencies(DataSource)
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({ useFactory: database }),
+    ScheduleModule.forRoot(),
+    TasksModule,
     MenusModule,
     UsersModule,
     CommonModule,

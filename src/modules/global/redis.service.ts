@@ -87,7 +87,7 @@ export class RedisService {
       )
     })
     let { pageNum, pageSize } = query
-    return data.slice(--pageNum * pageSize, pageSize)
+    return [data.slice(--pageNum * pageSize, pageSize), data.length]
   }
 
   async setRedisOnlineUser(reqOrData, user: any = {}) {

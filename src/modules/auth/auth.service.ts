@@ -84,8 +84,8 @@ export class AuthService {
     await this.redisService.delRedisOnlineUser(session)
   }
 
-  async getOnlineUsers(query): Promise<ResponseListDto<any>> {
-    let data = await this.redisService.getRedisOnlineUser(query)
-    return { total: 10, data: data, _flag: true }
+  async getOnlineUsers(query): Promise<any> {
+    let [data, total] = await this.redisService.getRedisOnlineUser(query)
+    return { total, data, _flag: true }
   }
 }
