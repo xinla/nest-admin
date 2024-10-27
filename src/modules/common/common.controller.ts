@@ -18,7 +18,7 @@ import { FileInterceptor } from '@nestjs/platform-express'
 import { CommonService } from './common.service'
 import { MulterFileInterceptor } from 'src/common/interceptor/file.interceptor'
 import { CaptchaService } from './captcha.service'
-import { Public } from '../auth/constants'
+import { Public } from '../auth/auth.service'
 
 @Controller('system/common')
 export class CommonController {

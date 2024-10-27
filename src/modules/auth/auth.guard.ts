@@ -1,9 +1,9 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
-import { IS_PUBLIC_KEY, jwtConstants } from './constants'
 import { Request } from 'express'
 import { Reflector } from '@nestjs/core'
 import { RedisService } from '../global/redis.service'
+import { config } from 'config'
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+    const isPublic = this.reflector.getAllAndOverride<boolean>(config.isPublicKey, [
       context.getHandler(),
       context.getClass(),
     ])
@@ -31,7 +31,7 @@ export class AuthGuard implements CanActivate {
     let payload
     try {
       payload = await this.jwtService.verifyAsync(token, {
-        secret: jwtConstants.secret,
+        secret: config.jwtSecret,
       })
       // 💡 We're assigning the payload to the request object here
       // so that we can access it in our route handlers

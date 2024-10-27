@@ -4,7 +4,7 @@ import { QueryListDto, ResponseListDto } from 'src/common/dto'
 import { UpdateResult } from 'typeorm'
 import { SystenConfig } from './entity'
 import { BaseController } from 'src/common/BaseController'
-import { Public } from '../auth/constants'
+import { Public } from '../auth/auth.service'
 
 @Controller('system/configs')
 export class SystenConfigsController extends BaseController<SystenConfig, SystenConfigsService> {

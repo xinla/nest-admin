@@ -1,10 +1,17 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm'
+import dayjs from 'dayjs'
 // import { BaseSubscriber } from 'src/common/entity/base'
 // import { secret } from './secret'
 import { accessSync, constants } from 'fs'
 
 export const config = {
   adminKey: 'admin',
+  isPublicKey: 'isPublic',
+  get jwtExpires() {
+    return dayjs().endOf('day').diff(dayjs(), 'second') + 's'
+  }, // 到当天结束过期
+  // jwtExpires: '1d',
+  jwtSecret: 'DO NOT USE THIS VALUE. INSTEAD, CREATE A COMPLEX SECRET AND KEEP IT SAFE OUTSIDE OF THE SOURCE CODE.',
 }
 
 export const databaseList: { dev: TypeOrmModuleOptions; prod } = {

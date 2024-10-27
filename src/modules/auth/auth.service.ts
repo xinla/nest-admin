@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common'
+import { Injectable, SetMetadata, UnauthorizedException } from '@nestjs/common'
 import { UsersService } from '../users/users.service'
 import { JwtService } from '@nestjs/jwt'
 
@@ -9,6 +9,9 @@ import { ResponseListDto } from 'src/common/dto'
 import dayjs from 'dayjs'
 import { CaptchaService } from '../common/captcha.service'
 import { uuid } from '../../common/utils/common'
+
+import { config } from 'config'
+export const Public = () => SetMetadata(config.isPublicKey, true)
 
 @Injectable()
 export class AuthService {
@@ -54,7 +57,10 @@ export class AuthService {
     let { password: _, ...result } = user
 
     const payload = { sub: user.id, account: user.name, loginTime: dayjs().format('YYYY-MM-DD HH:mm:ss'), ...result }
-    let accessToken = await this.jwtService.signAsync(payload)
+    let accessToken = await this.jwtService.signAsync(payload, {
+      secret: config.jwtSecret,
+      expiresIn: config.jwtExpires,
+    })
 
     let log = await this.loginLogsService.createLog(req, {
       session: accessToken.split('.').at(-1),

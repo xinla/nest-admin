@@ -10,7 +10,7 @@ import { QueryListDto, ResponseListDto } from '../../common/dto/index'
 import { BaseController } from 'src/common/BaseController'
 import { MulterFileInterceptor } from 'src/common/interceptor/file.interceptor'
 import { CaptchaService } from '../common/captcha.service'
-import { Public } from '../auth/constants'
+import { Public } from '../auth/auth.service'
 
 @Controller('system/users')
 // @UseFilters(new HttpExceptionFilter())
