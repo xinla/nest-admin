@@ -18,6 +18,7 @@ import { ArticlesModule } from './modulesBusi/articles/module'
 import { ArticleCatalogsModule } from './modulesBusi/articleCatalogs/module'
 import { ScheduleModule } from '@nestjs/schedule'
 import { TasksModule } from './common/tasks/tasks.module'
+import { HttpModule } from './common/http/module'
 
 @Dependencies(DataSource)
 @Module({
@@ -25,6 +26,7 @@ import { TasksModule } from './common/tasks/tasks.module'
     TypeOrmModule.forRootAsync({ useFactory: database }),
     ScheduleModule.forRoot(),
     TasksModule,
+    HttpModule,
     MenusModule,
     UsersModule,
     CommonModule,
