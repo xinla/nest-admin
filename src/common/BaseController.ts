@@ -9,29 +9,29 @@ export class BaseController<T, K> {
 
   // add Or Update
   @Post('save')
-  async save(@Body() createDto, @Req() req) {
-    if (createDto.id) {
-      delete createDto.createUser
-      createDto.updateUser = req.user.name
+  async save(@Body() body, @Req() req) {
+    if (body.id) {
+      delete body.createUser
+      body.updateUser = req.user.name
     } else {
-      delete createDto.updateUser
-      createDto.createUser = req.user.name
+      delete body.updateUser
+      body.createUser = req.user.name
     }
-    return this.service.save(createDto)
+    return this.service.save(body)
   }
 
   @Post('add')
-  async add(@Body() createDto, @Req() req) {
-    delete createDto.updateUser
-    createDto.createUser = req.user.name
-    return this.service.add(createDto)
+  async add(@Body() body, @Req() req) {
+    delete body.updateUser
+    body.createUser = req.user.name
+    return this.service.add(body)
   }
 
   @Post('update')
-  async update(@Body() createDto, @Req() req) {
-    delete createDto.createUser
-    createDto.updateUser = req.user.name
-    return this.service.update(createDto)
+  async update(@Body() body, @Req() req) {
+    delete body.createUser
+    body.updateUser = req.user.name
+    return this.service.update(body)
   }
 
   /**
