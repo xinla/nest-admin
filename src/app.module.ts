@@ -19,6 +19,7 @@ import { ArticleCatalogsModule } from './modulesBusi/articleCatalogs/module'
 import { ScheduleModule } from '@nestjs/schedule'
 import { TasksModule } from './common/tasks/tasks.module'
 import { HttpModule } from './common/http/module'
+import { AiModule } from './modulesAi/ai/module'
 
 @Dependencies(DataSource)
 @Module({
@@ -39,6 +40,7 @@ import { HttpModule } from './common/http/module'
     GlobalModule,
     ArticlesModule,
     ArticleCatalogsModule,
+    AiModule,
   ],
   controllers: [AppController],
   providers: [AppService],

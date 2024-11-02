@@ -86,7 +86,8 @@ export function A2_a(str) {
  * @param {string} after 后缀
  * @returns {string}
  */
-export function uuid(length, before = '', after = '') {
+export function uuid(length = 36, before = '', after = '') {
+  return global.crypto.randomUUID()
   const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
   const charsLen = chars.length
   let uuid = []
