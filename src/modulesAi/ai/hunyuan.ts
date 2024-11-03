@@ -35,7 +35,7 @@ const params = {
 }
 
 export const send = async (data = { content: '' }) => {
-  params.Messages = [Object.assign({ Content: '你好' }, { Role: 'user' })]
+  params.Messages = [Object.assign({ Content: data.content }, { Role: 'user' })]
 
   return client.ChatCompletions(params)
   // .then(

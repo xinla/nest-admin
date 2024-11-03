@@ -9,11 +9,18 @@ import { Observable, fromEvent, interval, map } from 'rxjs'
 import { Response } from 'express'
 import { Readable } from 'stream'
 import { uuid } from 'src/common/utils/common'
+import { BoolNum } from 'src/common/type/base'
 
 @Controller('ai/chat')
 export class AiController extends BaseController<Ai, AiService> {
   constructor(readonly service: AiService) {
     super(service)
+  }
+
+  @Get('list')
+  list(@Query() query, @Req() req) {
+    query.userId ??= req.user.id
+    return super.list(query)
   }
 
   @Post('create')
@@ -62,18 +69,26 @@ export class AiController extends BaseController<Ai, AiService> {
   @Post('send')
   @Sse()
   async sse(@Body() body, @Req() req) {
-    body.sessionId ||= uuid()
+    if (!body.sessionId) {
+      body.sessionId = uuid()
+    }
+    body.userId ??= req.user.id
+    body.question ??= body.content
     let { id }: any = await super.save(body, req)
     let mes = await this.service.send(body)
     let answer = ''
     const ob$ = new Observable((subscriber) => {
       mes.on('message', (message) => {
         let data = JSON.parse(message.data)
+        data.sessionId = body.sessionId
+        data.id = id
+        // data.c = undefined // undefined 会被剔除
         answer = answer + data.Choices?.[0]?.Delta?.Content
         subscriber.next(data)
         if (data.Choices?.[0]?.FinishReason === 'stop') {
           subscriber.complete()
-          super.save({ id, answer }, req)
+          // sessionId在回答完成后保存，避免未完成被检索出来
+          super.save({ id, isSession: BoolNum.Yes, answer }, req)
         }
       })
     })
@@ -81,7 +96,7 @@ export class AiController extends BaseController<Ai, AiService> {
   }
 
   @Post('collect')
-  collect(@Body() body) {
-    return this.service.collect(body)
+  collect(@Body() body, @Req() req) {
+    return super.save(body, req)
   }
 }

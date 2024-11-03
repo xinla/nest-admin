@@ -1,7 +1,8 @@
 import { IsNotEmpty, MaxLength } from 'class-validator'
 import { BaseEntity, BaseColumn, MyEntity, boolNumColumn } from 'src/common/entity/BaseEntity'
-import { Column, Entity, JoinTable, ManyToMany } from 'typeorm'
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne } from 'typeorm'
 import { BoolNum } from 'src/common/type/base'
+import { User } from '../../modules/users/entities/user.entity'
 
 // 类型
 // export enum Type {
@@ -20,24 +21,27 @@ export class Ai extends BaseEntity {
     this.assignOwn(obj)
   }
 
+  @ManyToOne((type) => User)
+  @JoinColumn({ name: 'userId' })
+  user: User
+
+  @BaseColumn({ name: 'userId' })
+  userId: string
+
   @BaseColumn({ comment: '会话id' })
   @IsNotEmpty()
   sessionId: string
 
   @BaseColumn({ comment: '问题标题' })
   @IsNotEmpty()
-  @MaxLength(30)
   question: string
+
+  @BaseColumn({ length: 10000, name: 'answer', comment: '回答内容' })
+  answer: string
 
   @BaseColumn(boolNumColumn('收藏', 'isCollect', BoolNum.No))
   isCollect: BoolNum
 
-  // @BaseColumn({ type: 'enum', enum: Type, default: Type.catalog, comment: '公告类型，默认catalog' })
-  // type: Type
-
-  @BaseColumn({ length: 200, name: 'answer', comment: '回答内容' })
-  answer: string
-
-  @BaseColumn({ length: 200, name: 'remark', comment: '备注' })
-  remark: string
+  @BaseColumn(boolNumColumn('会话', 'isSession', BoolNum.No))
+  isSession: string
 }

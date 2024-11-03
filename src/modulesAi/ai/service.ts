@@ -14,14 +14,22 @@ export class AiService extends BaseService<Ai, AiDto> {
   }
 
   async list(query: QueryListDto): Promise<ResponseListDto<Ai>> {
-    let { title, isActive } = query
+    let { keywords, isCollect, sessionId, userId, question, answer } = query
     let queryOrm: FindManyOptions = {
-      where: [{ isActive, title: this.sqlLike(title) }],
+      where: [
+        {
+          isCollect,
+          sessionId,
+          userId,
+          question: this.sqlLike(question) || this.sqlLike(keywords),
+          answer: this.sqlLike(answer),
+        },
+      ],
     }
     return this.listBy(queryOrm, query)
   }
 
-  async create(dto): Promise<UpdateResult> {
+  async create(dto) {
     return send(dto)
   }
 
@@ -29,7 +37,7 @@ export class AiService extends BaseService<Ai, AiDto> {
     return send(dto)
   }
 
-  async collect(dto): Promise<UpdateResult> {
+  async collect(dto) {
     return send(dto)
   }
 }
