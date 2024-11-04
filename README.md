@@ -34,7 +34,7 @@
 
 ## 未来计划
 
-- [ ] 接入腾讯混元AI
+- [x] 接入腾讯混元AI
 - [ ] 构建文档站点
 - [ ] 海报生成器
 - [ ] 开放前端库
@@ -117,9 +117,11 @@ npm i
 
 ## 配置
 
-1. 在 `config/config.ts`里的 `databaseList.dev`中配置本地数据库连接信息
+1. 在 `config/index.ts`里的 `env.dev.database`中配置本地数据库连接信息，在`env.prod.database`中配置生产数据库连接信息。  
+   如果需要自定义其他环境配置，可以在 `config/index.ts` 文件中添加对应环境配置，例如：`env.test.database`，同时在`package.json`的`scripts`中配置对应的命令脚本环境变量模式，如`npm run start:test`。
 2. 执行 `doc/sql/nest_admin.sql` 文件，创建表到数据库中
 3. 执行 `doc/sql` 文件夹下的其他sql 文件，导入对应表数据到数据库中
+4. 安装Redis，并启动，具体可参考[官方文档](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/)
 
 ## 运行
 
@@ -137,7 +139,7 @@ $ npm run start:prod
 
 ## 部署
 
-1. 和本地运行类似，在服务器执行上面安装和配置步骤
+1. 和本地运行类似，在服务器执行上面安装和生产环境配置步骤
 
 2. 然后安装 [pm2](https://pm2.io/docs/plus/overview/)，目前使用 pm2 启动和管理node项目进程。有关pm2 的更多信息，请查看 [pm2 文档](https://pm2.io/docs/plus/overview/)。国内打不开的话，可以自行搜索相关中文网站。
 
