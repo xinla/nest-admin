@@ -73,6 +73,7 @@ export class AuthService {
     let log = await this.loginLogsService.createLog(req, {
       session: accessToken.split('.').at(-1),
       loginTime: payload.loginTime,
+      address,
       ...body,
     })
 
