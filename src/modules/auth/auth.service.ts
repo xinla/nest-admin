@@ -25,7 +25,6 @@ export class AuthService {
   async login(req): Promise<{ accessToken: string }> {
     let user: any = {}
     let body: any = req.body || {}
-    let address = await getIpAddress(req.headers['x-forwarded-for'] || req.connection.remoteAddress)
 
     try {
       if (!body.account) {
@@ -57,7 +56,7 @@ export class AuthService {
     }
     let { password: _, ...result } = user
 
-    address = await getIpAddress(req.headers['x-forwarded-for'] || req.connection.remoteAddress)
+    let address = await getIpAddress(req.headers['x-forwarded-for'] || req.connection.remoteAddress)
 
     const payload = {
       sub: user.id,
