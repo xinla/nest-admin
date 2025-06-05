@@ -8,7 +8,7 @@ import { RedisService } from '../global/redis.service'
 import { ResponseListDto } from 'src/common/dto'
 import dayjs from 'dayjs'
 import { CaptchaService } from '../common/captcha.service'
-import { uuid } from '../../common/utils/common'
+import { getIpAddress, uuid } from '../../common/utils/common'
 
 import { config } from 'config'
 export const Public = () => SetMetadata(config.isPublicKey, true)
@@ -25,6 +25,7 @@ export class AuthService {
   async login(req): Promise<{ accessToken: string }> {
     let user: any = {}
     let body: any = req.body || {}
+    let address = await getIpAddress(req.headers['x-forwarded-for'] || req.connection.remoteAddress)
 
     try {
       if (!body.account) {
@@ -56,7 +57,15 @@ export class AuthService {
     }
     let { password: _, ...result } = user
 
-    const payload = { sub: user.id, account: user.name, loginTime: dayjs().format('YYYY-MM-DD HH:mm:ss'), ...result }
+    address = await getIpAddress(req.headers['x-forwarded-for'] || req.connection.remoteAddress)
+
+    const payload = {
+      sub: user.id,
+      account: user.name,
+      address,
+      loginTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+      ...result,
+    }
     let accessToken = await this.jwtService.signAsync(payload, {
       secret: config.jwtSecret,
       expiresIn: config.jwtExpires,

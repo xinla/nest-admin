@@ -222,3 +222,18 @@ export function getSystem(userAgent) {
     return '其他'
   }
 }
+
+import axios from 'axios'
+export async function getIpAddress(ip) {
+  let address = ''
+  if (['::1'].includes(ip)) {
+    address = '本地'
+  } else {
+    let { data } = await axios.get(
+      `https://api.map.baidu.com/location/ip?ip=${ip}&coor=bd09ll&ak=PRhu32fNCW4cib8JYW0SJGYzPQ6ORLso`,
+    )
+
+    address = data?.content?.address
+  }
+  return address || '未知地址'
+}
