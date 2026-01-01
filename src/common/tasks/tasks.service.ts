@@ -4,26 +4,26 @@ import { CronJob } from 'cron'
 
 @Injectable()
 export class TasksService {
-  constructor(private schedulerRegistry: SchedulerRegistry) {}
+  constructor(private schedulerRegistry: SchedulerRegistry) { }
 
-  addCronJob(name: string, seconds: string) {
-    const job = new CronJob(`${seconds} * * * * *`, () => {
-      console.warn(`time (${seconds}) for job ${name} to run!`)
-    })
+  // addCronJob(name: string, seconds: string) {
+  //   const job = new CronJob(`${seconds} * * * * *`, () => {
+  //     console.warn(`time (${seconds}) for job ${name} to run!`)
+  //   })
 
-    this.schedulerRegistry.addCronJob(name, job)
-    job.start()
+  //   this.schedulerRegistry.addCronJob(name, job)
+  //   job.start()
 
-    console.warn(`job ${name} added for each minute at ${seconds} seconds!`)
-  }
+  //   console.warn(`job ${name} added for each minute at ${seconds} seconds!`)
+  // }
 
-  deleteCron(name: string) {
-    this.schedulerRegistry.deleteCronJob(name)
-  }
+  // deleteCron(name: string) {
+  //   this.schedulerRegistry.deleteCronJob(name)
+  // }
 
-  getCronJob(name: string) {
-    return this.schedulerRegistry.getCronJob(name)
-  }
+  // getCronJob(name: string) {
+  //   return this.schedulerRegistry.getCronJob(name)
+  // }
 
   addTimeout(name: string, timeString: number | string, callback) {
     const timeout = setTimeout(callback, +new Date(timeString) - +new Date())
@@ -34,7 +34,7 @@ export class TasksService {
     let timeout
     try {
       timeout = this.schedulerRegistry.getTimeout(name)
-    } catch (e) {}
+    } catch (e) { }
     if (!timeout) return
     clearTimeout(timeout)
     this.schedulerRegistry.deleteTimeout(name)

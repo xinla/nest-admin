@@ -1,5 +1,6 @@
 <h1 align="center">Nest Admin</h1>
 <p align="center"><b>基于 Nestjs + Vue 前后端分离的 Nodejs 中后台权限管理系统快速开发框架</b></p>
+<p align="center"><b>本仓库为 Nestjs 后端库，对应前端仓库为 <a href="https://gitee.com/hixinla/nest-vue-admin" target="_blank">nest-vue-admin</a> </b></b></p>
 <p align="center"><b>你的 ⭐️ Star ⭐️ 就是最美的支持</b></p>
 <p align="center">
 <a href="https://gitee.com/hixinla/nest-admin" target="_blank"><img src="https://img.shields.io/badge/node-^v20-blue" alt="node version" /></a>
@@ -117,9 +118,9 @@ npm i
 
 ## 配置
 
-1. 在 `config/index.ts`里的 `env.dev.database`中配置本地数据库连接信息，在`env.prod.database`中配置生产数据库连接信息。  
+1. 在 `config/index.ts`里的 `env.dev.database`中配置本地mysql数据库连接信息，在`env.prod.database`中配置生产数据库连接信息。  
    如果需要自定义其他环境配置，可以在 `config/index.ts` 文件中添加对应环境配置，例如：`env.test.database`，同时在`package.json`的`scripts`中配置对应的命令脚本环境变量模式，如`npm run start:test`。
-2. 执行 `doc/sql/nest_admin.sql` 文件，创建表到数据库中
+2. 创建`nest_admin`数据库，执行 `doc/sql/nest_admin.sql` 文件，创建表到该数据库中
 3. 执行 `doc/sql` 文件夹下的其他sql 文件，导入对应表数据到数据库中
 4. 安装Redis，并启动，具体可参考[官方文档](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/)
 
@@ -139,9 +140,9 @@ $ npm run start:prod
 
 ## 部署
 
-1. 和本地运行类似，在服务器执行上面安装和生产环境配置步骤
+1. 和本地运行类似，在服务器执行上面安装和配置步骤
 
-2. 然后安装 [pm2](https://pm2.io/docs/plus/overview/)，目前使用 pm2 启动和管理node项目进程。有关pm2 的更多信息，请查看 [pm2 文档](https://pm2.io/docs/plus/overview/)。国内打不开的话，可以自行搜索相关中文网站。
+2. 执行 `npm install -g pm2` 安装 [pm2](https://pm2.io/docs/plus/overview/)，目前使用 pm2 启动和管理node项目进程。有关pm2 的更多信息，请查看 [pm2 文档](https://pm2.io/docs/plus/overview/)。国内打不开的话，可以自行搜索相关中文网站。
 
 3. 执行 `npm run build`
 

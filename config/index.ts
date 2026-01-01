@@ -1,7 +1,7 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm'
 import dayjs from 'dayjs'
 import { accessSync, constants } from 'fs'
-import merge from 'lodash/merge'
+import merge from 'lodash.merge'
 const mode = process.argv.find((e) => e.includes('env=')).split('=')[1]
 
 const env = {
@@ -24,7 +24,7 @@ const env = {
   prod: {
     database: {
       type: 'mysql',
-      host: 'localhost',
+      host: '47.98.205.145',
       port: 3306,
       username: 'root',
       password: 'your password',
@@ -51,7 +51,7 @@ try {
   // accessSync('config/secret.ts', constants.F_OK)
   const { secret } = require(`./${'secret'}.js`)
 
-  merge(config, secret, secret[mode])
+  merge(config, secret[mode], secret)
 } catch (err) {
   // console.error('no access!')
 }
