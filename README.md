@@ -61,6 +61,59 @@ Star 越快，更得越快~
 <img src="./doc/image.4.png" width="%" height="30%" />
 <img src="./doc/image.5.png" width="%" height="30%" />
 
+## 前端快速开始
+
+## 前端结构
+
+```
+├── public                     # 静态资源
+│   │── static                 # 用于绝对路径的非打包资源，公用基础css等
+│   │── favicon.ico            # favicon图标
+├── src                        # 源代码
+│   ├── assets                 # 主题 字体 svg icons 等静态资源
+│   ├── components             # 全局公用组件
+│   ├── directive              # 全局指令
+│   ├── layout                 # 全局基础布局结构组件
+│   ├── router                 # 路由 权限管理等
+│   ├── stores                 # 全局 pinia store管理
+│   ├── styles                 # 全局样式
+│   ├── utils                  # 全局公用方法
+│   ├── views                  # 业务功能所有页面
+│   ├── App.vue                # 入口页面
+│   ├── config.js              # 全局配置文件
+│   ├── main.js                # 入口文件 加载组件 初始化等
+├── babel.config.js            # babel-loader 配置
+├── .env.js                    # 环境变量配置
+├── index.html                 # html模板
+├── jsconfig.json              # jsconfig 配置 快捷路径等
+├── package.json               # package.json
+├── vite.config.js             # vite 配置
+```
+
+# 安装与运行
+
+**关于 Node，推荐 v20+ 及以上版本**
+
+```sh
+# 克隆项目
+git clone https://gitee.com/hixinla/nest-vue-admin.git
+
+# 进入项目目录
+cd nest-vue-admin
+
+# 安装依赖
+npm i --registry=https://registry.npmmirror.com
+
+# 启动开发服务 npm run dev
+# 启动测试服务 npm run test (后端接口为测试环境接口)
+
+# 构建测试环境 npm run build:test
+# 构建生产环境 npm run build
+# 前端访问地址 http://localhost:1024
+```
+
+## 后端快速开始
+
 ## 目录结构
 
 ```
