@@ -1,5 +1,13 @@
 # Nest Admin 更新日志
 
+## v2.0.0-20260109
+
+- 新增 开源前端仓库 [nest-vue-admin](https://gitee.com/hixinla/nest-vue-admin)
+- 优化 系统配置
+- 优化 地图调用
+- 更新 所有依赖至最新适配版本
+- 更新 README.md
+
 ## v1.6.0-241104
 
 - 新增 AI模块，接入腾讯混元
