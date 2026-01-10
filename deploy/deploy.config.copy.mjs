@@ -29,6 +29,6 @@ export default {
     script: '', // 本地打包脚本
     distPath: '', // 本地打包dist目录
     webDir: '', // 服务器文件部署地址示例： /usr/local/nginx/html/prod/pc
-    remoteCommand: ['cd /usr/local/nest/admin', './bin/build.sh'], // 线上环境打包脚本
+    remoteCommand: ['cd /usr/service/nestAdmin', 'chmod +x ./bin/build.sh', './bin/build.sh'], // 远程服务器执行的命令
   },
 }
