@@ -20,6 +20,7 @@ import { ScheduleModule } from '@nestjs/schedule'
 import { TasksModule } from './common/tasks/tasks.module'
 import { HttpModule } from './common/http/module'
 import { AiModule } from './modulesAi/ai/module'
+import { SystemLogModule } from './modules/systemLog/module'
 
 @Dependencies(DataSource)
 @Module({
@@ -41,10 +42,11 @@ import { AiModule } from './modulesAi/ai/module'
     ArticlesModule,
     ArticleCatalogsModule,
     AiModule,
+    SystemLogModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {
-  constructor(private dataSource: DataSource) {}
+  constructor(private dataSource: DataSource) { }
 }
