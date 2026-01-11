@@ -14,10 +14,10 @@ export default {
     port: 22, // ssh 端口，一般默认22
     username: 'root', // 登录服务器用户名
     password: '123456', // 登录服务器密码
-    script: 'npm run build:dev', // 本地打包脚本
+    script: 'npm run build', // 本地打包脚本
     distPath: 'dist', // 本地打包dist目录
-    webDir: '/usr/local/nginx/html/prod/pc', // 服务器文件部署地址示例： /usr/local/nginx/html/prod/pc
-    remoteCommand: ['cd /usr/local/nest/admin', './bin/build.sh'], // 远程服务器执行的命令
+    webDir: '/usr/service/nestAdmin/dist', // 服务器文件部署地址示例： /usr/local/nginx/html/prod/pc
+    remoteCommand: ['cd /usr/service/nestAdmin', 'pm2 stop "npm run start:prod"', 'pm2 start "npm run start:prod"'], // 远程服务器执行的命令
   },
   prod: {
     // 线上环境相关配置/按需配置示例

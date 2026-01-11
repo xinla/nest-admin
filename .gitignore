@@ -18,5 +18,5 @@ bin-release/
 
 node_modules
 dist
-config/secret.ts
 deploy/deploy.config.mjs
+config/secret.copy.ts

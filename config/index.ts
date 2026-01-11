@@ -55,6 +55,12 @@ try {
 } catch (err) {
   // console.error('no access!')
 }
+try {
+  const { secret } = require(`./${'secret.copy'}.js`)
+  merge(config, secret[mode], secret)
+} catch (err) {
+}
+
 export const database = async () => {
   return config.database
 }
