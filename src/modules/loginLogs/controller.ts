@@ -14,7 +14,7 @@ export class LoginLogsController extends BaseController<LoginLog, LoginLogsServi
   // 重写以避免暴露路由
   @Post('save')
   @HttpCode(404)
-  async save() {}
+  async save() { }
 
   /**
    * 在线用户折线图
@@ -24,5 +24,15 @@ export class LoginLogsController extends BaseController<LoginLog, LoginLogsServi
   @Get('getOnlineUsersChart')
   async getOnlineUsersChart(@Query() query: { beginTime; endTime }) {
     return await this.service.getOnlineUsersChart(query)
+  }
+
+  /**
+   * 用户地区列表
+   * @param query { beginTime; endTime }
+   * @returns
+   */
+  @Get('getUserAreaList')
+  async getUserAreaList(@Query() query: { beginTime; endTime }) {
+    return await this.service.getUserAreaList(query)
   }
 }

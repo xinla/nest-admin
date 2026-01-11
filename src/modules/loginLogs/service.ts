@@ -60,6 +60,24 @@ export class LoginLogsService extends BaseService<LoginLog, LoginLogDto> {
       })
   }
 
+  // 用户地区列表
+  getUserAreaList(query: { beginTime: any; endTime: any }) {
+    let { beginTime, endTime } = query
+    return this.repository
+      .createQueryBuilder('LoginLog')
+      .select('LoginLog.address', 'address')
+      .distinctOn(["LoginLog.address"])
+      .addSelect('count(*)', 'num')
+      .where("LoginLog.address IS NOT NULL AND LoginLog.address != '' AND LoginLog.address != '本地'")
+      // .where('DATE(LoginLog.createTime) BETWEEN :beginTime AND :endTime', { beginTime, endTime: endTime })
+      .groupBy('LoginLog.address')
+      .orderBy({ 'num': 'ASC' })
+      .getRawMany()
+      .then((data) => {
+        return data.map((e) => ({ name: e.address, value: e.num }))
+      })
+  }
+
   async createLog(req, dto: any = {}, isSave = true) {
     let log: any = {
       ...dto,
