@@ -36,6 +36,7 @@
     "@nestjs/serve-static": "^4.0.2",
     "@nestjs/typeorm": "^11.0.0",
     "axios": "^1.7.7",
+    "cheerio": "^1.1.2",
     "class-validator": "^0.14.3",
     "compression": "^1.7.5",
     "cron": "^3.1.7",

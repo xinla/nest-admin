@@ -7,6 +7,7 @@ import path, { extname, isAbsolute, join } from 'path';
 import { access, constants, mkdir } from 'fs/promises';
 import { CaptchaService } from './captcha.service';
 import { MiddlewareConsumer, RequestMethod } from '@nestjs/common';
+import { LoginLogsModule } from '../loginLogs/module'
 
 // 静态文件中间件
 import { Request, Response, NextFunction } from 'express';
@@ -49,6 +50,7 @@ export class StaticFileMiddleware implements NestMiddleware {
 
 @Module({
   imports: [
+    LoginLogsModule
     // 注释掉静态文件服务，因为它与新版 path-to-regexp 不兼容
     // ServeStaticModule.forRoot({
     //   rootPath: join(process.cwd(), 'upload'),

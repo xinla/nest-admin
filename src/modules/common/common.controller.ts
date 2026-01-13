@@ -49,4 +49,11 @@ export class CommonController {
   async getCaptchaImage() {
     return this.captchaService.getCaptchaImage()
   }
+
+  // 首页指标数据
+  @Public()
+  @Get('getIndexCountData')
+  async getIndexCountData() {
+    return this.commonService.getIndexCountData()
+  }
 }

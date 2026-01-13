@@ -3,9 +3,48 @@ import { CreateCommonDto } from './dto/create-common.dto'
 import { UpdateCommonDto } from './dto/update-common.dto'
 import * as os from 'os'
 import * as fs from 'node:fs/promises'
+import axios from 'axios'
+import * as cheerio from 'cheerio'
+import { LoginLogsService } from '../loginLogs/service'
+import { RedisService } from '../global/redis.service'
+import { BoolNum } from 'src/common/type/base'
 
 @Injectable()
 export class CommonService {
+  constructor(
+    private loginLogsService: LoginLogsService,
+    private redisService: RedisService,
+  ) {}
+
+  // 首页指标数据
+  async getIndexCountData() {
+    // 获取项目 Gitee 仓库信息 stars
+    let { data } = await axios.get(`https://gitee.com/hixinla/nest-admin`)
+    const $ = cheerio.load(data)
+    let stars = $('.star-container .action-social-count').text().trim()
+
+    let queryBuilder = await this.loginLogsService.repository
+      .createQueryBuilder('LoginLog')
+      .where('LoginLog.isSuccess = ' + BoolNum.Yes)
+
+    // 获取访问量/登录成功数
+    let visitedNum = await queryBuilder.getCount()
+    // 获取至昨天访问量/登录成功数
+    let visitedNumComparedYd =
+      visitedNum -
+      (await queryBuilder.andWhere('DATE(LoginLog.createTime) <= DATE_SUB(CURDATE(), INTERVAL 1 DAY)').getCount())
+
+    // 获取在线用户数
+    let [_, onlineUserNum] = await this.redisService.getRedisOnlineUser()
+
+    return {
+      stars,
+      visitedNum,
+      visitedNumComparedYd,
+      onlineUserNum,
+    }
+  }
+
   async getOsInfo() {
     let data = {
       // 获取系统平台信息，例如 'win32', 'darwin' 等
