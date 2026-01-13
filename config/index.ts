@@ -24,7 +24,7 @@ const env = {
   prod: {
     database: {
       type: 'mysql',
-      host: '47.98.205.145',
+      host: 'localhost',
       port: 3306,
       username: 'root',
       password: 'your password',
@@ -58,8 +58,7 @@ try {
 try {
   const { secret } = require(`./${'secret.copy'}.js`)
   merge(config, secret[mode], secret)
-} catch (err) {
-}
+} catch (err) {}
 
 export const database = async () => {
   return config.database
