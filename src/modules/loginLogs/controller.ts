@@ -14,16 +14,16 @@ export class LoginLogsController extends BaseController<LoginLog, LoginLogsServi
   // 重写以避免暴露路由
   @Post('save')
   @HttpCode(404)
-  async save() { }
+  async save() {}
 
   /**
-   * 在线用户折线图
+   * 用户访问量折线图
    * @param query { beginTime; endTime }
    * @returns
    */
-  @Get('getOnlineUsersChart')
-  async getOnlineUsersChart(@Query() query: { beginTime; endTime }) {
-    return await this.service.getOnlineUsersChart(query)
+  @Get('getVisitedNumChart')
+  async getVisitedNumChart(@Query() query: { beginTime; endTime }) {
+    return await this.service.getVisitedNumChart(query)
   }
 
   /**

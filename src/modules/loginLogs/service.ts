@@ -36,11 +36,11 @@ export class LoginLogsService extends BaseService<LoginLog, LoginLogDto> {
   }
 
   /**
-   * 在线用户折线图
+   * 用户访问量折线图
    * @param query { beginTime; endTime }
    * @returns
    */
-  async getOnlineUsersChart(query: QueryListDto = {}): Promise<{ date: string; num: number }[]> {
+  async getVisitedNumChart(query: QueryListDto = {}): Promise<{ date: string; num: number }[]> {
     let { beginTime, endTime } = query
     return this.repository
       .createQueryBuilder('LoginLog')
@@ -66,12 +66,15 @@ export class LoginLogsService extends BaseService<LoginLog, LoginLogDto> {
     return this.repository
       .createQueryBuilder('LoginLog')
       .select('LoginLog.address', 'address')
-      .distinctOn(["LoginLog.address"])
+      .distinctOn(['LoginLog.address'])
       .addSelect('count(*)', 'num')
       .where("LoginLog.address IS NOT NULL AND LoginLog.address != '' AND LoginLog.address != '本地'")
-      // .where('DATE(LoginLog.createTime) BETWEEN :beginTime AND :endTime', { beginTime, endTime: endTime })
+      .andWhere(beginTime && endTime ? 'DATE(LoginLog.createTime) BETWEEN :beginTime AND :endTime' : {}, {
+        beginTime,
+        endTime,
+      })
       .groupBy('LoginLog.address')
-      .orderBy({ 'num': 'ASC' })
+      .orderBy({ num: 'ASC' })
       .getRawMany()
       .then((data) => {
         return data.map((e) => ({ name: e.address, value: e.num }))
