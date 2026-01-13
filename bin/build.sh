@@ -28,13 +28,13 @@ if [$1]; then
 fi
 
 if [ ! -d "$(pwd)/node_modules" ]; then
-    # if ! command -v cnpm &> /dev/null; then
-    #     echo 安装cnpm...
-    #     npm install -g cnpm --registry=https://registry.npmmirror.com
-    #     echo cnpm已安装
-    # fi
+    if ! command -v cnpm &> /dev/null; then
+        echo 安装cnpm...
+        npm install -g cnpm --registry=https://registry.npmmirror.com
+        echo cnpm已安装
+    fi
     echo 安装依赖...
-    npm i
+    cnpm i
     echo 依赖已安装
 fi
 
