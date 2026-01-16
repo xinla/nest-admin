@@ -1,5 +1,15 @@
 # Nest Admin 更新日志
 
+## v2.1.0-20260116
+
+- 新增 系统日志功能菜单
+- 新增 用户地区分布功能
+- 新增 首页更新日志模块
+- 修复 前端面包屑问题
+- 优化 后端系统配置
+- 优化 前端组件和样式等
+- 优化 build.sh 使用 cnpm
+
 ## v2.0.0-20260109
 
 - 新增 开源前端仓库 [nest-vue-admin](https://gitee.com/hixinla/nest-vue-admin)
