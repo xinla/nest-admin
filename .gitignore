@@ -20,3 +20,4 @@ node_modules
 dist
 deploy/deploy.config.mjs
 config/secret.copy.ts
+log

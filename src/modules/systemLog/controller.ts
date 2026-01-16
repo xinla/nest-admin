@@ -9,7 +9,7 @@ export class SystemLogController extends BaseController<{}, SystemLogService> {
   }
 
   /**
-   * 读取 app.log 文件日志
+   * 读取 log 文件日志
    * @param query
    * @returns
    */
