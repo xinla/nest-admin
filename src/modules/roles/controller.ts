@@ -6,6 +6,8 @@ import { QueryListDto, ResponseListDto } from 'src/common/dto'
 import { UpdateResult } from 'typeorm'
 import { Role } from './entity'
 import { BaseController } from 'src/common/BaseController'
+import { MenuType } from '../menus/menu.entity'
+import { arrayToTree } from 'src/common/utils/common'
 
 // 用户角色
 @Controller('system/roles')
@@ -15,7 +17,9 @@ export class RolesController extends BaseController<Role, RolesService> {
   }
 
   @Get('getLoginUserMenus')
-  async getLoginUserMenus(@Req() req): Promise<{}[]> {
-    return this.service.getLoginUserMenus(req.user)
+  async getUserMenus(@Req() req): Promise<{}[]> {
+    let res = await this.service.getUserMenus(req.user)
+    res = res.filter((item) => item.type !== MenuType.button)
+    return arrayToTree(res)
   }
 }

@@ -7,11 +7,13 @@ import { APP_GUARD } from '@nestjs/core'
 import { AuthGuard } from './auth.guard'
 import { LoginLogsModule } from '../loginLogs/module'
 import { CommonModule } from '../common/common.module'
+import { RolesModule } from '../roles/module'
 // import { config } from 'config'
 
 @Module({
   imports: [
     UsersModule,
+    RolesModule,
     CommonModule,
     LoginLogsModule,
     JwtModule.register({

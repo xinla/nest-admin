@@ -39,7 +39,7 @@ export class RolesService extends BaseService<Role, CreateRoleDto> {
     return this.listBy(queryOrm, query)
   }
 
-  async getLoginUserMenus(user): Promise<Menu[]> {
+  async getUserMenus(user: { name; roles }, isTree?): Promise<Menu[]> {
     if (user.name === config.adminKey) {
       return this.menusService.list({ isActive: BoolNum.Yes })
     } else {
@@ -72,7 +72,7 @@ export class RolesService extends BaseService<Role, CreateRoleDto> {
             : allMenus.push(...menus)
         }
       }
-      return arrayToTree(allMenus)
+      return isTree ? arrayToTree(allMenus) : allMenus
     }
   }
 }

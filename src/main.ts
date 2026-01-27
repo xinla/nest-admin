@@ -6,6 +6,7 @@ import * as csurf from 'csurf'
 import { AllExceptionsFilter } from './common/filters/allExceptions.filter'
 // import { HttpExceptionFilter } from './common/filters/httpException.filter'
 import compression from 'compression'
+import { config } from 'config'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { abortOnError: false })
@@ -14,7 +15,7 @@ async function bootstrap() {
   app.useGlobalFilters(new AllExceptionsFilter())
   // app.use(csurf())
   app.enableCors()
-  app.setGlobalPrefix('api')
+  app.setGlobalPrefix(config.apiBase.replace(/^\//g, ''))
   app.use(compression())
   await app.listen(3000)
 

@@ -1,5 +1,5 @@
 import { MaxLength, IsNotEmpty } from 'class-validator'
-import { BaseEntity, BaseColumn, MyEntity, boolNumColumn } from 'src/common/entity/BaseEntity'
+import { BaseEntity, BaseColumn, MyEntity, boolNumColumn, DbUnique } from 'src/common/entity/BaseEntity'
 import { BoolNum } from 'src/common/type/base'
 import { Column, Entity, JoinColumn, Tree, TreeChildren, TreeParent } from 'typeorm'
 
@@ -76,6 +76,13 @@ export class Menu extends BaseEntity {
 
   @BaseColumn({ type: 'enum', enum: MenuType, default: MenuType.catalog, comment: '菜单类型，默认catalog' })
   type: MenuType
+
+  // 权限字符
+  @DbUnique
+  @IsNotEmpty()
+  @MaxLength(30)
+  @BaseColumn()
+  permissionKey: string
 
   @BaseColumn(boolNumColumn('隐藏', 'is_hidden'))
   isHidden: BoolNum

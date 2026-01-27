@@ -22,6 +22,7 @@ export class UsersController extends BaseController<User, UsersService> {
     super(usersService)
   }
 
+  // 重置密码
   @Public()
   @Put('resetPassword')
   async resetPassword(@Body() body) {

@@ -36,6 +36,7 @@ const env = {
 }
 
 export const config = {
+  apiBase: '/api',
   adminKey: 'admin',
   isPublicKey: 'isPublic',
   get jwtExpires() {

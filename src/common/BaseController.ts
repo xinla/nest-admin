@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, Req } from '@nestjs/common'
 import { QueryListDto, ResponseListDto } from './dto'
 
 export class BaseController<T, K> {
@@ -20,6 +20,7 @@ export class BaseController<T, K> {
     return this.service.save(body)
   }
 
+  // 新增
   @Post('add')
   async add(@Body() body, @Req() req) {
     delete body.updateUser
@@ -27,7 +28,8 @@ export class BaseController<T, K> {
     return this.service.add(body)
   }
 
-  @Post('update')
+  // 编辑 更新
+  @Put('update')
   async update(@Body() body, @Req() req) {
     delete body.createUser
     body.updateUser = req.user.name

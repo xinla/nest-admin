@@ -1,7 +1,8 @@
 import { Injectable, SetMetadata, UnauthorizedException } from '@nestjs/common'
-import { UsersService } from '../users/users.service'
 import { JwtService } from '@nestjs/jwt'
 
+import { UsersService } from '../users/users.service'
+import { RolesService } from '../roles/service'
 import { LoginLogsService } from '../loginLogs/service'
 import { BoolNum } from 'src/common/type/base'
 import { RedisService } from '../global/redis.service'
@@ -17,6 +18,7 @@ export const Public = () => SetMetadata(config.isPublicKey, true)
 export class AuthService {
   constructor(
     private usersService: UsersService,
+    private RolesService: RolesService,
     private jwtService: JwtService,
     private loginLogsService: LoginLogsService,
     private redisService: RedisService,
@@ -40,6 +42,13 @@ export class AuthService {
       }
 
       user = await this.usersService.getOne({ name: body.account })
+      if (user.name === config.adminKey) {
+        user.permissions = ['*']
+      } else {
+        let menus = await this.RolesService.getUserMenus(user)
+        // permissions eg：['system/users/list',...]
+        user.permissions = menus.flatMap((menu) => menu.permissionKey || [])
+      }
 
       // let _password = await decrypt(user?.password)
       if (user?.password !== body.password) {

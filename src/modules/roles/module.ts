@@ -9,5 +9,6 @@ import { MenusModule } from '../menus/menus.module'
   imports: [TypeOrmModule.forFeature([Role]), MenusModule],
   controllers: [RolesController],
   providers: [RolesService],
+  exports: [RolesService],
 })
 export class RolesModule {}

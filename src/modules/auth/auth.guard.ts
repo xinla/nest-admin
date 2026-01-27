@@ -1,9 +1,10 @@
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common'
+import { CanActivate, ExecutionContext, HttpException, Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Request } from 'express'
 import { Reflector } from '@nestjs/core'
 import { RedisService } from '../global/redis.service'
 import { config } from 'config'
+import { MenuType } from '../menus/menu.entity'
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -39,6 +40,14 @@ export class AuthGuard implements CanActivate {
       request['user'] = payload
     } catch {
       throw new UnauthorizedException()
+    }
+
+    // 按钮/接口权限校验
+    if (
+      request.url.startsWith(`${config.apiBase}/system/users`) &&
+      !payload.permissions?.includes(request.path.replace(config.apiBase, '').replace(/^\//g, ''))
+    ) {
+      throw new HttpException('无权限', 403)
     }
     await this.redisService.setRedisOnlineUser(request, payload)
 
