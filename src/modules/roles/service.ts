@@ -39,9 +39,9 @@ export class RolesService extends BaseService<Role, CreateRoleDto> {
     return this.listBy(queryOrm, query)
   }
 
-  async getUserMenus(user: { name; roles }, isTree?): Promise<Menu[]> {
+  async getUserMenus(user: { name; roles }, isTree = false): Promise<Menu[]> {
     if (user.name === config.adminKey) {
-      return this.menusService.list({ isActive: BoolNum.Yes })
+      return this.menusService.list({ isActive: BoolNum.Yes }, isTree)
     } else {
       let allMenus = []
       // 多角色菜单合并去重
