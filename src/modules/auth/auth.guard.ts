@@ -44,6 +44,7 @@ export class AuthGuard implements CanActivate {
 
     // 按钮/接口权限校验
     if (
+      payload.permissions?.[0] !== '*' &&
       request.url.startsWith(`${config.apiBase}/system/users`) &&
       !payload.permissions?.includes(request.path.replace(config.apiBase, '').replace(/^\//g, ''))
     ) {
