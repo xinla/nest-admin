@@ -148,7 +148,7 @@ export class BaseService<T, K> {
   // 数据权限校验
   async dataValidate(data: { id; updateUser }): Promise<boolean> {
     let row = data.id && (await this.getOne({ id: data.id }, false))
-    if (data.id && row?.createUser === config.adminKey && data.updateUser !== config.adminKey) {
+    if (data.id && (!row?.createUser || row?.createUser === config.adminKey) && data.updateUser !== config.adminKey) {
       throw new HttpException('接口无权限', 403)
     }
     return true
