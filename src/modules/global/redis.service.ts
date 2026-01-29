@@ -2,11 +2,17 @@ import { Injectable } from '@nestjs/common'
 import { Redis } from 'ioredis'
 import { LoginLogsService } from '../loginLogs/service'
 import { QueryListDto } from 'src/common/dto'
+import { MenusService } from '../menus/menus.service'
+import { MenuType } from '../menus/menu.entity'
+import { BoolNum } from 'src/common/type/base'
 
 @Injectable()
 export class RedisService {
   redis: Redis
-  constructor(private loginLogsService: LoginLogsService) {
+  constructor(
+    private loginLogsService: LoginLogsService,
+    private menusService: MenusService,
+  ) {
     this.redis = new Redis({
       port: 6379, // Redis port
       host: '127.0.0.1', // Redis host
@@ -15,11 +21,11 @@ export class RedisService {
       db: 1, // Defaults to 0
     })
   }
-  async set(key: string, value: string, time = 60) {
-    if (Object.prototype.toString.call(value) === '[object Object]') {
+  async set(key: string, value: any, time?: number) {
+    if (value && typeof value === 'object') {
       value = JSON.stringify(value)
     }
-    return await this.redis.set(key, value, 'EX', time)
+    return await (time ? this.redis.set(key, value, 'EX', time) : this.redis.set(key, value))
   }
   async get(key: string) {
     let value = await this.redis.get(key)
@@ -101,5 +107,17 @@ export class RedisService {
 
   async delRedisOnlineUser(session) {
     return await this.del(`user.online:${session}`)
+  }
+
+  // 获取权限列表
+  async getPermissions(): Promise<[string]> {
+    let data: string | any = await this.get('permissions')
+    data &&= JSON.parse(data)
+    if (!data) {
+      let menus = await this.menusService.list({ isActive: BoolNum.Yes, type: MenuType.button }, false)
+      data = menus.flatMap((e) => e.permissionKey || [])
+      await this.set('permissions', data)
+    }
+    return data
   }
 }

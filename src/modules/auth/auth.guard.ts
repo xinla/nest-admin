@@ -43,12 +43,10 @@ export class AuthGuard implements CanActivate {
     }
 
     // 按钮/接口权限校验
-    if (
-      payload.permissions?.[0] !== '*' &&
-      request.url.startsWith(`${config.apiBase}/system/users`) &&
-      !payload.permissions?.includes(request.path.replace(config.apiBase, '').replace(/^\//g, ''))
-    ) {
-      throw new HttpException('无权限', 403)
+    let permissions = await this.redisService.getPermissions()
+    let api = request.path.replace(config.apiBase, '').replace(/^\//g, '')
+    if (payload.permissions?.[0] !== '*' && permissions.includes(api) && !payload.permissions?.includes(api)) {
+      throw new HttpException('接口无权限', 403)
     }
     await this.redisService.setRedisOnlineUser(request, payload)
 
