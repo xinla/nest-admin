@@ -94,6 +94,7 @@ export class LoginLogsService extends BaseService<LoginLog, LoginLogDto> {
       os: getSystem(req.headers['user-agent']),
     }
 
+    delete log.id
     isSave && (await this.save(log))
     return log
   }
