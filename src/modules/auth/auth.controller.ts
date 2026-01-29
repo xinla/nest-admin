@@ -1,4 +1,15 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Query, Request, UseGuards } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Query,
+  Request,
+  UnauthorizedException,
+  UseGuards,
+} from '@nestjs/common'
 import { AuthGuard } from './auth.guard'
 import { AuthService, Public } from './auth.service'
 import { UsersService } from '../users/users.service'
@@ -42,9 +53,13 @@ export class AuthController {
 
   @Get('getLoginUser')
   async getLoginUser(@Request() req: Record<string, any>) {
-    const user = await this.usersService.getOne({ id: req.user.id })
-    let { password, ...userInfo } = user
-    return userInfo
+    try {
+      const user = await this.usersService.getOne({ id: req.user.id })
+      let { password, ...userInfo } = user
+      return userInfo
+    } catch (error) {
+      throw new UnauthorizedException()
+    }
   }
 
   @Get('getOnlineUsers')

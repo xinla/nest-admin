@@ -3,6 +3,8 @@ import { BoolNum } from './type/base'
 import { QueryListDto, ResponseListDto, SaveDto } from './dto'
 import dayjs from 'dayjs'
 import { validate } from 'class-validator'
+import { config } from 'config'
+import { HttpException } from '@nestjs/common'
 
 export class BaseService<T, K> {
   Entity = null
@@ -33,6 +35,7 @@ export class BaseService<T, K> {
         throw new Error(`${data[element]} 已存在`)
       }
     }
+    await this.dataValidate(data)
     return this.repository.save(data)
   }
 
@@ -54,10 +57,11 @@ export class BaseService<T, K> {
     if (typeof ids == 'string') {
       ids = ids.split(',')
     }
+    await this.dataValidate({ id: ids?.[0], updateUser })
     return this.repository.update(ids, { isDelete: BoolNum.Yes, updateUser })
   }
 
-  async getOne(query: FindOptionsWhere<T> & FindOneOptions, isError = true): Promise<any | null> {
+  async getOne(query: (FindOptionsWhere<T> & FindOneOptions) | {}, isError = true): Promise<any | null> {
     let res = await this.sqlOne(query)
     if (!res && isError) {
       throw new Error('数据不存在')
@@ -139,5 +143,14 @@ export class BaseService<T, K> {
         dayjs(beginEndTime[0]).add(i, 'day').format('YYYY-MM-DD'),
       )
     )
+  }
+
+  // 数据权限校验
+  async dataValidate(data: { id; updateUser }): Promise<boolean> {
+    let row = data.id && (await this.getOne({ id: data.id }, false))
+    if (data.id && row?.createUser === config.adminKey && data.updateUser !== config.adminKey) {
+      throw new HttpException('接口无权限', 403)
+    }
+    return true
   }
 }
