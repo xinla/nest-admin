@@ -11,10 +11,10 @@
 
 ## 平台简介
 
-- [Nest Admin](https://nestts.com/) 是一套基于 Nestjs + Vue 前后端分离的 Nodejs 中后台权限管理系统快速开发框架。
+- [Nest Admin](https://nestts.com/) 是一套基于 Nestjs + Vue 前后端分离的 Nodejs 中后台权限管理系统全栈快速开发框架。
 - 前端采用 Vue3 + Vite + Element Plus 生态，后端采用 Nestjs + TypeOrm + MySql + Redis 生态。
 - 核心模块包括用户、角色、菜单、部门等，权限认证使用Jwt，支持加载动态权限菜单等功能。
-- 可以帮您快速搭建企业级中后台 RBAC 管理平台。
+- 可以帮您快速搭建Nodejs企业级中后台 RBAC 管理平台。
 - github地址：https://github.com/xinla/nest-admin
 - 国内gitee地址：https://gitee.com/hixinla/nest-admin
 
@@ -36,23 +36,22 @@
 ## 未来计划
 
 - [x] 接入腾讯混元AI
+- [x] 开放前端库
 - [ ] 构建文档站点
 - [ ] 海报生成器
-- [ ] 开放前端库
 - [ ] 丰富前端主题
 - [ ] 表单生成器
 - [ ] 数据大屏
 - [ ] 数字孪生 3D  
        ...
 
-如果觉得 [Nest Admin](https://gitee.com/hixinla/nest-admin) 有帮助到您，点个免费的 ⭐️ Star ⭐️ 就是最美的支持  
-Star 越快，更得越快~
+如果觉得 [Nest Admin](https://gitee.com/hixinla/nest-admin) 有帮助到您，点个免费的 ⭐️ Star ⭐️ 给个最美的支持
 
 ## 功能演示
 
 演示地址：https://nestts.com
 
-账密：admin/123456
+账密： NestAdmin/123456
 
 <img src="./doc/image.png" width="%" height="30%" />
 <img src="./doc/image.3.png" width="%" height="30%" />
@@ -61,9 +60,13 @@ Star 越快，更得越快~
 <img src="./doc/image.4.png" width="%" height="30%" />
 <img src="./doc/image.5.png" width="%" height="30%" />
 
+# 安装与运行
+
+**关于 Node，推荐 v20+ 及以上版本**
+
 ## 前端快速开始
 
-## 前端结构
+### 目录结构
 
 ```
 ├── public                     # 静态资源
@@ -83,16 +86,63 @@ Star 越快，更得越快~
 │   ├── config.js              # 全局配置文件
 │   ├── main.js                # 入口文件 加载组件 初始化等
 ├── babel.config.js            # babel-loader 配置
-├── .env.js                    # 环境变量配置
+├── sys.config.js              # 环境变量配置
 ├── index.html                 # html模板
 ├── jsconfig.json              # jsconfig 配置 快捷路径等
 ├── package.json               # package.json
 ├── vite.config.js             # vite 配置
 ```
 
-# 安装与运行
+## 系统配置
 
-**关于 Node，推荐 v20+ 及以上版本**
+```js
+import { useDark } from '@vueuse/core'
+
+// 环境变量
+const envs = {
+  development: {
+    DOMAIN: 'http://localhost:3000', // 站点域名，会根据此处域名判断应用环境
+    BASE_URL: '/', // 页面路由基础路径 /*/*/，eg：/a/，不支持 ’./‘形式的路径
+    BASE_API: 'http://localhost:3000/api', // 接口基础路径
+  },
+  production: {
+    DOMAIN: 'https://nestts.com',
+    BASE_URL: '/',
+    BASE_API: 'https://nestts.com/api',
+  },
+  test: {
+    DOMAIN: 'https://47.98.205.145',
+    BASE_URL: '/',
+    BASE_API: 'https://47.98.205.145/api',
+  },
+}
+
+const packMode = globalThis.MODE || import.meta.env.MODE
+const runMode =
+  process.env.NODE_ENV == 'development' || !globalThis.document
+    ? packMode // 本地开发和vite中使用
+    : Object.keys(envs).find((e) => envs[e].DOMAIN === window?.location.origin) || 'diy' // 打包后，根据访问域名动态判断环境
+
+const BASE_URL = envs[packMode].BASE_URL
+const env = envs[runMode] || {}
+
+useDark().value
+// 配置项
+export let config = {
+  ...env,
+  SYSTEM_NAME: 'Nest Admin', // 系统简称
+  SYSTEM_SLOGAN: '基于 Nestjs + Vue3 的前后端分离快速开发框架', // 系统标语
+  SYSTEM_NAME_ALL: 'Nest Admin -- 基于 Nestjs + Vue3 的前后端分离快速开发框架', // 系统全称，浏览器标题
+  COPYRIGHT: 'Copyright © 2024 Nest Admin All Rights Reserved.', // 版权信息
+  // LOGO_DARK: BASE_URL + 'static/logo.svg', // 深色logo
+  // LOGO_LIGHT: BASE_URL + 'static/logo.svg', // 淡色logo
+  LOGO: `${BASE_URL}static/logo.svg`,
+  BASE_URL,
+  RUN_ENV: runMode,
+}
+```
+
+### 启动运行
 
 ```sh
 # 克隆项目
@@ -104,17 +154,20 @@ cd nest-vue-admin
 # 安装依赖
 npm i --registry=https://registry.npmmirror.com
 
-# 启动开发服务 npm run dev
+# 启动开发服务
+npm run dev
+# 前端访问地址
+http://localhost:1024
 # 启动测试服务 npm run test (后端接口为测试环境接口)
 
+# 构建生产环境
+npm run build
 # 构建测试环境 npm run build:test
-# 构建生产环境 npm run build
-# 前端访问地址 http://localhost:1024
 ```
 
 ## 后端快速开始
 
-## 目录结构
+### 目录结构
 
 ```
 ├── bin                        # 脚本
@@ -169,12 +222,12 @@ cnpm i
 npm i
 ```
 
-## 配置
+## 配置与准备
 
-1. 在 `config/index.ts`里的 `env.dev.database`中配置本地mysql数据库连接信息，在`env.prod.database`中配置生产数据库连接信息。  
+1. 系统使用mysql数据库，在 `config/index.ts`里的 `env.dev.database`中配置本地mysql数据库连接信息，在`env.prod.database`中配置生产数据库连接信息。  
    如果需要自定义其他环境配置，可以在 `config/index.ts` 文件中添加对应环境配置，例如：`env.test.database`，同时在`package.json`的`scripts`中配置对应的命令脚本环境变量模式，如`npm run start:test`。
 2. 创建`nest_admin`数据库，执行 `doc/sql/nest_admin.sql` 文件，创建表到该数据库中
-3. 执行 `doc/sql` 文件夹下的其他sql 文件，导入对应表数据到数据库中
+3. 执行 `doc/sql` 文件夹下的其他sql 文件，导入对应表、系统基础数据到数据库中
 4. 安装Redis，并启动，具体可参考[官方文档](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/)
 
 ## 运行
@@ -189,7 +242,7 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-在应用程序运行后, 打开浏览器并访问 http://localhost:3000/。 你应该看到 Hello world! 信息。
+在应用程序运行后, 打开浏览器并访问 http://localhost:3000/。 你应该看到 Hello world! 信息。可以配合前端项目看到整体运行效果。
 
 ## 部署
 
@@ -214,7 +267,7 @@ $ npm run start:prod
 
 点个免费的 ⭐️ Star ⭐️ 就是最美的支持
 
-如果有什么问题，欢迎提 issue，欢迎 PR。
+如果有什么问题或建议，欢迎提 issue，欢迎 PR。
 
 ## 协议
 
