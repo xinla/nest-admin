@@ -1,6 +1,6 @@
 <h1 align="center">Nest Admin</h1>
-<p align="center"><b>基于 Nestjs + Vue 前后端分离的 Nodejs 中后台权限管理系统快速开发框架</b></p>
-<p align="center"><b>本仓库为 Nestjs 后端库，对应前端仓库为 <a href="https://gitee.com/hixinla/nest-vue-admin" target="_blank">nest-vue-admin</a> </b></b></p>
+<p align="center"><b>基于 Nestjs + Vue 前后端分离的 Nodejs 中后台权限管理系统全栈快速开发框架</b></p>
+<p align="center"><b>本仓库为 Nest Admin 后端库，对应前端仓库为 <a href="https://gitee.com/hixinla/nest-vue-admin" target="_blank">nest-vue-admin</a>，查看<a href="https://nestts.com/doc/" target="_blank">文档</a> </b></p>
 <p align="center"><b>你的 ⭐️ Star ⭐️ 就是最美的支持</b></p>
 <p align="center">
 <a href="https://gitee.com/hixinla/nest-admin" target="_blank"><img src="https://img.shields.io/badge/node-^v20-blue" alt="node version" /></a>
@@ -45,7 +45,7 @@
 - [ ] 数字孪生 3D  
        ...
 
-如果觉得 [Nest Admin](https://gitee.com/hixinla/nest-admin) 有帮助到您，点个免费的 ⭐️ Star ⭐️ 给个最美的支持
+如果觉得 [Nest Admin](https://gitee.com/hixinla/nest-admin) 有帮助到您，点下免费的 ⭐️ Star ⭐️ 给于最美的支持
 
 ## 功能演示
 
@@ -265,7 +265,7 @@ $ npm run start:prod
 
 ## 支持
 
-点个免费的 ⭐️ Star ⭐️ 就是最美的支持
+点下免费的 ⭐️ Star ⭐️ 给于最美的支持
 
 如果有什么问题或建议，欢迎提 issue，欢迎 PR。
 
