@@ -1,4 +1,4 @@
-# Nest Admin 更新日志
+# Nestjs Admin 更新日志
 
 ## v2.2.0-20260201
 
@@ -18,7 +18,7 @@
 
 ## v2.0.0-20260109
 
-- 新增 开源前端仓库 [nest-vue-admin](https://gitee.com/hixinla/nest-vue-admin)
+- 新增 开源前端仓库 [nestjs-admin-vue](https://gitee.com/nestts/nestjs-admin-vue)
 - 优化 系统配置
 - 优化 地图调用
 - 更新 所有依赖至最新适配版本

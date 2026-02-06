@@ -1,24 +1,24 @@
-<h1 align="center">Nest Admin</h1>
+<h1 align="center">Nestjs Admin</h1>
 <p align="center"><b>基于 Nestjs + Vue 前后端分离的 Nodejs 中后台权限管理系统全栈快速开发框架</b></p>
-<p align="center"><b>本仓库为 Nest Admin 后端库，对应前端仓库为 <a href="https://gitee.com/hixinla/nest-vue-admin" target="_blank">nest-vue-admin</a>，查看<a href="https://nestts.com/doc/" target="_blank">文档</a> </b></p>
+<p align="center"><b>本仓库为 Nestjs Admin 后端库，对应前端仓库为 <a href="https://gitee.com/nestts/nestjs-admin-vue" target="_blank">nestjs-admin-vue</a>，查看<a href="https://nestts.com/doc/" target="_blank">文档</a> </b></p>
 <p align="center"><b>你的 ⭐️ Star ⭐️ 就是最美的支持</b></p>
 <p align="center">
-<a href="https://gitee.com/hixinla/nest-admin" target="_blank"><img src="https://img.shields.io/badge/node-^v20-blue" alt="node version" /></a>
-<a href="https://gitee.com/hixinla/nest-admin" target="_blank"><img src="https://img.shields.io/github/license/xinla/nest-admin" alt="Package License" /></a>
-<a href="https://gitee.com/hixinla/nest-admin" target="_blank"><img src="https://img.shields.io/badge/gitee-support star-yellow" alt="gitee" /></a>
+<a href="https://gitee.com/nestts/nestjs-admin" target="_blank"><img src="https://img.shields.io/badge/node-^v20-blue" alt="node version" /></a>
+<a href="https://gitee.com/nestts/nestjs-admin" target="_blank"><img src="https://img.shields.io/github/license/xinla/nest-admin" alt="Package License" /></a>
+<a href="https://gitee.com/nestts/nestjs-admin" target="_blank"><img src="https://img.shields.io/badge/gitee-support star-yellow" alt="gitee" /></a>
 <!-- <a href="https://github.com/xinla/nest-admin" target="_blank"><img src="https://img.shields.io/badge/github-support star-yellow" alt="github" /></a> -->
 </p>
 
 ## 平台简介
 
-- [Nest Admin](https://nestts.com/) 是一套基于 Nestjs + Vue 前后端分离的 Nodejs 中后台权限管理系统全栈快速开发框架。
+- [Nestjs Admin](https://nestts.com/) 是一套基于 Nestjs + Vue 前后端分离的 Nodejs 中后台权限管理系统全栈快速开发框架。
 - 前端采用 Vue3 + Vite + Element Plus 生态，后端采用 Nestjs + TypeOrm + MySql + Redis 生态。
 - 核心模块包括用户、角色、菜单、部门等，权限认证使用Jwt，支持加载动态权限菜单等功能。
 - 可以帮您快速搭建Nodejs企业级中后台 RBAC 管理平台。
 - github地址：https://github.com/xinla/nest-admin
-- 国内gitee地址：https://gitee.com/hixinla/nest-admin
+- 国内gitee地址：https://gitee.com/nestts/nestjs-admin
 
-另外，Nest Admin 使用 [cmd-deploy](https://www.npmjs.com/package/cmd-deploy) npm插件进行前后端的自动化部署，也欢迎大家Star。谢谢~
+另外，Nestjs Admin 使用 [cmd-deploy](https://www.npmjs.com/package/cmd-deploy) npm插件进行前后端的自动化部署，也欢迎大家Star。谢谢~
 
 ## 内置功能
 
@@ -45,7 +45,7 @@
 - [ ] 数字孪生 3D  
        ...
 
-如果觉得 [Nest Admin](https://gitee.com/hixinla/nest-admin) 有帮助到您，点下免费的 ⭐️ Star ⭐️ 给于最美的支持
+如果觉得 [Nestjs Admin](https://gitee.com/nestts/nestjs-admin) 有帮助到您，点下免费的 ⭐️ Star ⭐️ 给于最美的支持
 
 ## 功能演示
 
@@ -130,10 +130,10 @@ useDark().value
 // 配置项
 export let config = {
   ...env,
-  SYSTEM_NAME: 'Nest Admin', // 系统简称
+  SYSTEM_NAME: 'Nestjs Admin', // 系统简称
   SYSTEM_SLOGAN: '基于 Nestjs + Vue3 的前后端分离快速开发框架', // 系统标语
-  SYSTEM_NAME_ALL: 'Nest Admin -- 基于 Nestjs + Vue3 的前后端分离快速开发框架', // 系统全称，浏览器标题
-  COPYRIGHT: 'Copyright © 2024 Nest Admin All Rights Reserved.', // 版权信息
+  SYSTEM_NAME_ALL: 'Nestjs Admin -- 基于 Nestjs + Vue3 的前后端分离快速开发框架', // 系统全称，浏览器标题
+  COPYRIGHT: 'Copyright © 2024 Nestjs Admin All Rights Reserved.', // 版权信息
   // LOGO_DARK: BASE_URL + 'static/logo.svg', // 深色logo
   // LOGO_LIGHT: BASE_URL + 'static/logo.svg', // 淡色logo
   LOGO: `${BASE_URL}static/logo.svg`,
@@ -146,10 +146,10 @@ export let config = {
 
 ```sh
 # 克隆项目
-git clone https://gitee.com/hixinla/nest-vue-admin.git
+git clone https://gitee.com/nestts/nestjs-admin-vue.git
 
 # 进入项目目录
-cd nest-vue-admin
+cd nestjs-admin-vue
 
 # 安装依赖
 npm i --registry=https://registry.npmmirror.com
@@ -205,7 +205,7 @@ npm run build
 
 ```bash
 # clone 项目
-git clone https://gitee.com/hixinla/nest-admin.git
+git clone https://gitee.com/nestts/nestjs-admin.git
 
 # 进入项目根目录
 cd nest-admin
@@ -271,4 +271,4 @@ $ npm run start:prod
 
 ## 协议
 
-Nest Admin 使用 [MIT](LICENSE) 开源许可协议.
+Nestjs Admin 使用 [MIT](LICENSE) 开源许可协议.

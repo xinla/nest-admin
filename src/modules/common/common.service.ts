@@ -19,7 +19,7 @@ export class CommonService {
   // 首页指标数据
   async getIndexCountData() {
     // 获取项目 Gitee 仓库信息 stars
-    let { data } = await axios.get(`https://gitee.com/hixinla/nest-admin`)
+    let { data } = await axios.get(`https://gitee.com/nestts/nestjs-admin`)
     const $ = cheerio.load(data)
     let stars = $('.star-container .action-social-count').text().trim()
 
