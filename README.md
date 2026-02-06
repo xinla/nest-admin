@@ -208,7 +208,7 @@ npm run build
 git clone https://gitee.com/nestts/nestjs-admin.git
 
 # 进入项目根目录
-cd nest-admin
+cd nestjs-admin
 
 # 安装依赖
 # 方式一： npm 指定淘宝镜像
