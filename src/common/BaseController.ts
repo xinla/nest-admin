@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, Req } from '@nestjs/common'
 import { QueryListDto, ResponseListDto } from './dto'
 
+// 控制器基类
 export class BaseController<T, K> {
   service = null
   constructor(service: K) {

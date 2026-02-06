@@ -2,7 +2,7 @@ import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus } from
 import { Request, Response } from 'express'
 
 @Catch()
-export class AllExceptionsFilter implements ExceptionFilter {
+export class GlobalExceptionsFilter implements ExceptionFilter {
   catch(exception, host: ArgumentsHost) {
     const ctx = host.switchToHttp()
     const response = ctx.getResponse<Response>()

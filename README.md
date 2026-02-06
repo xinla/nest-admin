@@ -182,7 +182,18 @@ npm run build
 │── dist                       # 构建目录
 ├── src                        # 源代码
 │   ├── common                 # 公共文件
+│   │   ├── dto                # 数据传输对象
+│   │   ├── entity             # 实体
+│   │   ├── filters            # 全局异常过滤器
+│   │   ├── http               # http 请求处理
+│   │   ├── interceptors       # 拦截器
+│   │   ├── tasks              # 定时任务
+│   │   ├── type               # 公共类型定义
+│   │   ├── utils              # 工具函数
+│   │   ├── BaseController.ts  # 控制器基类
+│   │   ├── BaseService.ts     # 服务基类
 │   ├── modules                # 系统模块
+│   ├── modulesAi              # Ai业务模块
 │   ├── modulesBusi            # 业务模块
 │   ├── app.controller.spec.ts # 测试用例
 │   ├── app.controller.ts      # 根路由

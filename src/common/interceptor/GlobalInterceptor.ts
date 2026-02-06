@@ -7,7 +7,7 @@ import { mkdir } from 'fs/promises'
 import { join } from 'path'
 
 @Injectable()
-export class LoggingInterceptor implements NestInterceptor {
+export class GlobalInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     let req = context.switchToHttp().getRequest()
     console.log('--> 请求数据：', req.url, req.method, { query: req.query, body: req.body, params: req.params })

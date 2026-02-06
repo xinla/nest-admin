@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 // import { UserInterceptor } from './common/interceptor/user.interceptor'
-import { LoggingInterceptor } from './common/interceptor/logging.interceptor'
+import { GlobalInterceptor } from './common/interceptor/GlobalInterceptor'
 import * as csurf from 'csurf'
-import { AllExceptionsFilter } from './common/filters/allExceptions.filter'
+import { GlobalExceptionsFilter } from './common/filters/GlobalExceptionsFilter'
 // import { HttpExceptionFilter } from './common/filters/httpException.filter'
 import compression from 'compression'
 import { config } from 'config'
@@ -11,8 +11,8 @@ import { config } from 'config'
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { abortOnError: false })
   // app.useGlobalInterceptors(new UserInterceptor())
-  app.useGlobalInterceptors(new LoggingInterceptor())
-  app.useGlobalFilters(new AllExceptionsFilter())
+  app.useGlobalInterceptors(new GlobalInterceptor())
+  app.useGlobalFilters(new GlobalExceptionsFilter())
   // app.use(csurf())
   app.enableCors()
   app.setGlobalPrefix(config.apiBase.replace(/^\//g, ''))

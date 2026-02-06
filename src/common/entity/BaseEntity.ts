@@ -15,6 +15,7 @@ import { A2_a } from '../utils/common'
 //   [MenuType.button]: '按钮',
 // }
 
+// 实体基类
 export class BaseEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   // @PrimaryGeneratedColumn('uuid')

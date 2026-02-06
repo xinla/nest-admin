@@ -6,6 +6,7 @@ import { validate } from 'class-validator'
 import { config } from 'config'
 import { HttpException } from '@nestjs/common'
 
+// 服务基类
 export class BaseService<T, K> {
   Entity = null
   repository = null
