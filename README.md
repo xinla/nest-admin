@@ -274,11 +274,15 @@ $ npm run start:prod
 - 以下是 cmd-deploy 配置文件 deploy.config.mjs 的远程命令配置  
   `remoteCommand: ['cd /usr/local/nest/admin', './bin/build.sh'], // 线上环境打包脚本`
 
+## 交流
+
+如果有什么问题或建议，欢迎加群，欢迎提 issue，欢迎 PR。
+
+<img src="./doc/group.jpg" width="50%" />
+
 ## 支持
 
 点下免费的 ⭐️ Star ⭐️ 给于最美的支持
-
-如果有什么问题或建议，欢迎提 issue，欢迎 PR。
 
 ## 协议
 
