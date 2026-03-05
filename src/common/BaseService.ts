@@ -1,10 +1,13 @@
-import { Between, FindManyOptions, FindOneOptions, FindOptionsWhere, Like, Repository, UpdateResult } from 'typeorm'
+import { Between, FindManyOptions, FindOneOptions, FindOptionsWhere, In, Like, Repository, UpdateResult } from 'typeorm'
 import { BoolNum } from './type/base'
 import { QueryListDto, ResponseListDto, SaveDto } from './dto'
 import dayjs from 'dayjs'
 import { validate } from 'class-validator'
 import { config } from 'config'
 import { HttpException } from '@nestjs/common'
+import { User } from 'src/modules/users/entities/user.entity'
+import { dataPermissionType, DataPermissionType } from 'src/modules/roles/entity'
+import { Dept } from 'src/modules/depts/entities/dept.entity'
 
 // 服务基类
 export class BaseService<T, K> {
@@ -19,6 +22,13 @@ export class BaseService<T, K> {
   async save(dto: SaveDto<T>) {
     delete dto.createTime
     delete dto.updateTime
+
+    if (dto.id) {
+      delete dto.createUser
+      delete dto.createUserId
+    } else {
+      delete dto.updateUser
+    }
 
     let data = new this.Entity(dto)
 
@@ -50,15 +60,15 @@ export class BaseService<T, K> {
     return this.save(dto)
   }
 
-  async list(uery: QueryListDto, other?): Promise<ResponseListDto<T> | T[]> {
-    return this.listBy()
+  async list(query: QueryListDto, other?): Promise<ResponseListDto<T> | T[]> {
+    return this.listBy({}, query)
   }
 
-  async del(ids: string[] | string, updateUser?: string): Promise<UpdateResult> {
+  async del(ids: string[] | string, { updateUser, _userId }): Promise<UpdateResult> {
     if (typeof ids == 'string') {
       ids = ids.split(',')
     }
-    await this.dataValidate({ id: ids?.[0], updateUser })
+    await this.dataValidate({ id: ids?.[0], _userId })
     return this.repository.update(ids, { isDelete: BoolNum.Yes, updateUser })
   }
 
@@ -86,6 +96,14 @@ export class BaseService<T, K> {
     let { pageNum, pageSize } = query
     // pageNum 当前页码 从1开始
     pageNum && pageSize && ((queryOrm.skip = --pageNum * pageSize), (queryOrm.take = pageSize))
+
+    // 数据权限控制
+    if (query._isDataPermission) {
+      let userIds = await this.getUserDataPermissionRelatedUserIds(query._userId)
+      queryOrm.where = Object.assign(queryOrm.where || {}, {
+        createUserId: In(userIds),
+      })
+    }
 
     let [data, total] = await this.repository.findAndCount(queryOrm)
     return { total: total, data: cb?.(data) || data, _flag: true }
@@ -146,10 +164,48 @@ export class BaseService<T, K> {
     )
   }
 
+  // 获取用户数据权限范围相关联的人员
+  async getUserDataPermissionRelatedUserIds(userId: string) {
+    let user = await this.repository.manager.findOne(User, {
+      where: { id: userId },
+      relations: {
+        // dept: true,
+        roles: true,
+      },
+    })
+    user.dataPermissionType = user.roles?.sort(
+      (a, b) => dataPermissionType[b.dataPermissionType].weight - dataPermissionType[a.dataPermissionType].weight,
+    )?.[0]?.dataPermissionType
+
+    let userList: User[] = []
+    // 个人数据权限
+    if (user?.dataPermissionType == DataPermissionType.self) {
+      userList = [user]
+    }
+    // 部门数据权限
+    else if (user?.dataPermissionType == DataPermissionType.dept) {
+      // 获取用户所在部门下的所有人员 createUser 包含这些人员的数据
+      userList = await this.repository.manager.findBy(User, { deptId: user.deptId })
+    }
+    // 部门及子部门数据权限
+    else if (user?.dataPermissionType == DataPermissionType.deptAndChildren) {
+      // 获取用户所在部门下的所有子部门
+      let deptIds = (await this.repository.manager.getRepository(Dept).findDescendants({ id: user.deptId }))?.map(
+        (item) => item.id,
+      )
+      // 获取用户所在部门下及所有子部门的所有人员 createUser 包含这些人员的数据
+      userList = await this.repository.manager.findBy(User, { deptId: In(deptIds) })
+    }
+    return userList.map((item) => item.id)
+  }
+
   // 数据权限校验
-  async dataValidate(data: { id; updateUser }): Promise<boolean> {
+  async dataValidate(data: { id; _userId }): Promise<boolean> {
     let row = data.id && (await this.getOne({ id: data.id }, false))
-    if (data.id && (!row?.createUser || row?.createUser === config.adminKey) && data.updateUser !== config.adminKey) {
+    let userIds = await this.getUserDataPermissionRelatedUserIds(data._userId)
+
+    if (data.id && !userIds.includes(row?.createUserId)) {
+      // if (data.id && (!row?.createUser || row?.createUser === config.adminKey) && data.updateUser !== config.adminKey) {
       throw new HttpException('接口无权限', 403)
     }
     return true

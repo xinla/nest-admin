@@ -37,6 +37,9 @@ export class BaseEntity {
   @BaseColumn({ name: 'create_user', comment: '创建人' })
   createUser: string
 
+  @BaseColumn({ name: 'create_user_id', comment: '创建人ID' })
+  createUserId: string
+
   @BaseColumn({
     type: 'datetime',
     transformer: {

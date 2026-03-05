@@ -77,7 +77,7 @@ export class Menu extends BaseEntity {
   @BaseColumn({ type: 'enum', enum: MenuType, default: MenuType.catalog, comment: '菜单类型，默认catalog' })
   type: MenuType
 
-  // 权限字符
+  // 接口权限字符
   @DbUnique
   @IsNotEmpty()
   @MaxLength(30)

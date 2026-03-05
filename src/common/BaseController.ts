@@ -12,28 +12,29 @@ export class BaseController<T, K> {
   @Post('save')
   async save(@Body() body, @Req() req) {
     if (body.id) {
-      delete body.createUser
       body.updateUser = req.user.name
     } else {
-      delete body.updateUser
       body.createUser = req.user.name
+      body.createUserId = req.user.id
     }
+    body._userId ??= req?.user?.id
     return this.service.save(body)
   }
 
   // 新增
   @Post('add')
   async add(@Body() body, @Req() req) {
-    delete body.updateUser
     body.createUser = req.user.name
+    body.createUserId = req.user.id
+    body._userId ??= req?.user?.id
     return this.service.add(body)
   }
 
   // 编辑 更新
   @Put('update')
   async update(@Body() body, @Req() req) {
-    delete body.createUser
     body.updateUser = req.user.name
+    body._userId ??= req?.user?.id
     return this.service.update(body)
   }
 
@@ -43,7 +44,7 @@ export class BaseController<T, K> {
    */
   @Delete('del/:ids')
   async del(@Param('ids') ids: string, @Req() req) {
-    return this.service.del(ids, req.user.name)
+    return this.service.del(ids, { updateUser: req.user.name, _userId: req?.user?.id })
   }
 
   // 分页查询
@@ -52,6 +53,8 @@ export class BaseController<T, K> {
   async list(@Query() query: QueryListDto, @Req() req?): Promise<ResponseListDto<T> | T[]> {
     query.pageNum ??= 1
     query.pageSize ??= 10
+    query._userId ??= req?.user?.id
+    // query._isDataPermission = true
     return this.service.list(query)
   }
 

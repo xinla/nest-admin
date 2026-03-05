@@ -48,5 +48,5 @@ import { SystemLogModule } from './modules/systemLog/module'
   providers: [AppService],
 })
 export class AppModule {
-  constructor(private dataSource: DataSource) { }
+  constructor(private dataSource: DataSource) {}
 }

@@ -4,7 +4,7 @@ import { CreateRoleDto } from './dto/create-role.dto'
 import { UpdateRoleDto } from './dto/update-role.dto'
 import { QueryListDto, ResponseListDto } from 'src/common/dto'
 import { UpdateResult } from 'typeorm'
-import { Role } from './entity'
+import { dataPermissionType, Role } from './entity'
 import { BaseController } from 'src/common/BaseController'
 import { MenuType } from '../menus/menu.entity'
 import { arrayToTree } from 'src/common/utils/common'
@@ -21,5 +21,11 @@ export class RolesController extends BaseController<Role, RolesService> {
     let res = await this.service.getUserMenus(req.user)
     res = res.filter((item) => item.type !== MenuType.button)
     return arrayToTree(res)
+  }
+
+  // 获取数据权限类型列表
+  @Get('getDataPermissionType')
+  getDataPermissionType() {
+    return dataPermissionType
   }
 }
