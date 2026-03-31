@@ -100,9 +100,11 @@ export class BaseService<T, K> {
     // 数据权限控制
     if (query._isDataPermission) {
       let userIds = await this.getUserDataPermissionRelatedUserIds(query._userId)
-      queryOrm.where = Object.assign(queryOrm.where || {}, {
-        createUserId: In(userIds),
-      })
+      if (userIds !== '*') {
+        queryOrm.where = Object.assign(queryOrm.where || {}, {
+          createUserId: In(userIds as [string]),
+        })
+      }
     }
 
     let [data, total] = await this.repository.findAndCount(queryOrm)
@@ -173,6 +175,9 @@ export class BaseService<T, K> {
         roles: true,
       },
     })
+    if (user.name === config.adminKey) {
+      return '*'
+    }
     user.dataPermissionType = user.roles?.sort(
       (a, b) => dataPermissionType[b.dataPermissionType].weight - dataPermissionType[a.dataPermissionType].weight,
     )?.[0]?.dataPermissionType
@@ -204,7 +209,7 @@ export class BaseService<T, K> {
     let row = data.id && (await this.getOne({ id: data.id }, false))
     let userIds = await this.getUserDataPermissionRelatedUserIds(data._userId)
 
-    if (data.id && !userIds.includes(row?.createUserId)) {
+    if (userIds !== '*' && data.id && !userIds.includes(row?.createUserId)) {
       // if (data.id && (!row?.createUser || row?.createUser === config.adminKey) && data.updateUser !== config.adminKey) {
       throw new HttpException('接口无权限', 403)
     }

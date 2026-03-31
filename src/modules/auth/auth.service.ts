@@ -36,9 +36,9 @@ export class AuthService {
         throw new Error('密码不能为空')
       }
 
-      let result = this.captchaService.validateCaptcha(body.uuid, body.code)
-      if (result !== 'true') {
-        throw new Error(result)
+      let validate = this.captchaService.validateCaptcha(body.uuid, body.code)
+      if (validate !== 'true') {
+        throw new Error(validate)
       }
 
       user = await this.usersService.getOne({ name: body.account })

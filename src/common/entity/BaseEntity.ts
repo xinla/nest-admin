@@ -90,11 +90,14 @@ export class BaseEntity {
   // }
 
   // 自定义公共方法
+
+  // 将传入对象的属性赋值给实体实例，忽略对象中实体没有的属性
   assignOwn(obj) {
     if (!obj) return
     obj = JSON.parse(JSON.stringify(obj))
+    let whiteList = ['_userId']
     for (const key in obj) {
-      if (!Object.hasOwn(this, key)) {
+      if (!Object.hasOwn(this, key) && !whiteList.includes(key)) {
         delete obj[key]
       }
     }
