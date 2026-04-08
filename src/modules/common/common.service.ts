@@ -8,7 +8,9 @@ import * as cheerio from 'cheerio'
 import { LoginLogsService } from '../loginLogs/service'
 import { RedisService } from '../global/redis.service'
 import { BoolNum } from 'src/common/type/base'
+import dayjs from 'dayjs'
 
+const time = dayjs().format('YYYY-MM-DD HH:mm:ss')
 @Injectable()
 export class CommonService {
   constructor(
@@ -19,7 +21,7 @@ export class CommonService {
   // 首页指标数据
   async getIndexCountData() {
     // 获取项目 Gitee 仓库信息 stars
-    let { data } = await axios.get(`https://gitee.com/nestts/nestjs-admin`)
+    let { data } = await axios.get(`https://gitee.com/hixinla/nest-admin`)
     const $ = cheerio.load(data)
     let stars = $('.star-container .action-social-count').text().trim()
 
@@ -42,6 +44,7 @@ export class CommonService {
       visitedNum,
       visitedNumComparedYd,
       onlineUserNum,
+      startTime: time,
     }
   }
 
