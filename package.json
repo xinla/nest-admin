@@ -5,6 +5,7 @@
   "author": "xinla",
   "private": false,
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "dev": "nest start --debug --watch -- -b swc env=dev",
     "deploy": "deploy prod",
