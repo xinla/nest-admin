@@ -77,7 +77,7 @@ export class LoginLogsService extends BaseService<LoginLog, LoginLogDto> {
       .orderBy({ num: 'ASC' })
       .getRawMany()
       .then((data) => {
-        return data.map((e) => ({ name: e.address, value: e.num }))
+        return data.map((e) => ({ countryCode: e.countryCode, name: e.address, value: e.num }))
       })
   }
 
