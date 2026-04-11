@@ -3,6 +3,7 @@ import { CreateCommonDto } from './dto/create-common.dto'
 import { UpdateCommonDto } from './dto/update-common.dto'
 import * as os from 'os'
 import * as fs from 'node:fs/promises'
+import * as https from 'https'
 import axios from 'axios'
 import * as cheerio from 'cheerio'
 import { LoginLogsService } from '../loginLogs/service'
@@ -20,31 +21,49 @@ export class CommonService {
 
   // 首页指标数据
   async getIndexCountData() {
-    // 获取项目 Gitee 仓库信息 stars
-    let { data } = await axios.get(`https://gitee.com/hixinla/nest-admin`)
-    const $ = cheerio.load(data)
-    let stars = $('.star-container .action-social-count').text().trim()
+    try {
+      // 使用 Gitee API 获取仓库信息(推荐方式)
+      const { data: repoData } = await axios.get('https://gitee.com/api/v5/repos/hixinla/nest-admin', {
+        timeout: 10000,
+        headers: {
+          'Accept': 'application/json',
+          'User-Agent': 'NestJS-Admin/1.0'
+        }
+      })
+      
+      let stars = repoData.stargazers_count || 0
 
-    let queryBuilder = await this.loginLogsService.repository
-      .createQueryBuilder('LoginLog')
-      .where('LoginLog.isSuccess = ' + BoolNum.Yes)
+      let queryBuilder = await this.loginLogsService.repository
+        .createQueryBuilder('LoginLog')
+        .where('LoginLog.isSuccess = ' + BoolNum.Yes)
 
-    // 获取访问量/登录成功数
-    let visitedNum = await queryBuilder.getCount()
-    // 获取至昨天访问量/登录成功数
-    let visitedNumComparedYd =
-      visitedNum -
-      (await queryBuilder.andWhere('DATE(LoginLog.createTime) <= DATE_SUB(CURDATE(), INTERVAL 1 DAY)').getCount())
+      // 获取访问量/登录成功数
+      let visitedNum = await queryBuilder.getCount()
+      // 获取至昨天访问量/登录成功数
+      let visitedNumComparedYd =
+        visitedNum -
+        (await queryBuilder.andWhere('DATE(LoginLog.createTime) <= DATE_SUB(CURDATE(), INTERVAL 1 DAY)').getCount())
 
-    // 获取在线用户数
-    let [_, onlineUserNum] = await this.redisService.getRedisOnlineUser()
+      // 获取在线用户数
+      let [_, onlineUserNum] = await this.redisService.getRedisOnlineUser()
 
-    return {
-      stars,
-      visitedNum,
-      visitedNumComparedYd,
-      onlineUserNum,
-      startTime: time,
+      return {
+        stars,
+        visitedNum,
+        visitedNumComparedYd,
+        onlineUserNum,
+        startTime: time,
+      }
+    } catch (error) {
+      console.error('获取 Gitee 仓库信息失败:', error instanceof Error ? error.message : '未知错误')
+      // 如果 API 请求失败,返回默认值
+      return {
+        stars: 0,
+        visitedNum: 0,
+        visitedNumComparedYd: 0,
+        onlineUserNum: 0,
+        startTime: time,
+      }
     }
   }
 
