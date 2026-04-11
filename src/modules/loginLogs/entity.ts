@@ -27,7 +27,7 @@ export class LoginLog extends BaseEntity {
   @BaseColumn({ comment: '登录地点' })
   address: string
 
-  @BaseColumn({ comment: '国家代码' })
+  @BaseColumn({ name: 'country_code', comment: '国家代码' })
   countryCode: string
 
   @BaseColumn({ comment: '浏览器类型' })

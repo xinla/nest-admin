@@ -60,7 +60,7 @@ export class LoginLogsService extends BaseService<LoginLog, LoginLogDto> {
       })
   }
 
-  // 用户地区列表
+  // 用户地区分布人数统计列表
   getUserAreaList(query: { beginTime: any; endTime: any }) {
     let { beginTime, endTime } = query
     return this.repository
@@ -77,7 +77,28 @@ export class LoginLogsService extends BaseService<LoginLog, LoginLogDto> {
       .orderBy({ num: 'ASC' })
       .getRawMany()
       .then((data) => {
-        return data.map((e) => ({ countryCode: e.countryCode, name: e.address, value: e.num }))
+        return data.map((e) => ({ name: e.address, value: e.num }))
+      })
+  }
+
+  // 用户国家分布人数统计列表
+  getUserCountryList(query: { beginTime: any; endTime: any }) {
+    let { beginTime, endTime } = query
+    return this.repository
+      .createQueryBuilder('LoginLog')
+      .select('LoginLog.country_code', 'countryCode')
+      .distinctOn(['LoginLog.country_code'])
+      .addSelect('count(*)', 'num')
+      .where('LoginLog.country_code IS NOT NULL')
+      .andWhere(beginTime && endTime ? 'DATE(LoginLog.createTime) BETWEEN :beginTime AND :endTime' : {}, {
+        beginTime,
+        endTime,
+      })
+      .groupBy('LoginLog.country_code')
+      .orderBy({ num: 'ASC' })
+      .getRawMany()
+      .then((data) => {
+        return data.map((e) => ({ countryCode: e.countryCode, value: e.num }))
       })
   }
 

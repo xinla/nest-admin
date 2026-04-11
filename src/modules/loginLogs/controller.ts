@@ -27,12 +27,22 @@ export class LoginLogsController extends BaseController<LoginLog, LoginLogsServi
   }
 
   /**
-   * 用户地区列表
+   * 用户地区分布人数统计列表
    * @param query { beginTime; endTime }
    * @returns
    */
   @Get('getUserAreaList')
   async getUserAreaList(@Query() query: { beginTime; endTime }) {
     return await this.service.getUserAreaList(query)
+  }
+
+  /**
+   * 用户国家分布人数统计列表
+   * @param query { beginTime; endTime }
+   * @returns
+   */
+  @Get('getUserCountryList')
+  async getUserCountryList(@Query() query: { beginTime; endTime }) {
+    return await this.service.getUserCountryList(query)
   }
 }
