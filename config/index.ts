@@ -24,7 +24,7 @@ const env = {
   prod: {
     database: {
       type: 'mysql',
-      host: 'localhost',
+      host: '47.98.205.145',
       port: 3306,
       username: 'root',
       password: 'your password',
