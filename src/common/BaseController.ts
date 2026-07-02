@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, Req } from '@nestjs/common'
 import { QueryListDto, ResponseListDto } from './dto'
+import { config } from 'config'
 
 // 控制器基类
 export class BaseController<T, K> {
@@ -17,7 +18,7 @@ export class BaseController<T, K> {
       body.createUser = req.user.name
       body.createUserId = req.user.id
     }
-    body._userId ??= req?.user?.id
+    body[config.reqUserId] = req?.user?.id
     return this.service.save(body)
   }
 
@@ -26,7 +27,7 @@ export class BaseController<T, K> {
   async add(@Body() body, @Req() req) {
     body.createUser = req.user.name
     body.createUserId = req.user.id
-    body._userId ??= req?.user?.id
+    body[config.reqUserId] = req?.user?.id
     return this.service.add(body)
   }
 
@@ -34,7 +35,7 @@ export class BaseController<T, K> {
   @Put('update')
   async update(@Body() body, @Req() req) {
     body.updateUser = req.user.name
-    body._userId ??= req?.user?.id
+    body[config.reqUserId] = req?.user?.id
     return this.service.update(body)
   }
 
@@ -44,7 +45,7 @@ export class BaseController<T, K> {
    */
   @Delete('del/:ids')
   async del(@Param('ids') ids: string, @Req() req) {
-    return this.service.del(ids, { updateUser: req.user.name, _userId: req?.user?.id })
+    return this.service.del(ids, { updateUser: req.user.name, [config.reqUserId]: req?.user?.id })
   }
 
   // 分页查询
@@ -53,7 +54,7 @@ export class BaseController<T, K> {
   async list(@Query() query: QueryListDto, @Req() req?): Promise<ResponseListDto<T> | T[]> {
     query.pageNum ??= 1
     query.pageSize ??= 10
-    query._userId ??= req?.user?.id
+    query[config.reqUserId] = req?.user?.id
     // query._isDataPermission = true
     return this.service.list(query)
   }

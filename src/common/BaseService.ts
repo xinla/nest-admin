@@ -46,7 +46,7 @@ export class BaseService<T, K> {
         throw new Error(`${data[element]} 已存在`)
       }
     }
-    await this.dataValidate(data)
+    data[config.isSkipDataPermission] || (await this.dataValidate(data))
     return this.repository.save(data)
   }
 
@@ -64,11 +64,11 @@ export class BaseService<T, K> {
     return this.listBy({}, query)
   }
 
-  async del(ids: string[] | string, { updateUser, _userId }): Promise<UpdateResult> {
+  async del(ids: string[] | string, { updateUser, [config.reqUserId]: reqUserId }: any): Promise<UpdateResult> {
     if (typeof ids == 'string') {
       ids = ids.split(',')
     }
-    await this.dataValidate({ id: ids?.[0], _userId })
+    await this.dataValidate({ id: ids?.[0], [config.reqUserId]: reqUserId })
     return this.repository.update(ids, { isDelete: BoolNum.Yes, updateUser })
   }
 
@@ -99,7 +99,7 @@ export class BaseService<T, K> {
 
     // 数据权限控制
     if (query._isDataPermission) {
-      let userIds = await this.getUserDataPermissionRelatedUserIds(query._userId)
+      let userIds = await this.getUserDataPermissionRelatedUserIds(query[config.reqUserId])
       if (userIds !== '*') {
         queryOrm.where = Object.assign(queryOrm.where || {}, {
           createUserId: In(userIds as [string]),
@@ -167,9 +167,10 @@ export class BaseService<T, K> {
   }
 
   // 获取用户数据权限范围相关联的人员
-  async getUserDataPermissionRelatedUserIds(userId: string) {
+  async getUserDataPermissionRelatedUserIds(reqUserId: string) {
+    if (!reqUserId) return []
     let user = await this.repository.manager.findOne(User, {
-      where: { id: userId },
+      where: { id: reqUserId },
       relations: {
         // dept: true,
         roles: true,
@@ -205,9 +206,9 @@ export class BaseService<T, K> {
   }
 
   // 数据权限校验
-  async dataValidate(data: { id; _userId }): Promise<boolean> {
+  async dataValidate(data: { id; [config.reqUserId] }): Promise<boolean> {
     let row = data.id && (await this.getOne({ id: data.id }, false))
-    let userIds = await this.getUserDataPermissionRelatedUserIds(data._userId)
+    let userIds = await this.getUserDataPermissionRelatedUserIds(data[config.reqUserId])
 
     if (userIds !== '*' && data.id && !userIds.includes(row?.createUserId)) {
       // if (data.id && (!row?.createUser || row?.createUser === config.adminKey) && data.updateUser !== config.adminKey) {

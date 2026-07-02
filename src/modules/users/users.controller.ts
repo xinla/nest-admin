@@ -11,6 +11,7 @@ import { BaseController } from 'src/common/BaseController'
 import { MulterFileInterceptor } from 'src/common/interceptor/file.interceptor'
 import { CaptchaService } from '../common/captcha.service'
 import { Public } from '../auth/auth.service'
+import { config } from 'config'
 
 @Controller('system/users')
 // @UseFilters(new HttpExceptionFilter())
@@ -25,11 +26,12 @@ export class UsersController extends BaseController<User, UsersService> {
   // 重置密码
   @Public()
   @Put('resetPassword')
-  async resetPassword(@Body() body) {
-    let result = this.captchaService.validateCaptcha(body.uuid, body.code)
-    if (result !== 'true') {
-      throw new Error(result)
-    }
+  async resetPassword(@Body() body, @Req() req) {
+    // let result = this.captchaService.validateCaptcha(body.uuid, body.code)
+    // if (result !== 'true') {
+    //   throw new Error(result)
+    // }
+    body[config.isSkipDataPermission] = true // 重置密码时，跳过数据权限校验
     return this.usersService.resetPassword(body)
   }
 

@@ -39,6 +39,8 @@ export const config = {
   apiBase: '/api',
   adminKey: 'admin',
   isPublicKey: 'isPublic',
+  reqUserId: '_reqUserId',
+  isSkipDataPermission: globalThis.crypto.randomUUID(),
   get jwtExpires() {
     return dayjs().endOf('day').diff(dayjs(), 'second') + 's'
   }, // 到当天结束过期

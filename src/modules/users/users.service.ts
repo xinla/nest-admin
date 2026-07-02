@@ -3,13 +3,14 @@ import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { User } from './entities/user.entity'
 import { FindManyOptions, In, Like, Repository, UpdateResult } from 'typeorm'
-import { ResponseListDto, QueryListDto } from 'src/common/dto'
+import { ResponseListDto, QueryListDto, SaveDto } from 'src/common/dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Dept } from '../depts/entities/dept.entity'
 import { Role } from '../roles/entity'
 import { decrypt, encrypt } from 'src/common/utils/encrypt'
 import { BaseService } from 'src/common/BaseService'
 import { DeptService } from '../depts/depts.service'
+import { config } from 'config'
 
 @Injectable()
 export class UsersService extends BaseService<User, CreateUserDto> {
@@ -22,11 +23,12 @@ export class UsersService extends BaseService<User, CreateUserDto> {
   }
 
   // add Or Update
-  async save(createDto: CreateUserDto) {
+  async save(createDto: SaveDto<CreateUserDto>) {
     // let data = new User()
     // createDto.dept = Object.assign(new Dept(), { id: createDto.deptId })
     delete createDto.dept
     createDto.roles = createDto.roleIds?.map((id) => Object.assign(new Role(), { id }))
+    createDto[config.isSkipDataPermission] ??= createDto.id === createDto[config.reqUserId] // 修改自己的数据时，跳过数据权限校验
     return await super.save(createDto)
   }
 
@@ -58,8 +60,14 @@ export class UsersService extends BaseService<User, CreateUserDto> {
     return super.listBy(queryOrm, query, (data) => data.forEach((element) => delete element.password))
   }
 
-  async resetPassword(updateDto: UpdateUserDto): Promise<UpdateResult> {
-    let { id, passwordOld, passwordNew, passwordNewConfirm } = updateDto
+  async resetPassword(updateDto: SaveDto<UpdateUserDto>): Promise<UpdateResult> {
+    let {
+      id,
+      passwordOld,
+      passwordNew,
+      passwordNewConfirm,
+      [config.isSkipDataPermission]: isSkipDataPermission,
+    } = updateDto
     if (passwordNew !== passwordNewConfirm) {
       throw new Error('两次输入的密码不一致')
     } else {
@@ -68,7 +76,11 @@ export class UsersService extends BaseService<User, CreateUserDto> {
       if (_passwordOld !== passwordOld) {
         throw new Error('旧密码不正确 ')
       }
-      let data = Object.assign(new User(), { id, password: await encrypt(passwordNew) })
+      let data = Object.assign(new User(), {
+        id,
+        password: await encrypt(passwordNew),
+        [config.isSkipDataPermission]: isSkipDataPermission,
+      })
       return super.update(data)
     }
   }

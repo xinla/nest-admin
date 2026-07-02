@@ -2,6 +2,7 @@ export class ResponseData {}
 // export interface SaveDto<T> extends Partial<T> {}
 
 export type SaveDto<T> = {
+  _isSkipDataPermission?: boolean // 是否跳过数据权限校验
   [index: string]: any
 } & Partial<T>
 

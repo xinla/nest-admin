@@ -2,6 +2,7 @@ import { Column, PrimaryGeneratedColumn, DeleteDateColumn, ColumnOptions, Entity
 import { BoolNum } from '../type/base'
 import dayjs from 'dayjs'
 import { A2_a } from '../utils/common'
+import { config } from 'config'
 
 // enum
 // export enum MenuType {
@@ -95,7 +96,7 @@ export class BaseEntity {
   assignOwn(obj) {
     if (!obj) return
     obj = JSON.parse(JSON.stringify(obj))
-    let whiteList = ['_userId']
+    let whiteList = [config.reqUserId, config.isSkipDataPermission]
     for (const key in obj) {
       if (!Object.hasOwn(this, key) && !whiteList.includes(key)) {
         delete obj[key]
